@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Divisi;
+use App\Models\Laporan;
 
 class Divisi extends Model
 {
     use HasFactory;
-    protected $table = "data";
+    protected $table = "divisi";
     protected $guarded = [];
     protected $primaryKey = "id";
 
@@ -23,5 +24,10 @@ class Divisi extends Model
     public function login()
     {
         return $this->hasMany(Login::class);
+    }
+
+    public function laporan()
+    {
+        return $this->hasMany(Laporan::class);
     }
 }

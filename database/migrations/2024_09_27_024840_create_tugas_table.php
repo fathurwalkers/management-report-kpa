@@ -10,6 +10,12 @@ return new class extends Migration
     {
         Schema::create('tugas', function (Blueprint $table) {
             $table->id();
+
+            $table->text('tugas_nama')->nullable();
+            $table->text('tugas_keterangan')->nullable();
+            $table->string('tugas_kategori')->nullable();
+            $table->string('tugas_waktu')->nullable();
+
             $table->timestamps();
         });
     }
