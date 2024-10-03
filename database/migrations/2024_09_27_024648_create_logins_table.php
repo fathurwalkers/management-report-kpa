@@ -6,20 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('logins', function (Blueprint $table) {
+        Schema::create('login', function (Blueprint $table) {
             $table->id();
+
+            $table->string('login_nama')->nullable();
+            $table->string('login_username')->unique()->nullable();
+            $table->string('login_password')->nullable();
+            $table->string('login_email')->unique()->nullable();
+            $table->string('login_telepon')->nullable();
+            $table->text('login_token')->nullable();
+            $table->string('login_level')->nullable(); // ADMIN - USER
+            $table->string('login_status')->nullable(); // unverified / verified
+
+            $table->unsignedBigInteger('divisi')->nullable()->default(null);
+            $table->foreign('divisi')->references('id')->on('divisi')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('logins');
