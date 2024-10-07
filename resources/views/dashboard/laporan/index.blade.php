@@ -68,6 +68,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1" class="mr-2">Upload File Laporan</label>
+                                <input type="file" name="" id="">
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">

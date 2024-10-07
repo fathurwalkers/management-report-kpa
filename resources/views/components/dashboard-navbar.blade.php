@@ -80,14 +80,14 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview" style="display: none;">
-                    @foreach ($dept as $d)
-                        <li class="nav-item">
-                            <a href="{{ route('laporan', $d->divisi_nama) }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{ $d->divisi_nama }}</p>
-                            </a>
-                        </li>
-                    @endforeach
+                    {{-- @foreach ($dept as $d) --}}
+                    <li class="nav-item">
+                        <a href="{{ route('laporan', $dept->divisi_nama) }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>{{ $dept->divisi_nama }}</p>
+                        </a>
+                    </li>
+                    {{-- @endforeach --}}
                 </ul>
             </li>
 

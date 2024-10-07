@@ -16,9 +16,12 @@ class DashboardNavbar extends Component
 
     public function render(): View|Closure|string
     {
-        $dept = Divisi::all();
+        $divisi_all = Divisi::all();
+        $users = session('data_login');
+        $dept = $divisi_all->where('id', $users->divisi_id)->first();
         return view('components.dashboard-navbar', [
-            'dept' => $dept
+            'dept' => $dept,
+            'users' => $users,
         ]);
     }
 }

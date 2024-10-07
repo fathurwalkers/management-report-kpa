@@ -124,5 +124,32 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
+
+        // =================================================================================================
+        // Get Data Divisi
+        $cari_divisi = $divisi_get->where('divisi_nama', 'HRD')->first();
+
+        // Generate Data Wahyu
+        $token = Str::random(16);
+        $role = "admin";
+        $hashPassword = Hash::make('hrd', [
+            'rounds' => 12,
+        ]);
+        $hashToken = Hash::make($token, [
+            'rounds' => 12,
+        ]);
+        Login::create([
+            'login_nama' => 'HRD Test',
+            'login_username' => 'hrdtest',
+            'login_password' => $hashPassword,
+            'login_email' => 'hrdtest@ecoasphalt.com',
+            'login_telepon' => '08339393939',
+            'login_token' => $hashToken,
+            'login_level' => $role,
+            'login_status' => "verified",
+            'divisi_id' => $cari_divisi->id,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 }
