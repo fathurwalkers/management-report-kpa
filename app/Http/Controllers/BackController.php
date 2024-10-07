@@ -19,68 +19,29 @@ class BackController extends Controller
     public function login()
     {
         $users = session('data_login');
-        if ($users == null) {
-            return view('login-admin');
-        } else {
-            if ($users->login_level == "user") {
-                return redirect()->route('client-index')->with('status', 'Maaf anda tidak punya akses ke halaman ini.');
-            }
-            return redirect()->route('dashboard')->with('status', 'Maaf anda tidak punya akses ke halaman ini.');
+        if ($users) {
+            return redirect()->route('home');
         }
+        return view('login');
     }
 
     public function logout(Request $request)
     {
-        $cek_logout_request = $request->logoutrequest;
-        switch ($cek_logout_request) {
-            case 'ADMIN':
-                $users = session('data_login');
-                $request->session()->forget(['data_login']);
-                $request->session()->flush();
-                return redirect()->route('login-admin')->with('status', 'Anda telah logout!');
-                break;
-            case 'CLIENT':
-                $users = session('data_login');
-                $request->session()->forget(['data_login']);
-                $request->session()->flush();
-                return redirect()->route('login-client')->with('status', 'Anda telah logout!');
-                break;
-        }
+        $users = session('data_login');
+        $request->session()->forget(['data_login']);
+        $request->session()->flush();
+        return redirect()->route('login')->with('status', 'Anda telah logout!');
     }
 
     public function post_login(Request $request)
     {
-        $cek_request = $request->cekrequest;
-        $cari_user = Login::where('login_username', $request->login_username)->first();
-        if ($cari_user == null) {
-            return back()->with('status', 'Maaf username atau password salah!')->withInput();
-        }
         $data_login = Login::where('login_username', $request->login_username)->firstOrFail();
-        switch ($data_login->login_level) {
-            case 'admin':
-                if ($cek_request == "client") {
-                    return redirect()->route('login-client')->with('status', 'Maaf anda tidak dapat memasukkan akun user pada halaman administrator!');
-                }
-                $cek_password = Hash::check($request->login_password, $data_login->login_password);
-                if ($data_login) {
-                    if ($cek_password) {
-                        $users = session(['data_login' => $data_login]);
-                        return redirect()->route('dashboard')->with('status', 'Berhasil Login!');
-                    }
-                }
-                break;
-            case 'user':
-                if ($cek_request == "admin") {
-                    return redirect()->route('login-admin')->with('status', 'Maaf anda tidak dapat memasukkan akun user pada halaman administrator!');
-                }
-                $cek_password = Hash::check($request->login_password, $data_login->login_password);
-                if ($data_login) {
-                    if ($cek_password) {
-                        $users = session(['data_login' => $data_login]);
-                        return redirect()->route('client-index')->with('status', 'Berhasil Login!');
-                    }
-                }
-                break;
+        if ($data_login) {
+            $cek_password = Hash::check($request->login_password, $data_login->login_password);
+            if ($cek_password === true) {
+                $users = session(['data_login' => $data_login]);
+                return redirect()->route('home')->with('status', 'Berhasil Login!');
+            }
         }
         return back()->with('status', 'Maaf username atau password salah!')->withInput();
     }

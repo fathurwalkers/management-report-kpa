@@ -80,42 +80,14 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview" style="display: none;">
-                    <li class="nav-item">
-                        <a href="pages/forms/general.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Human Resource Dept. </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/forms/advanced.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>IT </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/forms/editors.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Purchasing</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/forms/validation.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Admin</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/forms/validation.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Pengawas Tambang</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/forms/validation.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Finance</p>
-                        </a>
-                    </li>
+                    @foreach ($dept as $d)
+                        <li class="nav-item">
+                            <a href="{{ route('laporan', $d->divisi_nama) }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ $d->divisi_nama }}</p>
+                            </a>
+                        </li>
+                    @endforeach
                 </ul>
             </li>
 

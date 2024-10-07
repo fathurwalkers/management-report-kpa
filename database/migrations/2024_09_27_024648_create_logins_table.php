@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('login_level')->nullable(); // ADMIN - USER
             $table->string('login_status')->nullable(); // unverified / verified
 
-            $table->unsignedBigInteger('divisi')->nullable()->default(null);
-            $table->foreign('divisi')->references('id')->on('divisi')->onDelete('cascade');
+            $table->unsignedBigInteger('divisi_id')->nullable()->default(null);
+            $table->foreign('divisi_id')->references('id')->on('divisi')->onDelete('cascade');
 
             $table->timestamps();
         });

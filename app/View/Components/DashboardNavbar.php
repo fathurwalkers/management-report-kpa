@@ -5,6 +5,7 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use App\Models\Divisi;
 
 class DashboardNavbar extends Component
 {
@@ -15,6 +16,9 @@ class DashboardNavbar extends Component
 
     public function render(): View|Closure|string
     {
-        return view('components.dashboard-navbar');
+        $dept = Divisi::all();
+        return view('components.dashboard-navbar', [
+            'dept' => $dept
+        ]);
     }
 }

@@ -18,6 +18,15 @@
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                @if (session('status'))
+                    <div class="alert alert-info">
+                        {{ session('status') }}
+                    </div>
+                @endif
+            </div>
+        </div>
     </div><!-- /.container-fluid -->
 @endsection
 
