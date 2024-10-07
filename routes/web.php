@@ -12,10 +12,13 @@ use App\Http\Middleware\CekLogin;
 // Route::post('/post-login', [BackController::class, 'post_login'])->name('post-login');
 // Route::post('/post-register', [BackController::class, 'post_register'])->name('post-register');
 // Route::post('/logout', [BackController::class, 'logout'])->name('logout');
-// Route::group(['prefix' => '/'], function () {
-//     Route::get('/', [DashboardController::class, 'index'])->name('home');
-// })->middleware(CekLogin::class);
 
 Route::group(['prefix' => '/'], function () {
+
     Route::get('/', [DashboardController::class, 'index'])->name('home');
+
+    Route::group(['prefix' => '/laporan'], function () {
+        Route::get('/', [LaporanController::class, 'index'])->name('laporan');
+    });
+
 });
