@@ -11,6 +11,8 @@ use Faker\Factory as Faker;
 use Illuminate\Support\Arr;
 use App\Models\Login;
 use App\Models\Divisi;
+use App\Models\Periode;
+use App\Models\Laporan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,10 +20,8 @@ class DatabaseSeeder extends Seeder
     {
         // Inisialisasi Data Faker
         $faker = Faker::create('id_ID');
-
         // =================================================================================================
         // =================================================================================================
-
         // Generate Data Divisi
         $array_divisi = [
             'IT', 'HRD', 'Finance', 'Purchasing', 'Admin Umum', 'Alat Berat', 'Pengawas Tambang', 'Operational', 'Audit'
@@ -33,6 +33,25 @@ class DatabaseSeeder extends Seeder
             $save_divisi = $divisi->create([
                 'divisi_nama' => $divisi_nama,
                 'divisi_keterangan' => $divisi_nama,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            $save_divisi->save();
+        }
+        // =================================================================================================
+        // Generate Data Periode
+        $tahun_periode = "2024";
+        $array_bulan = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+        $iter = 1;
+
+        foreach ($array_bulan as $rr) {
+            $periode = new Periode;
+            $save_divisi = $periode->create([
+                'periode_bulan_int' => $iter++,
+                'periode_tahun' => $tahun_periode,
+                'periode_bulan' => $rr,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

@@ -15,6 +15,10 @@ class Laporan extends Model
     protected $guarded = [];
     protected $primaryKey = "id";
 
+    protected $casts = [
+        'laporan_jumlah_hari' => 'array',
+    ];
+
     public function divisi()
     {
         return $this->belongsTo(Divisi::class);

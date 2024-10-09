@@ -21,6 +21,10 @@
             font-size: 14px;
         }
 
+        .jadi-hitam {
+            background-color: #3b3b3b !important;
+        }
+
         table {
             font-size: 14px;
             /* border: 1px solid black;
@@ -52,13 +56,13 @@
             /* font-weight: bold; */
         }
 
-        table tr.row-1 td:nth-child(n + 3):nth-child(-n + 12),
+        /* table tr.row-1 td:nth-child(n + 3):nth-child(-n + 12),
         table tr.row-1 th:nth-child(n + 3):nth-child(-n + 12) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-2 td:nth-child(n + 3):nth-child(-n + 33) {
+        */ table tr.row-2 td:nth-child(n + 3):nth-child(-n + 33) {
             background-color: #3b3b3b;
         }
 
@@ -86,47 +90,57 @@
             background-color: #3b3b3b;
         }
 
-        table tr.row-5 td:nth-child(n + 4):nth-child(-n + 13) {
+
+        /* BATAS STYLE YANG DAPAT DI EDIT !!!  */
+        /* table tr.row-5 td:nth-child(n + 4):nth-child(-n + 13) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-6 td:nth-child(n + 4):nth-child(-n + 8) {
+        */
+        /* table tr.row-6 td:nth-child(n + 4):nth-child(-n + 8) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-7 td:nth-child(n + 4):nth-child(-n + 13) {
+        */
+        /* table tr.row-7 td:nth-child(n + 4):nth-child(-n + 13) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-8 td:nth-child(n + 4):nth-child(-n + 5) {
+        */
+        /* table tr.row-8 td:nth-child(n + 4):nth-child(-n + 5) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-9 td:nth-child(n + 6):nth-child(-n + 20) {
+        */
+        /* table tr.row-9 td:nth-child(n + 6):nth-child(-n + 20) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-10 td:nth-child(n + 6):nth-child(-n + 7) {
+        */
+        /* table tr.row-10 td:nth-child(n + 6):nth-child(-n + 7) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-11 td:nth-child(n + 6):nth-child(-n + 13) {
+        */
+        /* table tr.row-11 td:nth-child(n + 6):nth-child(-n + 13) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-12 td:nth-child(n + 6):nth-child(-n + 9) {
+        */
+        /* table tr.row-12 td:nth-child(n + 6):nth-child(-n + 9) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-13 td:nth-child(6),
+        */
+        /* table tr.row-13 td:nth-child(6),
         table tr.row-13 td:nth-child(32),
         table tr.row-14 td:nth-child(6),
         table tr.row-14 td:nth-child(32),
@@ -136,33 +150,42 @@
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-17 td:nth-child(n + 20):nth-child(-n + 28) {
+        */
+        /* table tr.row-17 td:nth-child(n + 20):nth-child(-n + 28) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-18 td:nth-child(n + 10):nth-child(-n + 17) {
+        */
+        /* table tr.row-18 td:nth-child(n + 10):nth-child(-n + 17) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-20 td:nth-child(n + 14):nth-child(-n + 33),
+        */
+        /* table tr.row-20 td:nth-child(n + 14):nth-child(-n + 33),
         table tr.row-21 td:nth-child(n + 14):nth-child(-n + 33) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-22 td:nth-child(n + 15):nth-child(-n + 15) {
+        */
+        /* table tr.row-22 td:nth-child(n + 15):nth-child(-n + 15) {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
 
-        table tr.row-24 td:nth-child(n + 19):nth-child(-n + 26),
+        */
+        /* table tr.row-24 td:nth-child(n + 19):nth-child(-n + 26),
         table tr.row-25 td:nth-child(n + 19):nth-child(-n + 26),
-        table tr.row-26 td:nth-child(n + 19):nth-child(-n + 26) {
+        table tr.row-26 td:nth-child(n + 19):nth-child(-n + 26)
+        {
             background-color: #3b3b3b;
             /* Ganti dengan warna yang diinginkan */
         }
+
+        */
+        /* BATAS STYLE YANG DAPAT DI EDIT !!!  */
     </style>
     <title>Tabel Laporan</title>
 </head>
@@ -222,578 +245,28 @@
                                     <td>31</td>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 <tr>
                                     <td colspan="35" class="text-start fw-bold">MINGGU I(1-8 SEPT 2024)</td>
                                 </tr>
-
-                                <tr class="baris row-1">
-                                    <td>1.</td>
-                                    <td class="text-start">Penginputan Jadwal Kerja Bulan September 2024</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>100%</td>
-                                    <td>Selesai</td>
-                                </tr>
-                                <tr class="baris row-2">
-                                    <td>2.</td>
-                                    <td class="text-start">Pencocokan daftar makan di kantin (antara housekeeping dengan
-                                        HRD)</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>100%</td>
-                                    <td>rutin setiap hari</td>
-                                </tr>
-
-                                <tr class="baris row-3">
-                                    <td>3.</td>
-                                    <td class="text-start">Pelatihan kursus komputer</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>50%</td>
-                                    <td>banyak peserta yang tidak aktif</td>
-                                </tr>
-
-                                <tr class="baris row-4">
-                                    <td>4.</td>
-                                    <td class="text-start">Laporan Rutin Awal Bulan :</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-
-                                <tr class="baris row-5">
-                                    <td></td>
-                                    <td class="text-start">- Upah Helper Geologist periode 16-31 Agustus 2024</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>100%</td>
-                                    <td>selesai sampai pencairan upah</td>
-                                </tr>
-
-                                <tr class="baris row-6">
-                                    <td></td>
-                                    <td class="text-start">- Laporan Tagihan Makan Kantin Daffa perlode 16-31 Agustus
-                                        2024</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>100%</td>
-                                    <td>selesai sampai pencairan upah</td>
-                                </tr>
-
-                                <tr class="baris row-7">
-                                    <td></td>
-                                    <td class="text-start">-Laporan absensi dan upah muttaqin periode 16-31 Agustus 2024
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>100%</td>
-                                    <td>selesai sampai pencairan upah</td>
-                                </tr>
-
-                                <tr class="baris row-8">
-                                    <td></td>
-                                    <td class="text-start">- Laporan data TKI harian Bulan Agustus 2024</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>100%</td>
-                                    <td>selesai</td>
-                                </tr>
-                                <tr class="baris row-9">
-                                    <td></td>
-                                    <td class="text-start">- Laporan Insentif dan lembur bulan agustus 2024</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>100%</td>
-                                    <td>selesai</td>
-                                </tr>
-                                <tr class="baris row-10">
-                                    <td></td>
-                                    <td class="text-start">-Laporan Invoice BPJS Ketenagakerjaan dan Kesehatan September
-                                        2024</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>100%</td>
-                                    <td>selesai</td>
-                                </tr>
-
-                                <tr class="baris row-11">
-                                    <td></td>
-                                    <td class="text-start">-Laporan Insentif pkl bulan Agustus 2024</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>100%</td>
-                                    <td>selesai</td>
-                                </tr>
-
-                                <tr class="baris row-12">
-                                    <td>5.</td>
-                                    <td class="text-start">Pendaftaran BPJS Kesehatan :</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr class="baris row-13">
-                                    <td></td>
-                                    <td class="text-start">Tan Ayong</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>70%</td>
-                                    <td>Anak berusia 21 tahun harus dipisahkan dari tanggungan orang tua</td>
-                                </tr>
-                                <tr class="baris row-14">
-                                    <td></td>
-                                    <td class="text-start">Heriyana</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>100%</td>
-                                    <td>selesai</td>
-                                </tr>
-                                <tr class="baris row-15">
-                                    <td></td>
-                                    <td class="text-start">Rajali</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>100%</td>
-                                    <td>selesai</td>
-                                </tr>
+                                @foreach ($laporan as $lp)
+                                    @php
+                                        $jumlah_hari = json_decode($lp->laporan_jumlah_hari, true);
+                                    @endphp
+                                    <tr class="baris row-1">
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td class="text-start">{{ $lp->laporan_rencana_kerja }}</td>
+                                        @foreach ($jumlah_hari as $hari_kerja)
+                                            <td class="@if ($hari_kerja == true) jadi-hitam @endif">
+                                            </td>
+                                        @endforeach
+                                        <td></td>
+                                        <td></td>
+                                        <td>100%</td>
+                                        <td>Selesai</td>
+                                    </tr>
+                                @endforeach
 
                                 <tr>
                                     <td colspan="35" class="text-start fw-bold">MINGGU II(9-15 SEPT 2024)</td>

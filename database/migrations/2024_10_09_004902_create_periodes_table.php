@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('periode', function (Blueprint $table) {
             $table->id();
 
+            $table->integer('periode_bulan_int')->nullable();
             $table->string('periode_tahun')->nullable();
             $table->string('periode_bulan')->nullable();
 

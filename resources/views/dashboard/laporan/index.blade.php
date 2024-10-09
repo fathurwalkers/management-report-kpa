@@ -4,6 +4,40 @@
 
 @push('css')
     <link href="{{ asset('assets/datatables') }}/datatables.min.css" rel="stylesheet">
+    <style>
+        .checkbox-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .checkbox-table td {
+            width: 10%;
+            text-align: center;
+            padding: 1px;
+            padding-right: 1px
+        }
+
+        .styled-checkbox {
+            display: none;
+        }
+
+        .styled-checkbox+label {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: white;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .styled-checkbox:checked+label {
+            background-color: black;
+            border-color: white;
+            color: white;
+        }
+    </style>
 @endpush
 
 @section('content-header')
@@ -36,56 +70,102 @@
                     </h4>
                 </div>
                 <hr />
+                @if (session('status'))
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="alert alert-info">
+                                {{ session('status') }}
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
-                <form action="" method="POST">
+                <form action="{{ route('proses-laporan') }}" method="POST">
                     @csrf
 
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
                                 <label for="laporan_keterangan">Keterangan</label>
-                                <input type="text" class="form-control" id="laporan_keterangan">
+                                <input type="text" class="form-control" id="laporan_keterangan"
+                                    name="laporan_keterangan">
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
                                 <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
-                                <input type="number" class="form-control" id="laporan_presentasi_pencapaian">
+                                <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
+                                    name="laporan_presentasi_pencapaian">
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <label for="exampleFormControlInput1">Rencana Kerja</label>
-                                <textarea name="" id="" cols="1" rows="4" class="form-control"
-                                    id="exampleFormControlInput1">
+                                <label for="laporan_rencana_kerja">Rencana Kerja</label>
+                                <textarea id="laporan_rencana_kerja" cols="1" rows="4" class="form-control" id="laporan_rencana_kerja"
+                                    name="laporan_rencana_kerja">
                                 </textarea>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <label for="">Pilih Tanggal Kerja</label>
 
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="">Upload
-                                Data</button>
+                            <table class="checkbox-table">
+                                <tbody>
+                                    @for ($i = 1; $i <= $jumlah_hari; $i++)
+                                        @if ($i % 7 == 1)
+                                            <tr>
+                                        @endif
+                                        <td>
+                                            <input type="checkbox" id="day{{ $i }}" class="styled-checkbox"
+                                                name="laporan_jumlah_hari[]" value="{{ $i }}">
+                                            <label for="day{{ $i }}">
+                                                {{ $i }}
+                                            </label>
+                                        </td>
+                                        @if ($i % 7 == 0 || $i == $jumlah_hari)
+                                            </tr>
+                                        @endif
+                                    @endfor
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
 
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12">
-                            <h3>
-                                Pilih Hari Kerja
-                            </h3>
-                            @for ($i = 1; $i <= 30; $i++)
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="" id=""
-                                            value="checkedValue" checked>
-                                        Display value
-                                    </label>
-                                </div>
-                            @endfor
+                            <label for="">Pilih Tanggal Kerja</label>
+
+                            <table class="checkbox-table">
+                                <tbody>
+                                    @for ($i = 1; $i <= $jumlah_hari; $i++)
+                                        @if ($i % 7 == 1)
+                                            <tr>
+                                        @endif
+                                        <td>
+                                            <input type="checkbox" id="day{{ $i }}" class="styled-checkbox"
+                                                name="laporan_jumlah_hari[]" value="{{ $i }}">
+                                            <label for="day{{ $i }}">
+                                                {{ $i }}
+                                            </label>
+                                        </td>
+                                        @if ($i % 7 == 0 || $i == $jumlah_hari)
+                                            </tr>
+                                        @endif
+                                    @endfor
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div> --}}
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-info" data-toggle="modal" data-target="">
+                                Upload Data
+                            </button>
                         </div>
                     </div>
 
@@ -99,11 +179,23 @@
         <div class="card-body">
             <div class="container">
                 <div class="row">
-                    <h4>
-                        <b>
-                            Laporan
-                        </b>
-                    </h4>
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                        <h4>
+                            <b>
+                                Laporan
+                            </b>
+                        </h4>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-end">
+                        <h4>
+                            <b>
+                                <button type="button" class="btn btn-warning"
+                                    onclick="location.href = '{{ route('print-laporan') }}';">
+                                    Print Laporan
+                                </button>
+                            </b>
+                        </h4>
+                    </div>
                 </div>
                 <hr />
                 <div class="row">
@@ -113,178 +205,69 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Divisi</th>
-                                    <th>Jenis Laporan</th>
-                                    <th>Tgl Upload. </th>
-                                    <th>Jumlah Revisi</th>
+                                    <th>Nama Penginput</th>
+                                    <th>Rencana Kerja</th>
+                                    <th>Presentasi Pencapaian</th>
                                     <th>Keterangan</th>
-                                    <th>Status</th>
+                                    <th>Tgl. Input</th>
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                {{-- @foreach ($divisi as $div) --}}
-                                <tr>
-                                    <td>1</td>
-                                    <td>{{ $divisi_nama }}</td>
-                                    <td>File .PDF </td>
-                                    <td>16/04/2025</td>
-                                    <td>6</td>
-                                    <td>Laporan Bulanan Departemen HRD, terkait penanganan karyawan</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-warning"
-                                            data-dismiss="modal">DIPROSES</button>
-                                    </td>
-                                    <td class="mx-auto btn-group">
-                                        {{-- <button type="button" class="btn btn-sm btn-success mr-1">Lihat</button>
-                                        <button type="button" class="btn btn-sm btn-info mr-1">Ubah</button> --}}
-                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
-                                            data-target="#modal_hapus{{ $divisi->id }}">Hapus</button>
+                                @foreach ($laporan as $lp)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $lp->divisi->divisi_nama }}</td>
+                                        <td>{{ $lp->login->login_nama }}</td>
+                                        <td>{{ $lp->laporan_rencana_kerja }}</td>
+                                        <td>{{ $lp->laporan_presentasi_pencapaian }}</td>
+                                        <td>{{ $lp->laporan_keterangan }}</td>
+                                        <td>{{ $lp->created_at }}</td>
 
-                                        <!-- Modal Hapus -->
-                                        <div class="modal fade" id="modal_hapus{{ $divisi->id }}" tabindex="-1"
-                                            role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabelLogout">
-                                                            Peringatan
-                                                            Aksi!</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Apakah anda yakin ingin menghapus item ini?
-                                                            <br>
-                                                            Laporan : <b>(Laporan)</b>
-                                                        </p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <form action="#" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="hapus_id" value="#">
-                                                            <button type="button" class="btn btn-outline-danger"
-                                                                data-dismiss="modal">Batalkan</button>
-                                                            <button type="submit" class="btn btn-primary">Hapus</button>
-                                                        </form>
+                                        <td class="mx-auto btn-group">
+                                            <button type="button" class="btn btn-sm btn-success mr-1">Lihat</button>
+                                            <button type="button" class="btn btn-sm btn-info mr-1">Ubah</button>
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                                                data-target="#modal_hapus{{ $lp->id }}">Hapus</button>
+
+                                            <!-- Modal Hapus -->
+                                            <div class="modal fade" id="modal_hapus{{ $lp->id }}" tabindex="-1"
+                                                role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabelLogout">
+                                                                Peringatan
+                                                                Aksi!</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Apakah anda yakin ingin menghapus item ini?
+                                                                <br>
+                                                                Laporan : <b>(Laporan)</b>
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form action="#" method="POST">
+                                                                @csrf
+                                                                <input type="hidden" name="hapus_id" value="#">
+                                                                <button type="button" class="btn btn-outline-danger"
+                                                                    data-dismiss="modal">Batalkan</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Hapus</button>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                    </td>
-                                </tr>
-                                {{-- @endforeach --}}
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>IT</td>
-                                    <td>File Excel </td>
-                                    <td>04/02/2025</td>
-                                    <td>2</td>
-                                    <td>Laporan Bulanan terkait proses kinerja pembuatan Tower untuk Penempatan Akses
-                                        Jaringan Server baru pada Control Room</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-success"
-                                            data-dismiss="modal">SELESAI</button>
-                                    </td>
-                                    <td class="mx-auto btn-group">
-                                        {{-- <button type="button" class="btn btn-sm btn-success mr-1">Lihat</button>
-                                    <button type="button" class="btn btn-sm btn-info mr-1">Ubah</button> --}}
-                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
-                                            data-target="#modal_hapus{{ $divisi->id }}">Hapus</button>
-
-                                        <!-- Modal Hapus -->
-                                        <div class="modal fade" id="modal_hapus{{ $divisi->id }}" tabindex="-1"
-                                            role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabelLogout">Peringatan
-                                                            Aksi!</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Apakah anda yakin ingin menghapus item ini?
-                                                            <br>
-                                                            Laporan : <b>(Laporan)</b>
-                                                        </p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <form action="#" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="hapus_id" value="#">
-                                                            <button type="button" class="btn btn-outline-danger"
-                                                                data-dismiss="modal">Batalkan</button>
-                                                            <button type="submit" class="btn btn-primary">Hapus</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>Purchasing</td>
-                                    <td>File Excel </td>
-                                    <td>08/02/2025</td>
-                                    <td>7</td>
-                                    <td>
-                                        Laporan Bulanan terkait perbelanjaan barang untuk keperluan produksi dan umum.
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-danger"
-                                            data-dismiss="modal">PENDING</button>
-                                    </td>
-                                    <td class="mx-auto btn-group">
-                                        {{-- <button type="button" class="btn btn-sm btn-success mr-1">Lihat</button>
-                                    <button type="button" class="btn btn-sm btn-info mr-1">Ubah</button> --}}
-                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
-                                            data-target="#modal_hapus{{ $divisi->id }}">Hapus</button>
-
-                                        <!-- Modal Hapus -->
-                                        <div class="modal fade" id="modal_hapus{{ $divisi->id }}" tabindex="-1"
-                                            role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabelLogout">
-                                                            Peringatan
-                                                            Aksi!</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Apakah anda yakin ingin menghapus item ini?
-                                                            <br>
-                                                            Laporan : <b>(Laporan)</b>
-                                                        </p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <form action="#" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="hapus_id" value="#">
-                                                            <button type="button" class="btn btn-outline-danger"
-                                                                data-dismiss="modal">Batalkan</button>
-                                                            <button type="submit" class="btn btn-primary">Hapus</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
                             </tbody>
                         </table>
