@@ -31,48 +31,36 @@
                 <div class="row">
                     <h4>
                         <b>
-                            Upload Laporan
+                            Input Data Laporan
                         </b>
                     </h4>
                 </div>
                 <hr />
 
-                <form action="">
+                <form action="" method="POST">
+                    @csrf
+
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <label for="exampleFormControlInput1">Divisi</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    value="{{ $divisi_nama }}" disabled>
+                                <label for="laporan_keterangan">Keterangan</label>
+                                <input type="text" class="form-control" id="laporan_keterangan">
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <label for="exampleFormControlInput1">Jenis Laporan</label>
-                                <select class="form-control">
-                                    <option>Excel</option>
-                                    <option>PDF</option>
-                                    <option>Word</option>
-                                    <option>Lainnya. </option>
-                                </select>
+                                <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
+                                <input type="number" class="form-control" id="laporan_presentasi_pencapaian">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
-                                <label for="exampleFormControlInput1">Keterangan</label>
-                                <textarea name="" id="" cols="2" rows="2" class="form-control"
+                                <label for="exampleFormControlInput1">Rencana Kerja</label>
+                                <textarea name="" id="" cols="1" rows="4" class="form-control"
                                     id="exampleFormControlInput1">
                                 </textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                <label for="exampleFormControlInput1" class="mr-2">Upload File Laporan</label>
-                                <input type="file" name="" id="">
                             </div>
                         </div>
                     </div>
@@ -83,6 +71,24 @@
                                 Data</button>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <h3>
+                                Pilih Hari Kerja
+                            </h3>
+                            @for ($i = 1; $i <= 30; $i++)
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="" id=""
+                                            value="checkedValue" checked>
+                                        Display value
+                                    </label>
+                                </div>
+                            @endfor
+                        </div>
+                    </div>
+
                 </form>
 
             </div>
@@ -117,61 +123,60 @@
                             </thead>
 
                             <tbody>
-                                @foreach ($divisi as $div)
-                                    <tr>
-                                        <td>1</td>
-                                        <td>{{ $div->divisi_nama }}</td>
-                                        <td>File .PDF </td>
-                                        <td>16/04/2025</td>
-                                        <td>6</td>
-                                        <td>Laporan Bulanan Departemen HRD, terkait penanganan karyawan</td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-warning"
-                                                data-dismiss="modal">DIPROSES</button>
-                                        </td>
-                                        <td class="mx-auto btn-group">
-                                            {{-- <button type="button" class="btn btn-sm btn-success mr-1">Lihat</button>
+                                {{-- @foreach ($divisi as $div) --}}
+                                <tr>
+                                    <td>1</td>
+                                    <td>{{ $divisi_nama }}</td>
+                                    <td>File .PDF </td>
+                                    <td>16/04/2025</td>
+                                    <td>6</td>
+                                    <td>Laporan Bulanan Departemen HRD, terkait penanganan karyawan</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-warning"
+                                            data-dismiss="modal">DIPROSES</button>
+                                    </td>
+                                    <td class="mx-auto btn-group">
+                                        {{-- <button type="button" class="btn btn-sm btn-success mr-1">Lihat</button>
                                         <button type="button" class="btn btn-sm btn-info mr-1">Ubah</button> --}}
-                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
-                                                data-target="#modal_hapus{{ $div->id }}">Hapus</button>
+                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                                            data-target="#modal_hapus{{ $divisi->id }}">Hapus</button>
 
-                                            <!-- Modal Hapus -->
-                                            <div class="modal fade" id="modal_hapus{{ $div->id }}" tabindex="-1"
-                                                role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabelLogout">
-                                                                Peringatan
-                                                                Aksi!</h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Apakah anda yakin ingin menghapus item ini?
-                                                                <br>
-                                                                Laporan : <b>(Laporan)</b>
-                                                            </p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <form action="#" method="POST">
-                                                                @csrf
-                                                                <input type="hidden" name="hapus_id" value="#">
-                                                                <button type="button" class="btn btn-outline-danger"
-                                                                    data-dismiss="modal">Batalkan</button>
-                                                                <button type="submit"
-                                                                    class="btn btn-primary">Hapus</button>
-                                                            </form>
-                                                        </div>
+                                        <!-- Modal Hapus -->
+                                        <div class="modal fade" id="modal_hapus{{ $divisi->id }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabelLogout">
+                                                            Peringatan
+                                                            Aksi!</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Apakah anda yakin ingin menghapus item ini?
+                                                            <br>
+                                                            Laporan : <b>(Laporan)</b>
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="#" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="hapus_id" value="#">
+                                                            <button type="button" class="btn btn-outline-danger"
+                                                                data-dismiss="modal">Batalkan</button>
+                                                            <button type="submit" class="btn btn-primary">Hapus</button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                    </td>
+                                </tr>
+                                {{-- @endforeach --}}
 
                                 <tr>
                                     <td>1</td>
@@ -189,10 +194,10 @@
                                         {{-- <button type="button" class="btn btn-sm btn-success mr-1">Lihat</button>
                                     <button type="button" class="btn btn-sm btn-info mr-1">Ubah</button> --}}
                                         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
-                                            data-target="#modal_hapus{{ $div->id }}">Hapus</button>
+                                            data-target="#modal_hapus{{ $divisi->id }}">Hapus</button>
 
                                         <!-- Modal Hapus -->
-                                        <div class="modal fade" id="modal_hapus{{ $div->id }}" tabindex="-1"
+                                        <div class="modal fade" id="modal_hapus{{ $divisi->id }}" tabindex="-1"
                                             role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
@@ -243,10 +248,10 @@
                                         {{-- <button type="button" class="btn btn-sm btn-success mr-1">Lihat</button>
                                     <button type="button" class="btn btn-sm btn-info mr-1">Ubah</button> --}}
                                         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
-                                            data-target="#modal_hapus{{ $div->id }}">Hapus</button>
+                                            data-target="#modal_hapus{{ $divisi->id }}">Hapus</button>
 
                                         <!-- Modal Hapus -->
-                                        <div class="modal fade" id="modal_hapus{{ $div->id }}" tabindex="-1"
+                                        <div class="modal fade" id="modal_hapus{{ $divisi->id }}" tabindex="-1"
                                             role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">

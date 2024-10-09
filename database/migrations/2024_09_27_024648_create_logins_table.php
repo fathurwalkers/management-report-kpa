@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('login_nama')->nullable();
             $table->string('login_username')->unique()->nullable();
             $table->string('login_password')->nullable();
+            $table->string('login_no_karyawan')->nullable();
             $table->string('login_email')->unique()->nullable();
             $table->string('login_telepon')->nullable();
             $table->text('login_token')->nullable();

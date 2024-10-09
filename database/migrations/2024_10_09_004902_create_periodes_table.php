@@ -8,11 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('pengaduan', function (Blueprint $table) {
+        Schema::create('periode', function (Blueprint $table) {
             $table->id();
 
-            $table->text('pengaduan_nama')->nullable();
-            $table->text('pengaduan_keterangan')->nullable();
+            $table->string('periode_tahun')->nullable();
+            $table->string('periode_bulan')->nullable();
 
             $table->timestamps();
         });
@@ -20,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('pengaduan');
+        Schema::dropIfExists('periode');
     }
 };

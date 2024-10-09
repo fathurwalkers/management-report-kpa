@@ -14,13 +14,6 @@ class Divisi extends Model
     protected $guarded = [];
     protected $primaryKey = "id";
 
-    // HRD
-    // IT
-    // PURCHASHING
-    // ADMIN
-    // FINANCE
-    // MINING
-
     public function login()
     {
         return $this->hasMany(Login::class);

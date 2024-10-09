@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
         // Generate Data Fathur
         $token = Str::random(16);
         $role = "admin";
+        $login_no_karyawan = 00700;
         $hashPassword = Hash::make('jancok', [
             'rounds' => 12,
         ]);
@@ -59,6 +60,7 @@ class DatabaseSeeder extends Seeder
             'login_nama' => 'FathurWalkers',
             'login_username' => 'fathurwalkers',
             'login_password' => $hashPassword,
+            'login_no_karyawan' => $login_no_karyawan,
             'login_email' => 'fathurwalkers44@gmail.com',
             'login_telepon' => '085342072185',
             'login_token' => $hashToken,
@@ -77,6 +79,7 @@ class DatabaseSeeder extends Seeder
         // Generate Data Fathur
         $token = Str::random(16);
         $role = "admin";
+        $login_no_karyawan = 00700;
         $hashPassword = Hash::make('admin', [
             'rounds' => 12,
         ]);
@@ -87,6 +90,7 @@ class DatabaseSeeder extends Seeder
             'login_nama' => 'Administrator',
             'login_username' => 'admin',
             'login_password' => $hashPassword,
+            'login_no_karyawan' => $login_no_karyawan,
             'login_email' => 'admin@ecoasphalt.com',
             'login_telepon' => '08339393939',
             'login_token' => $hashToken,
@@ -105,6 +109,7 @@ class DatabaseSeeder extends Seeder
         // Generate Data Wahyu
         $token = Str::random(16);
         $role = "admin";
+        $login_no_karyawan = 00700;
         $hashPassword = Hash::make('9090', [
             'rounds' => 12,
         ]);
@@ -115,6 +120,7 @@ class DatabaseSeeder extends Seeder
             'login_nama' => 'Wahyu Nur Susilo',
             'login_username' => 'wahyu',
             'login_password' => $hashPassword,
+            'login_no_karyawan' => $login_no_karyawan,
             'login_email' => 'wahyuns@ecoasphalt.com',
             'login_telepon' => '08339393939',
             'login_token' => $hashToken,
@@ -132,6 +138,7 @@ class DatabaseSeeder extends Seeder
         // Generate Data Wahyu
         $token = Str::random(16);
         $role = "admin";
+        $login_no_karyawan = 00700;
         $hashPassword = Hash::make('hrd', [
             'rounds' => 12,
         ]);
@@ -142,6 +149,7 @@ class DatabaseSeeder extends Seeder
             'login_nama' => 'HRD Test',
             'login_username' => 'hrdtest',
             'login_password' => $hashPassword,
+            'login_no_karyawan' => $login_no_karyawan,
             'login_email' => 'hrdtest@ecoasphalt.com',
             'login_telepon' => '08339393939',
             'login_token' => $hashToken,
