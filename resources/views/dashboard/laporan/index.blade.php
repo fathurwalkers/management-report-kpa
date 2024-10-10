@@ -79,8 +79,9 @@
                         </div>
                     </div>
                 @endif
+                <div id="success-message" style="display:none;" class="alert alert-success mt-3"></div>
 
-                <form action="{{ route('proses-laporan') }}" method="POST">
+                <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST">
                     @csrf
 
                     <div class="row">
@@ -135,33 +136,6 @@
                             </table>
                         </div>
                     </div>
-
-                    {{-- <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                            <label for="">Pilih Tanggal Kerja</label>
-
-                            <table class="checkbox-table">
-                                <tbody>
-                                    @for ($i = 1; $i <= $jumlah_hari; $i++)
-                                        @if ($i % 7 == 1)
-                                            <tr>
-                                        @endif
-                                        <td>
-                                            <input type="checkbox" id="day{{ $i }}" class="styled-checkbox"
-                                                name="laporan_jumlah_hari[]" value="{{ $i }}">
-                                            <label for="day{{ $i }}">
-                                                {{ $i }}
-                                            </label>
-                                        </td>
-                                        @if ($i % 7 == 0 || $i == $jumlah_hari)
-                                            </tr>
-                                        @endif
-                                    @endfor
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div> --}}
 
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
@@ -357,6 +331,35 @@
 
             // Optional: Set interval to refresh data every 5 seconds
             setInterval(fetchLaporan, 5000);
+        });
+    </script>
+
+    <script>
+        // jQuery AJAX form submission
+        $(document).ready(function() {
+            $('#laporan-form').on('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+
+                $.ajax({
+                    url: $(this).attr('action'), // Use the form's action attribute
+                    type: 'POST',
+                    data: $(this).serialize(), // Serialize the form data
+                    success: function(response) {
+                        // Show success message
+                        $('#success-message').text("Berhasil membuat Data Laporan!").show();
+
+                        // Optionally reset the form fields
+                        $('#laporan-form')[0].reset();
+
+                        // You can also refresh or update any other part of your UI here if needed
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        // Optionally handle errors here (e.g., show validation messages)
+                        alert('An error occurred while processing your request.');
+                    }
+                });
+            });
         });
     </script>
 @endpush

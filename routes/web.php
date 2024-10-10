@@ -19,6 +19,7 @@ Route::group(['prefix' => '/dashboard', 'middleware' => CekLogin::class], functi
     Route::group(['prefix' => '/laporan'], function () {
         Route::get('/', [LaporanController::class, 'index'])->name('laporan');
         Route::get('/get-laporan', [LaporanController::class, 'get_laporan'])->name('get-laporan');
+        Route::post('/hapus-laporan/{laporan_id}', [LaporanController::class, 'hapus_laporan'])->name('hapus-laporan');
         Route::post('/proses-laporan', [LaporanController::class, 'proses_laporan'])->name('proses-laporan');
         Route::get('/print-laporan', [LaporanController::class, 'print_laporan'])->name('print-laporan');
     });

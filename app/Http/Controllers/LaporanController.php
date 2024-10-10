@@ -32,6 +32,12 @@ class LaporanController extends Controller
         ]);
     }
 
+    public function hapus_laporan(Request $request, $laporan_id)
+    {
+        $laporan = Laporan::where('id', $laporan_id)->first();
+        dd($laporan);
+    }
+
     public function get_laporan()
     {
         $users = session('data_login');
@@ -47,14 +53,19 @@ class LaporanController extends Controller
         $laporan_rencana_kerja = $request->laporan_rencana_kerja;
         $laporan_keterangan = $request->laporan_keterangan;
         $laporan_presentasi_pencapaian = $request->laporan_presentasi_pencapaian;
+
         $currentMonth = date('n');
         $currentYear = date('Y');
         $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $periode->periode_bulan_int, $periode->periode_tahun);
+
         $arrayTanggal =  [];
-        for ($i=1; $i < 30; $i++) {
+
+        for ($i=0; $i < $daysInMonth; $i++) {
             $arrayTanggal[$i] = in_array($i, $checkedDays) ? true : false;
         }
         $laporan_jumlah_hari = json_encode($arrayTanggal);
+
         $laporan = new Laporan;
         $save_laporan = $laporan->create([
             'laporan_rencana_kerja' => $laporan_rencana_kerja,
@@ -74,11 +85,29 @@ class LaporanController extends Controller
     {
         $users = session('data_login');
         $get_divisi = Divisi::where('id', $users->divisi_id)->first();
-        $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
+
+        $currentMonth = date('n');
+        $currentYear = date('Y');
+
+        $currentMonth = intval($currentMonth);
+        $currentYear = intval($currentYear);
+
+        $periode = Periode::where('id', $currentMonth)->where('periode_tahun', $currentYear)->first();
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
+        $laporan = Laporan::where('divisi_id', $get_divisi->id)
+                 ->where('periode_id', $periode ? $periode->id : null)
+                 ->get();
+        // dd([
+        //     $daysInMonth,
+        //     $laporan,
+        //     $periode,
+        // ]);
+
         return view('dashboard.laporan.print-laporan', [
             'users' => $users,
             'divisi' => $get_divisi,
             'laporan' => $laporan,
+            'days' => $daysInMonth
         ]);
     }
 }
