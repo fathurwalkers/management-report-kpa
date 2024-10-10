@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
                                 <label for="laporan_rencana_kerja">Rencana Kerja</label>
                                 <textarea id="laporan_rencana_kerja" cols="1" rows="4" class="form-control" id="laporan_rencana_kerja"
@@ -108,13 +108,16 @@
                                 </textarea>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
                             <label for="">Pilih Tanggal Kerja</label>
 
                             <table class="checkbox-table">
                                 <tbody>
                                     @for ($i = 1; $i <= $jumlah_hari; $i++)
-                                        @if ($i % 7 == 1)
+                                        @if ($i % 10 == 1)
                                             <tr>
                                         @endif
                                         <td>
@@ -124,13 +127,12 @@
                                                 {{ $i }}
                                             </label>
                                         </td>
-                                        @if ($i % 7 == 0 || $i == $jumlah_hari)
+                                        @if ($i % 10 == 0 || $i == $jumlah_hari)
                                             </tr>
                                         @endif
                                     @endfor
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
 
@@ -215,7 +217,7 @@
                             </thead>
 
                             <tbody>
-                                @foreach ($laporan as $lp)
+                                {{-- @foreach ($laporan as $lp)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $lp->divisi->divisi_nama }}</td>
@@ -267,7 +269,7 @@
 
                                         </td>
                                     </tr>
-                                @endforeach
+                                @endforeach --}}
 
                             </tbody>
                         </table>
@@ -284,6 +286,77 @@
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            function fetchLaporan() {
+                $.ajax({
+                    url: '{{ route('get-laporan') }}', // Use the named route
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        var tbody = $('#example tbody');
+                        tbody.empty(); // Clear existing data
+                        $.each(data, function(index, lp) {
+                            tbody.append('<tr>' +
+                                '<td>' + (index + 1) + '</td>' +
+                                '<td>' + lp.divisi.divisi_nama + '</td>' +
+                                '<td>' + lp.login.login_nama + '</td>' +
+                                '<td>' + lp.laporan_rencana_kerja + '</td>' +
+                                '<td>' + lp.laporan_presentasi_pencapaian + '</td>' +
+                                '<td>' + lp.laporan_keterangan + '</td>' +
+                                '<td>' + lp.created_at + '</td>' +
+                                '<td class="mx-auto btn-group">' +
+                                '<button type="button" class="btn btn-sm btn-success mr-1">Lihat</button>' +
+                                '<button type="button" class="btn btn-sm btn-info mr-1">Ubah</button>' +
+                                '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal_hapus' +
+                                lp.id + '">Hapus</button>' +
+
+                                // Modal Hapus
+                                '<div class="modal fade" id="modal_hapus' + lp.id +
+                                '" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">' +
+                                '<div class="modal-dialog" role="document">' +
+                                '<div class="modal-content">' +
+                                '<div class="modal-header">' +
+                                '<h5 class="modal-title">Peringatan Aksi!</h5>' +
+                                '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                                '</button>' +
+                                '</div>' +
+                                '<div class="modal-body">' +
+                                '<p>Apakah anda yakin ingin menghapus item ini?' +
+                                '<br>Laporan : <b>(' + lp.laporan_rencana_kerja +
+                                ')</b></p>' +
+                                '</div>' +
+                                '<div class="modal-footer">' +
+                                '<form action="#" method="POST">' +
+                                '@csrf' + // Ensure CSRF token is included
+                                '<input type="hidden" name="hapus_id" value="' + lp.id +
+                                '">' +
+                                '<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>' +
+                                '<button type="submit" class="btn btn-primary">Hapus</button>' +
+                                '</form>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+
+                                '</td></tr>');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+            // Fetch data on page load
+            fetchLaporan();
+
+            // Optional: Set interval to refresh data every 5 seconds
+            setInterval(fetchLaporan, 5000);
         });
     </script>
 @endpush

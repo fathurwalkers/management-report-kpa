@@ -15,17 +15,14 @@ class LaporanController extends Controller
         $users = session('data_login');
         $get_divisi = Divisi::where('id', $users->divisi_id)->first();
         $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
-
         $currentMonth = date('n');
         $currentYear = date('Y');
         $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();
-
         if ($periode) {
             $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $periode->periode_bulan_int, $periode->periode_tahun);
         } else {
             $daysInMonth = 0;
         }
-
         return view('dashboard.laporan.index', [
             'laporan' => $laporan,
             'users' => $users,
@@ -35,6 +32,14 @@ class LaporanController extends Controller
         ]);
     }
 
+    public function get_laporan()
+    {
+        $users = session('data_login');
+        $get_divisi = Divisi::where('id', $users->divisi_id)->first();
+        $laporan = Laporan::with(['divisi', 'login'])->where('divisi_id', $get_divisi->id)->get();
+        return response()->json($laporan);
+    }
+
     public function proses_laporan(Request $request)
     {
         $users = session('data_login');
@@ -42,14 +47,15 @@ class LaporanController extends Controller
         $laporan_rencana_kerja = $request->laporan_rencana_kerja;
         $laporan_keterangan = $request->laporan_keterangan;
         $laporan_presentasi_pencapaian = $request->laporan_presentasi_pencapaian;
+        $currentMonth = date('n');
+        $currentYear = date('Y');
+        $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();
         $arrayTanggal =  [];
         for ($i=1; $i < 30; $i++) {
             $arrayTanggal[$i] = in_array($i, $checkedDays) ? true : false;
         }
         $laporan_jumlah_hari = json_encode($arrayTanggal);
-
         $laporan = new Laporan;
-
         $save_laporan = $laporan->create([
             'laporan_rencana_kerja' => $laporan_rencana_kerja,
             'laporan_jumlah_hari' => $laporan_jumlah_hari,
@@ -57,7 +63,7 @@ class LaporanController extends Controller
             'laporan_keterangan' => $laporan_keterangan,
             'divisi_id' => $users->divisi_id,
             'login_id' => $users->id,
-            'periode_id' => 10,
+            'periode_id' => $periode->id,
             'created_at' => now(),
             'updated_at' => now()
         ]);
