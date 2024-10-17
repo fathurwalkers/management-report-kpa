@@ -16,10 +16,18 @@ class LaporanController extends Controller
         $users = session('data_login');
         if ($users->divisi_id == 2) {
             $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)
+            ->get();
+        } elseif ($users->divisi_id == 26) {
+            $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)
+                ->where('laporan_status', 'SETUJU')
+                ->get();
+            // dd($laporan);
         } else {
             $get_divisi = Divisi::where('id', $users->divisi_id)->first();
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
         }
-        $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
         $currentMonth = date('n');
         $currentYear = date('Y');
         $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();
@@ -118,8 +126,11 @@ class LaporanController extends Controller
 
     public function edit_laporan(Request $request)
     {
+        $divisi_nama = $request->divisi_nama;
         $laporan_id = $request->laporan_id;
         $users = session('data_login');
+        $before_created_at = $request->created_at;
+        $created_at = Carbon::createFromFormat('Y-m-d', $before_created_at);
         $checkedDays = $request->laporan_jumlah_hari;
         $laporan_rencana_kerja = $request->laporan_rencana_kerja;
         $laporan_keterangan = $request->laporan_keterangan;
@@ -131,35 +142,53 @@ class LaporanController extends Controller
         $arrayTanggal =  [
             false,
         ];
-        for ($i=0; $i <= $daysInMonth; $i++) {
-            $arrayTanggal[$i] = in_array($i, $checkedDays) ? true : false;
+        if ($checkedDays !== null) {
+            for ($i=0; $i <= $daysInMonth; $i++) {
+                $arrayTanggal[$i] = in_array($i, $checkedDays) ? true : false;
+            }
+            $laporan_jumlah_hari = json_encode($arrayTanggal);
+        } else {
+            $checkedDays = null;
+            $laporan_jumlah_hari = null;
         }
         $laporan_jumlah_hari = json_encode($arrayTanggal);
         $laporan = Laporan::find($laporan_id);
         $laporan->update([
             'laporan_rencana_kerja' => $laporan_rencana_kerja,
-            'laporan_jumlah_hari' => $laporan_jumlah_hari,
+            // 'laporan_jumlah_hari' => $laporan_jumlah_hari,
             'laporan_presentasi_pencapaian' => $laporan_presentasi_pencapaian,
             'laporan_keterangan' => $laporan_keterangan,
             'periode_id' => $periode->id,
+            'created_at' => $created_at,
             'updated_at' => now()
         ]);
-        return redirect()->route('laporan')->with('status', 'Berhasil membuat data laporan!');
+        // dd($laporan);
+        return redirect()->route('laporan', [$divisi_nama])->with('status', 'Berhasil mengubah data laporan!');
     }
 
     public function print_laporan(Request $request)
     {
         $users = session('data_login');
-        $get_divisi = Divisi::where('id', $users->divisi_id)->first();
+        $get_divisi = Divisi::where('divisi_nama', $request->divisi_nama)->first();
         $currentMonth = date('n');
         $currentYear = date('Y');
         $currentMonth = intval($currentMonth);
         $currentYear = intval($currentYear);
         $periode = Periode::where('id', $currentMonth)->where('periode_tahun', $currentYear)->first();
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
-        $laporan = Laporan::where('divisi_id', $get_divisi->id)
-                 ->where('periode_id', $periode ? $periode->id : null)
-                 ->get();
+        if ($users->divisi->id == 26) {
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)
+            ->where('periode_id', $periode ? $periode->id : null)
+            ->where('laporan_status', 'SETUJU')
+            ->orderBy('created_at', 'asc')
+            ->get();
+        } else {
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)
+            ->where('periode_id', $periode ? $periode->id : null)
+            ->orderBy('created_at', 'asc')
+            ->get();
+        }
+        // dd($laporan);
         $daysInMonth = $daysInMonth + 1;
         return view('dashboard.laporan.print-laporan', [
             'users' => $users,

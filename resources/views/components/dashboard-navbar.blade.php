@@ -25,7 +25,7 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview" style="display: none;">
-                            @if ($users->divisi_id == 2)
+                            @if ($users->divisi_id == 2 || $users->divisi_id == 26)
                                 @foreach ($dept as $d)
                                     <li class="nav-item">
                                         <a href="{{ route('laporan', $d->divisi_nama) }}" class="nav-link">
@@ -45,7 +45,7 @@
                         </ul>
                     </li>
 
-                    @if ($users->divisi->id == 2)
+                    @if ($users->divisi->id == 2 || $users->divisi_id == 26)
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-edit"></i>

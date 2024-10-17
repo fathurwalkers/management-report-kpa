@@ -303,10 +303,13 @@
                     <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-end">
                         <h4>
                             <b>
-                                <button type="button" class="btn btn-warning"
-                                    onclick="location.href = '{{ route('print-laporan') }}';">
-                                    Print Laporan
-                                </button>
+                                <form action="{{ route('print-laporan') }}" method="POST">
+                                    @csrf
+                                        <input type="hidden" name="divisi_nama" value="{{ $divisi_nama }}">
+                                        <button type="submit" class="btn btn-warning">
+                                            Print Laporan
+                                        </button>
+                                </form>
                             </b>
                         </h4>
                     </div>
@@ -324,7 +327,9 @@
                                     <th>Presentasi Pencapaian</th>
                                     <th>Keterangan</th>
                                     <th>Tgl. Input</th>
+                                    @if ($users->divisi_id !== 26)
                                     <th>Status</th>
+                                    @endif
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
@@ -339,6 +344,7 @@
                                         <td class="text-center">{{ $lp->laporan_presentasi_pencapaian }}</td>
                                         <td class="text-center">{{ $lp->laporan_keterangan }}</td>
                                         <td>{{ $lp->created_at }}</td>
+                                        @if ($users->divisi_id !== 26)
                                         <td class="">
                                             <div class="row">
                                                 <div class="col-sm-12 col-md-12 col-lg-12 mx-auto btn-group">
@@ -378,25 +384,96 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        @endif
 
                                         <td class="">
                                             <div class="row">
                                                 <div class="col-sm-12 col-md-12 col-lg-12 mx-auto btn-group">
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-success mr-1">Lihat</button>
                                                     <button type="button" class="btn btn-sm btn-info ubah-button mr-1"
-                                                        data-id="{{ $lp->id }}"
-                                                        data-keterangan="{{ $lp->laporan_keterangan }}"
-                                                        data-presentasi="{{ $lp->laporan_presentasi_pencapaian }}"
-                                                        data-rencana="{{ $lp->laporan_rencana_kerja }}"
-                                                        data-selected-days="{{ $lp->laporan_jumlah_hari }}">
+                                                        data-toggle="modal"
+                                                        data-target="#modal_ubah{{ $lp->id }}">
                                                         Ubah
                                                     </button>
                                                     <button type="button" class="btn btn-sm btn-danger"
                                                         data-toggle="modal"
                                                         data-target="#modal_hapus{{ $lp->id }}">Hapus</button>
 
-                                                    <!-- Modal Hapus -->
+                                                        <!-- Modal Ubah -->
+                                                    <div class="modal fade" id="modal_ubah{{ $lp->id }}"
+                                                        tabindex="-1" role="dialog"
+                                                        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabelLogout">
+                                                                        Ubah Data Laporan
+                                                                    </h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <form id="laporan-form" action="{{ route('edit-laporan') }}" method="POST">
+                                                                    @csrf
+                                                                    <div class="modal-body">
+
+                                                                        <div class="container">
+                                                                            <div class="row">
+                                                                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                                                                    <div class="form-group">
+                                                                                        <label for="laporan_keterangan">Keterangan</label>
+                                                                                        <input type="text" class="form-control" id="laporan_keterangan"
+                                                                                            name="laporan_keterangan" value="{{ $lp->laporan_keterangan }}" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                                                                    <div class="form-group">
+                                                                                        <label for="laporan_presentasi_pencapaian">
+                                                                                            Pencapaian
+                                                                                        </label>
+                                                                                        <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
+                                                                                            name="laporan_presentasi_pencapaian" value="{{ $lp->laporan_presentasi_pencapaian }}" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                                                                    <div class="form-group">
+                                                                                        <label for="created_at">Tgl/Waktu Kegiatan</label>
+                                                                                        <input type="date" class="form-control" id="created_at" name="created_at" value="{{ $lp->created_at->format('Y-m-d') }}" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                                    <div class="form-group">
+                                                                                        <label for="laporan_rencana_kerja">
+                                                                                            Rencana Kerja
+                                                                                        </label>
+                                                                                            <input type="text" class="form-control" id="laporan_rencana_kerja"
+                                                                                            name="laporan_rencana_kerja" value="{{ $lp->laporan_rencana_kerja }}" required>
+                                                                                </textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                            <input type="hidden" name="laporan_id"
+                                                                                value="{{ $lp->id }}">
+                                                                            <input type="hidden" name="divisi_nama"
+                                                                                value="{{ $lp->divisi->divisi_nama }}">
+                                                                            <button type="button"
+                                                                                class="btn btn-outline-danger"
+                                                                                data-dismiss="modal">Batalkan</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-outline-success">Setuju</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Modal Konfirmasi -->
                                                     <div class="modal fade" id="modal_konfirmasi{{ $lp->id }}"
                                                         tabindex="-1" role="dialog"
                                                         aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
@@ -473,6 +550,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </td>

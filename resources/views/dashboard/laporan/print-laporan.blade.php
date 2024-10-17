@@ -267,13 +267,15 @@ if ($currentWeek != $weekNumber) {
                                             $jumlah_hari = json_decode($lp->laporan_jumlah_hari, true);
                                         @endphp
                                         @if ($lp->laporan_jumlah_hari == null)
+                                        {{-- @dd([$lp->laporan_jumlah_hari,$lp->id,$lp->laporan_rencana_kerja]) --}}
                                             @for ($i = 1; $i < $days; $i++)
                                                 <td class="">
                                                 </td>
                                             @endfor
                                         @else
                                             @for ($i = 1; $i < $days; $i++)
-                                                <td class="@if ($jumlah_hari[$i] == true) jadi-hitam @endif">
+                                                <td class="@if ($jumlah_hari[$i] === true) jadi-hitam @endif">
+                                                    {{-- @dump($jumlah_hari[$i]) --}}
                                                 </td>
                                             @endfor
                                         @endif

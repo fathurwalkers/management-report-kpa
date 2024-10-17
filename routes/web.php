@@ -23,7 +23,7 @@ Route::group(['prefix' => '/dashboard', 'middleware' => CekLogin::class], functi
         Route::post('/edit-laporan', [LaporanController::class, 'edit_laporan'])->name('edit-laporan');
         Route::post('/konfirmasi-laporan', [LaporanController::class, 'konfirmasi_laporan'])->name('konfirmasi-laporan');
         Route::post('/proses-laporan', [LaporanController::class, 'proses_laporan'])->name('proses-laporan');
-        Route::get('/print-laporan', [LaporanController::class, 'print_laporan'])->name('print-laporan');
+        Route::post('/print-laporan', [LaporanController::class, 'print_laporan'])->name('print-laporan');
     });
     Route::group(['prefix' => '/divisi'], function () {
         Route::get('/go/{divisi_nama}', [DashboardController::class, 'index_divisi'])->name('index-divisi');
