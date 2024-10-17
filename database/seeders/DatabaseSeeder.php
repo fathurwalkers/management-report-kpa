@@ -51,6 +51,7 @@ class DatabaseSeeder extends Seeder
             'Logistik',
             'Translator',
             'Labolatory',
+            'Head Office - Jakarta',
         ];
 
         foreach ($array_divisi as $rr) {
@@ -240,7 +241,7 @@ class DatabaseSeeder extends Seeder
 
         // =================================================================================================
         // Get Data Divisi
-        $cari_divisi = $divisi_get->where('divisi_nama', 'HRD')->first();
+        $cari_divisi = $divisi_get->find(26);
 
         // Generate Data Kepala HRD
         $token = Str::random(16);

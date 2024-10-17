@@ -105,20 +105,20 @@
                             <div class="form-group">
                                 <label for="laporan_keterangan">Keterangan</label>
                                 <input type="text" class="form-control" id="laporan_keterangan"
-                                    name="laporan_keterangan">
+                                    name="laporan_keterangan" required>
                             </div>
                         </div>
                         <div class="col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
                                 <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
-                                    name="laporan_presentasi_pencapaian">
+                                    name="laporan_presentasi_pencapaian" required>
                             </div>
                         </div>
                         <div class="col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="created_at">Tgl/Waktu Kegiatan</label>
-                                <input type="date" class="form-control" id="created_at" name="created_at">
+                                <input type="date" class="form-control" id="created_at" name="created_at" required>
                             </div>
                         </div>
                     </div>
@@ -126,8 +126,10 @@
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
                                 <label for="laporan_rencana_kerja">Rencana Kerja</label>
-                                <textarea id="laporan_rencana_kerja" cols="1" rows="4" class="form-control" id="laporan_rencana_kerja"
-                                    name="laporan_rencana_kerja">
+                                {{-- <textarea id="laporan_rencana_kerja" cols="1" rows="4" class="form-control" id="laporan_rencana_kerja"
+                                    name="laporan_rencana_kerja"> --}}
+                                    <input type="text" class="form-control" id="laporan_rencana_kerja"
+                                    name="laporan_rencana_kerja" required>
                         </textarea>
                             </div>
                         </div>
@@ -222,13 +224,13 @@
                                 <div class="form-group">
                                     <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
                                     <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
-                                        name="laporan_presentasi_pencapaian">
+                                        name="laporan_presentasi_pencapaian" required>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
                                 <div class="form-group">
                                     <label for="created_at">Tgl/Waktu Kegiatan</label>
-                                    <input type="date" class="form-control" id="created_at" name="created_at">
+                                    <input type="date" class="form-control" id="created_at" name="created_at" required>
                                 </div>
                             </div>
                         </div>
@@ -236,8 +238,10 @@
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="laporan_rencana_kerja">Rencana Kerja</label>
-                                    <textarea id="laporan_rencana_kerja" cols="1" rows="4" class="form-control" id="laporan_rencana_kerja"
-                                        name="laporan_rencana_kerja">
+                                {{-- <textarea id="laporan_rencana_kerja" cols="1" rows="4" class="form-control" id="laporan_rencana_kerja"
+                                    name="laporan_rencana_kerja"> --}}
+                                    <input type="text" class="form-control" id="laporan_rencana_kerja"
+                                    name="laporan_rencana_kerja" required>
                             </textarea>
                                 </div>
                             </div>
