@@ -23,7 +23,6 @@ class LaporanController extends Controller
             $laporan = Laporan::where('divisi_id', $get_divisi->id)
                 ->where('laporan_status', 'SETUJU')
                 ->get();
-            // dd($laporan);
         } else {
             $get_divisi = Divisi::where('id', $users->divisi_id)->first();
             $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FilingController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\BackController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,8 @@ Route::post('/logout', [BackController::class, 'logout'])->name('logout');
 // Route::post('/post-register', [BackController::class, 'post_register'])->name('post-register');
 Route::group(['prefix' => '/dashboard', 'middleware' => CekLogin::class], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
+
+    // Laporan Route 
     Route::group(['prefix' => '/laporan'], function () {
         Route::get('/go/{divisi_nama}', [LaporanController::class, 'index'])->name('laporan');
         Route::get('/get-laporan', [LaporanController::class, 'get_laporan'])->name('get-laporan');
@@ -25,6 +28,13 @@ Route::group(['prefix' => '/dashboard', 'middleware' => CekLogin::class], functi
         Route::post('/proses-laporan', [LaporanController::class, 'proses_laporan'])->name('proses-laporan');
         Route::post('/print-laporan', [LaporanController::class, 'print_laporan'])->name('print-laporan');
     });
+
+    // Files Route 
+    Route::group(['prefix' => '/archive'], function () {
+        Route::get('/', [FilingController::class, 'index'])->name('files');
+    }); 
+
+    // Divisi Route 
     Route::group(['prefix' => '/divisi'], function () {
         Route::get('/go/{divisi_nama}', [DashboardController::class, 'index_divisi'])->name('index-divisi');
     });
