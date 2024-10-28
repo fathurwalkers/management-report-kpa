@@ -47,7 +47,11 @@ class DashboardNavbar extends Component
             default:
                 $typing = 'B';
                 $divisi_id = $users->divisi_id;
-                $divisinew = Divisi::where('id', $divisi_id)->first();
+                if ($users->divisi_id == 2) {
+                    $divisinew = $divisi_all;
+                } else {
+                    $divisinew = Divisi::where('id', $divisi_id)->first();
+                }
                 break;
         }
         $dd = $divisi_all->where('id', $users->divisi_id)->first();

@@ -89,64 +89,64 @@ class DatabaseSeeder extends Seeder
         // =================================================================================================
         // Get Data Divisi
         $divisi_get = Divisi::all();
-        $cari_divisi = $divisi_get->where('divisi_nama', 'IT')->first();
+        // $cari_divisi = $divisi_get->where('divisi_nama', 'IT')->first();
 
-        // Generate Data Fathur
-        $token = Str::random(16);
-        $role = "admin";
-        $login_no_karyawan = 00700;
-        $hashPassword = Hash::make('jancok', [
-            'rounds' => 12,
-        ]);
-        $hashToken = Hash::make($token, [
-            'rounds' => 12,
-        ]);
-        Login::create([
-            'login_nama' => 'FathurWalkers',
-            'login_username' => 'fathurwalkers',
-            'login_password' => $hashPassword,
-            'login_no_karyawan' => $login_no_karyawan,
-            'login_email' => 'fathurwalkers44@gmail.com',
-            'login_telepon' => '085342072185',
-            'login_token' => $hashToken,
-            'login_level' => $role,
-            'login_jabatan' => "Supervisor",
-            'login_status' => "verified",
-            'divisi_id' => $cari_divisi->id,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        // // Generate Data Fathur
+        // $token = Str::random(16);
+        // $role = "admin";
+        // $login_no_karyawan = 00700;
+        // $hashPassword = Hash::make('jancok', [
+        //     'rounds' => 12,
+        // ]);
+        // $hashToken = Hash::make($token, [
+        //     'rounds' => 12,
+        // ]);
+        // Login::create([
+        //     'login_nama' => 'FathurWalkers',
+        //     'login_username' => 'fathurwalkers',
+        //     'login_password' => $hashPassword,
+        //     'login_no_karyawan' => $login_no_karyawan,
+        //     'login_email' => 'fathurwalkers44@gmail.com',
+        //     'login_telepon' => '085342072185',
+        //     'login_token' => $hashToken,
+        //     'login_level' => $role,
+        //     'login_jabatan' => "Supervisor",
+        //     'login_status' => "verified",
+        //     'divisi_id' => $cari_divisi->id,
+        //     'created_at' => now(),
+        //     'updated_at' => now()
+        // ]);
 
         // =================================================================================================
 
-        // Get Data Divisi
-        $cari_divisi = $divisi_get->where('divisi_nama', 'IT')->first();
+        // // Get Data Divisi
+        // $cari_divisi = $divisi_get->where('divisi_nama', 'IT')->first();
 
-        // Generate Data Fathur
-        $token = Str::random(16);
-        $role = "admin";
-        $login_no_karyawan = 00700;
-        $hashPassword = Hash::make('admin', [
-            'rounds' => 12,
-        ]);
-        $hashToken = Hash::make($token, [
-            'rounds' => 12,
-        ]);
-        Login::create([
-            'login_nama' => 'Administrator',
-            'login_username' => 'admin',
-            'login_password' => $hashPassword,
-            'login_no_karyawan' => $login_no_karyawan,
-            'login_email' => 'admin@ecoasphalt.com',
-            'login_telepon' => '08339393939',
-            'login_token' => $hashToken,
-            'login_level' => $role,
-            'login_jabatan' => "Manager IT",
-            'login_status' => "verified",
-            'divisi_id' => $cari_divisi->id,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        // // Generate Data Fathur
+        // $token = Str::random(16);
+        // $role = "admin";
+        // $login_no_karyawan = 00700;
+        // $hashPassword = Hash::make('admin', [
+        //     'rounds' => 12,
+        // ]);
+        // $hashToken = Hash::make($token, [
+        //     'rounds' => 12,
+        // ]);
+        // Login::create([
+        //     'login_nama' => 'Administrator',
+        //     'login_username' => 'admin',
+        //     'login_password' => $hashPassword,
+        //     'login_no_karyawan' => $login_no_karyawan,
+        //     'login_email' => 'admin@ecoasphalt.com',
+        //     'login_telepon' => '08339393939',
+        //     'login_token' => $hashToken,
+        //     'login_level' => $role,
+        //     'login_jabatan' => "Manager IT",
+        //     'login_status' => "verified",
+        //     'divisi_id' => $cari_divisi->id,
+        //     'created_at' => now(),
+        //     'updated_at' => now()
+        // ]);
 
         // =================================================================================================
 
@@ -211,33 +211,33 @@ class DatabaseSeeder extends Seeder
 
         // =================================================================================================
         // Get Data Divisi
-        $cari_divisi = $divisi_get->where('divisi_nama', 'HRD')->first();
+        // $cari_divisi = $divisi_get->where('divisi_nama', 'HRD')->first();
 
-        // Generate Data Kepala HRD
-        $token = Str::random(16);
-        $role = "pj";
-        $login_no_karyawan = 00700;
-        $hashPassword = Hash::make('pjhrd', [
-            'rounds' => 12,
-        ]);
-        $hashToken = Hash::make($token, [
-            'rounds' => 12,
-        ]);
-        Login::create([
-            'login_nama' => 'PJHRD',
-            'login_username' => 'pjhrd',
-            'login_password' => $hashPassword,
-            'login_no_karyawan' => $login_no_karyawan,
-            'login_email' => 'pjhrd@ecoasphalt.com',
-            'login_telepon' => '08339393939',
-            'login_token' => $hashToken,
-            'login_level' => $role,
-            'login_jabatan' => "Manajer HRD",
-            'login_status' => "verified",
-            'divisi_id' => $cari_divisi->id,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        // // Generate Data Kepala HRD
+        // $token = Str::random(16);
+        // $role = "pj";
+        // $login_no_karyawan = 00700;
+        // $hashPassword = Hash::make('pjhrd', [
+        //     'rounds' => 12,
+        // ]);
+        // $hashToken = Hash::make($token, [
+        //     'rounds' => 12,
+        // ]);
+        // Login::create([
+        //     'login_nama' => 'PJHRD',
+        //     'login_username' => 'pjhrd',
+        //     'login_password' => $hashPassword,
+        //     'login_no_karyawan' => $login_no_karyawan,
+        //     'login_email' => 'pjhrd@ecoasphalt.com',
+        //     'login_telepon' => '08339393939',
+        //     'login_token' => $hashToken,
+        //     'login_level' => $role,
+        //     'login_jabatan' => "Manajer HRD",
+        //     'login_status' => "verified",
+        //     'divisi_id' => $cari_divisi->id,
+        //     'created_at' => now(),
+        //     'updated_at' => now()
+        // ]);
 
         // =================================================================================================
         // Get Data Divisi
