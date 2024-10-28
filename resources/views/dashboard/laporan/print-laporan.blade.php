@@ -223,19 +223,17 @@
 
                             <tbody>
                                 @php
-                                    // Initialize variables for week tracking
-                                    $currentWeek = 0;
-                                    $weekStartDate = null;
-                                    $weekEndDate = null;
+                                    // Inisialisasi array untuk menyimpan laporan yang dikelompokkan berdasarkan minggu
+                                    $laporanPerMinggu = [];
                                 @endphp
 
                                 @foreach ($laporan as $lp)
                                     @php
-                                        // Convert created_at to a Carbon date instance
+                                        // Mengambil hari dari tanggal created_at
                                         $createdAt = \Carbon\Carbon::parse($lp->created_at);
                                         $dayOfMonth = $createdAt->day;
 
-                                        // Determine the week number based on the day of the month
+                                        // Tentukan minggu berdasarkan hari dalam bulan
                                         if ($dayOfMonth >= 1 && $dayOfMonth <= 8) {
                                             $weekNumber = 1;
                                             $weekStartDate = '1';
@@ -254,42 +252,53 @@
                                             $weekEndDate = '31';
                                         }
 
-                                        // Output the week header if it's a new week
-if ($currentWeek != $weekNumber) {
-    echo "<tr><td colspan='35' class='text-start fw-bold'>MINGGU {$weekNumber} ({$weekStartDate}-{$weekEndDate} OKTOBER 2024)</td></tr>";
-                                            $currentWeek = $weekNumber; // Update current week
-                                        }
+                                        // Simpan laporan berdasarkan minggu dalam array
+                                        $laporanPerMinggu[$weekNumber][
+                                            'header'
+                                        ] = "MINGGU {$weekNumber} ({$weekStartDate}-{$weekEndDate} OKTOBER 2024)";
+                                        $laporanPerMinggu[$weekNumber]['data'][] = $lp;
                                     @endphp
-                                    <tr class="baris row-{{ $currentWeek }}">
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td class="text-start">{{ $lp->laporan_rencana_kerja }}</td>
-                                        @php
-                                            $jumlah_hari = json_decode($lp->laporan_jumlah_hari, true);
-                                        @endphp
-                                        @if ($lp->laporan_jumlah_hari == null)
-                                        {{-- @dd([$lp->laporan_jumlah_hari,$lp->id,$lp->laporan_rencana_kerja]) --}}
-                                            @for ($i = 1; $i < $days; $i++)
-                                                <td class="">
-                                                </td>
-                                            @endfor
-                                        @else
-                                            @for ($i = 1; $i < $days; $i++)
-                                                <td class="@if ($jumlah_hari[$i] === true) jadi-hitam @endif">
-                                                    {{-- @dump($jumlah_hari[$i]) --}}
-                                                </td>
-                                            @endfor
-                                        @endif
-                                        <td>
-                                            @if ($lp->laporan_presentasi_pencapaian !== null)
-                                                {{ $lp->laporan_presentasi_pencapaian }}%
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($lp->laporan_keterangan !== null)
-                                                {{ $lp->laporan_keterangan }}
-                                            @endif
-                                        </td>
+                                @endforeach
+
+                                {{-- Menampilkan data yang sudah dikelompokkan berdasarkan minggu --}}
+                                @foreach ($laporanPerMinggu as $weekData)
+                                    {{-- Tampilkan header minggu sekali saja --}}
+                                    <tr>
+                                        <td colspan="35" class="text-start fw-bold">{{ $weekData['header'] }}</td>
                                     </tr>
+
+                                    @foreach ($weekData['data'] as $lp)
+                                        <tr class="baris row-{{ $weekData['header'] }}">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td class="text-start">{{ $lp->laporan_rencana_kerja }}</td>
+
+                                            @php
+                                                $jumlah_hari = json_decode($lp->laporan_jumlah_hari, true);
+                                            @endphp
+
+                                            @if ($lp->laporan_jumlah_hari == null)
+                                                @for ($i = 1; $i < $days; $i++)
+                                                    <td class=""></td>
+                                                @endfor
+                                            @else
+                                                @for ($i = 1; $i < $days; $i++)
+                                                    <td class="@if (isset($jumlah_hari[$i]) && $jumlah_hari[$i] === true) jadi-hitam @endif">
+                                                    </td>
+                                                @endfor
+                                            @endif
+
+                                            <td>
+                                                @if ($lp->laporan_presentasi_pencapaian !== null)
+                                                    {{ $lp->laporan_presentasi_pencapaian }}%
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($lp->laporan_keterangan !== null)
+                                                    {{ $lp->laporan_keterangan }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
 
                             </tbody>
