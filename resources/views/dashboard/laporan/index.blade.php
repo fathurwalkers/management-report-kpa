@@ -543,11 +543,6 @@
                                                                                     <div class="checkbox-table d-flex justify-content-center mx-auto">
                                                                                         <table>
                                                                                             <tbody>
-                                                                                                @php
-                                                                                                    // $jumlah_laporan = json_decode($lp->laporan_jumlah_hari, true);
-                                                                                                    // unset($jumlah_laporan[0]);
-                                                                                                    // $countJumlah = count($jumlah_laporan);
-                                                                                                @endphp
                                                                                                 @for ($i = 1; $i <= 31; $i++)
                                                                                                     @if ($i % 10 == 1)
                                                                                                             <tr>
