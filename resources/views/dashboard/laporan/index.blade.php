@@ -354,7 +354,8 @@
                     <div class="col-sm-3 col-md-3 col-lg-3 d-flex justify-content-end">
                         <h4>
                             <b>
-                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
                                     Print Laporan untuk Bulan
                                 </button>
                                 <div class="dropdown-menu">
@@ -462,7 +463,7 @@
                                                     <div class="modal fade" id="modal_ubah{{ $lp->id }}"
                                                         tabindex="-1" role="dialog"
                                                         aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
+                                                        <div class="modal-dialog modal-lg" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="exampleModalLabelLogout">
@@ -539,123 +540,148 @@
                                                                             <div class="row">
                                                                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                                                                     <label>Pilih Hari Kerja:</label>
-                                                                                    <div class="checkbox-table">
+                                                                                    <div class="checkbox-table d-flex justify-content-center mx-auto">
                                                                                         <table>
                                                                                             <tbody>
+                                                                                                @php
+                                                                                                    // $jumlah_laporan = json_decode($lp->laporan_jumlah_hari, true);
+                                                                                                    // unset($jumlah_laporan[0]);
+                                                                                                    // $countJumlah = count($jumlah_laporan);
+                                                                                                @endphp
                                                                                                 @for ($i = 1; $i <= 31; $i++)
                                                                                                     @if ($i % 10 == 1)
-                                                                                                        <tr>
+                                                                                                            <tr>
                                                                                                     @endif
-                                                                                                    <td>
-                                                                                                        <input
-                                                                                                            type="checkbox"
-                                                                                                            class="styled-checkbox"
-                                                                                                            id="day{{ $i }}-{{ $lp->id }}"
-                                                                                                            name="laporan_jumlah_hari[]"
-                                                                                                            value="{{ $i }}">
-                                                                                                        <label
-                                                                                                            for="day{{ $i }}-{{ $lp->id }}">{{ $i }}</label>
-                                                                                                    </td>
+                                                                                                        <td>
+                                                                                                            <input
+                                                                                                                type="checkbox"
+                                                                                                                class="styled-checkbox"
+                                                                                                                id="day{{ $i }}-{{ $lp->id }}"
+                                                                                                                name="laporan_jumlah_hari[]"
+                                                                                                                value="{{ $i }}">
+                                                                                                            <label for="day{{ $i }}-{{ $lp->id }}">{{ $i }}</label>
+                                                                                                        </td>
                                                                                                     @if ($i % 10 == 0 || $i == 31)
+                                                                                                        </tr>
+                                                                                                    @endif
+                                                                                                @endfor
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="laporan_id"
+                                                                            value="{{ $lp->id }}">
+                                                                        <input type="hidden" name="divisi_nama"
+                                                                            value="{{ $lp->divisi->divisi_nama }}">
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-danger"
+                                                                            data-dismiss="modal">Batalkan</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-outline-success">Setuju</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Modal Konfirmasi -->
+                                                    <div class="modal fade" id="modal_konfirmasi{{ $lp->id }}"
+                                                        tabindex="-1" role="dialog"
+                                                        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabelLogout">
+                                                                        Konfirmasi Penyetujuan Laporan.
+                                                                    </h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Apakah anda yakin ingin menyetujui Laporan ini?
+                                                                        <br>
+                                                                        Laporan : <b>{{ $lp->laporan_rencana_kerja }}</b>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <form action="{{ route('konfirmasi-laporan') }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="laporan_id"
+                                                                            value="{{ $lp->id }}">
+                                                                        <input type="hidden" name="divisi_nama"
+                                                                            value="{{ $lp->divisi->divisi_nama }}">
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-danger"
+                                                                            data-dismiss="modal">Batalkan</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-outline-success">Setuju</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Modal Hapus -->
+                                                    <div class="modal fade" id="modal_hapus{{ $lp->id }}"
+                                                        tabindex="-1" role="dialog"
+                                                        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabelLogout">
+                                                                        Peringatan
+                                                                        Aksi!</h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Apakah anda yakin ingin menghapus item ini?
+                                                                        <br>
+                                                                        Laporan : <b>(Laporan)</b>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <form action="{{ route('hapus-laporan') }}"
+                                                                        method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="hapus_id"
+                                                                            value="{{ $lp->id }}">
+                                                                        <input type="hidden" name="divisi_nama"
+                                                                            value="{{ $lp->divisi->divisi_nama }}">
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-danger"
+                                                                            data-dismiss="modal">Batalkan</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary">Hapus</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
-                                @endif
-                                @endfor
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
         </div>
-
-    </div>
-    <div class="modal-footer">
-        <input type="hidden" name="laporan_id" value="{{ $lp->id }}">
-        <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
-        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
-        <button type="submit" class="btn btn-outline-success">Setuju</button>
-    </div>
-    </form>
-    </div>
-    </div>
-    </div>
-
-    <!-- Modal Konfirmasi -->
-    <div class="modal fade" id="modal_konfirmasi{{ $lp->id }}" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabelLogout">
-                        Konfirmasi Penyetujuan Laporan.
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Apakah anda yakin ingin menyetujui Laporan ini?
-                        <br>
-                        Laporan : <b>{{ $lp->laporan_rencana_kerja }}</b>
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <form action="{{ route('konfirmasi-laporan') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="laporan_id" value="{{ $lp->id }}">
-                        <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
-                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
-                        <button type="submit" class="btn btn-outline-success">Setuju</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Hapus -->
-    <div class="modal fade" id="modal_hapus{{ $lp->id }}" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabelLogout">
-                        Peringatan
-                        Aksi!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Apakah anda yakin ingin menghapus item ini?
-                        <br>
-                        Laporan : <b>(Laporan)</b>
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <form action="{{ route('hapus-laporan') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="hapus_id" value="{{ $lp->id }}">
-                        <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
-                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
-                        <button type="submit" class="btn btn-primary">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    </div>
-    </div>
-    </td>
-    </tr>
-    @endforeach
-
-    </tbody>
-    </table>
-    </div>
-    </div>
-    </div>
-    </div>
     </div>
 
 @endsection
@@ -674,7 +700,8 @@
 
             // Event listener untuk dropdown bulan
             $('#filter-bulan').on('change', function() {
-                var bulan = $(this).val(); // Dapatkan nilai dari dropdown (misalnya: "2024-11" untuk November 2024)
+                var bulan = $(this)
+            .val(); // Dapatkan nilai dari dropdown (misalnya: "2024-11" untuk November 2024)
 
                 // Terapkan filter global pada seluruh tabel
                 table.search(bulan).draw(); // Mencari nilai bulan di seluruh tabel
