@@ -17,41 +17,42 @@ class DashboardController extends Controller
         $users = session('data_login');
         $month = date('n');
         $year = date('Y');
-        $periode = Periode::where('periode_bulan_int', $month)
-            ->where('periode_tahun', $year)
-            ->first();
-        if ($periode) {
-            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $periode->periode_bulan_int, $periode->periode_tahun);
-        } else {
-            $daysInMonth = 0;
-        }
         $reports = DB::table('laporan')
-            ->select(DB::raw('DATE(created_at) as report_date'), DB::raw('count(*) as total'))
+            ->select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as total'))
             ->where('divisi_id', $users->divisi_id)
             ->whereYear('created_at', $year)
-            ->whereMonth('created_at', $month)
-            ->groupBy('report_date')
+            ->groupBy('month')
+            ->orderBy('month')
             ->get();
-        $dates = [];
-        $reportCounts = [];
+        $reportCounts = array_fill(1, 12, 0);
+        $months = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        ];
         foreach ($reports as $report) {
-            $dates[] = Carbon::parse($report->report_date)->format('d M');
-            $reportCounts[] = $report->total;
+            $reportCounts[$report->month] = $report->total;
         }
-        $periode_sekarang = $this->getBulanIndonesia(intval($month));
         $divisi = Divisi::all()->count();
         $laporan = Laporan::all()->count();
         $login = Login::all()->count();
-
         return view('dashboard.index', [
             'divisi' => $divisi,
             'laporan' => $laporan,
             'login' => $login,
             'month' => $month,
             'year' => $year,
-            'dates' => $dates,
             'reportCounts' => $reportCounts,
-            'periode_sekarang' => $periode_sekarang,
+            'months' => $months,
         ]);
     }
 

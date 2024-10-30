@@ -143,7 +143,7 @@ class LaporanController extends Controller
             'laporan_status' => $laporan_status,
             'divisi_id' => $users->divisi_id,
             'login_id' => $users->id,
-            'periode_id' => $periode->id,
+            'periode_id' => $created_at->month,
             'created_at' => $created_at,
             'updated_at' => now()
         ]);
@@ -185,7 +185,7 @@ class LaporanController extends Controller
             'laporan_jumlah_hari' => $laporan_jumlah_hari,
             'laporan_presentasi_pencapaian' => $laporan_presentasi_pencapaian,
             'laporan_keterangan' => $laporan_keterangan,
-            'periode_id' => $periode->id,
+            'periode_id' => $created_at->month,
             'created_at' => $created_at,
             'updated_at' => now()
         ]);
@@ -196,12 +196,20 @@ class LaporanController extends Controller
     {
         $users = session('data_login');
         $get_divisi = Divisi::where('divisi_nama', $request->divisi_nama)->first();
-        $currentMonth = date('n');
+
+        // Ambil bulan dari request, atau gunakan bulan saat ini jika tidak ada
+        $selectedMonth = $request->bulan ?? date('n');
         $currentYear = date('Y');
-        $currentMonth = intval($currentMonth);
-        $currentYear = intval($currentYear);
-        $periode = Periode::where('id', $currentMonth)->where('periode_tahun', $currentYear)->first();
-        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
+
+        // Mendapatkan periode berdasarkan bulan yang dipilih
+        $periode = Periode::where('periode_bulan_int', intval($selectedMonth))
+            ->where('periode_tahun', $currentYear)
+            ->first();
+
+        // Menghitung jumlah hari dalam bulan yang dipilih
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, intval($selectedMonth), $currentYear);
+
+        // Query untuk mendapatkan laporan
         if ($users->divisi->id == 26) {
             $laporan = Laporan::where('divisi_id', $get_divisi->id)
                 ->where('periode_id', $periode ? $periode->id : null)
@@ -214,12 +222,17 @@ class LaporanController extends Controller
                 ->orderBy('created_at', 'asc')
                 ->get();
         }
-        $daysInMonth = $daysInMonth + 1;
+
+        // Menambah 1 hari untuk keperluan lain (jika perlu)
+        // $daysInMonth = $daysInMonth + 1;
+        // dd($daysInMonth);
+
         return view('dashboard.laporan.print-laporan', [
             'users' => $users,
             'divisi' => $get_divisi,
             'laporan' => $laporan,
-            'days' => $daysInMonth
+            'days' => $daysInMonth,
+            'periode' => $periode,
         ]);
     }
 }

@@ -187,7 +187,7 @@
         */
         /* BATAS STYLE YANG DAPAT DI EDIT !!!  */
     </style>
-    <title>Tabel Laporan</title>
+    <title>LAPORAN BULAN {{ strtoupper($periode->periode_bulan) }} DIVISI {{ $divisi->divisi_nama }}</title>
 </head>
 
 <body>
@@ -196,26 +196,24 @@
             <div class="col-12 d-flex justify-content-center mx-auto">
                 <div class="data">
                     <div class="text text-center mt-5">
-                        <p>RENCANA KERJA HUMAN RESOURCES DEVELOPMENT</p>
+                        <p>RENCANA KERJA DIVISI {{ strtoupper($divisi->divisi_keterangan) }}</p>
                         <p>PT. KARTIKA PRIMA ABADI</p>
-                        <p>BULAN SEPTEMBER 2024</p>
+                        <p>BULAN {{ strtoupper($periode->periode_bulan) }} 2024</p>
                     </div>
 
                     <div class="table-data mt-5">
                         <table class="table-bordered border-1 border-dark text-center">
+
                             <thead>
                                 <tr>
                                     <th rowspan="2" class="align-middle p-2">NO.</th>
                                     <th style="min-width: 250px" rowspan="2" class="align-middle">RENCANA KERJA</th>
-                                    <th colspan="31" class="align-middle">OKTOBER 2024</th>
+                                    <th colspan="{{ $days }}" class="align-middle">{{ strtoupper($periode->periode_bulan) }} 2024</th> <!-- Ubah kolom menjadi $days -->
                                     <th rowspan="2" class="align-middle p-2">PERSENTASE PENCAPAIAN</th>
                                     <th rowspan="2" class="align-middle p-2">KETERANGAN</th>
                                 </tr>
                                 <tr class="tanggal">
-                                    @php
-                                        $daysno = $days - 1;
-                                    @endphp
-                                    @for ($i = 1; $i <= $daysno; $i++)
+                                    @for ($i = 1; $i <= $days; $i++) <!-- Loop dari 1 sampai $days -->
                                         <td>{{ $i }}</td>
                                     @endfor
                                 </tr>
@@ -253,9 +251,7 @@
                                         }
 
                                         // Simpan laporan berdasarkan minggu dalam array
-                                        $laporanPerMinggu[$weekNumber][
-                                            'header'
-                                        ] = "MINGGU {$weekNumber} ({$weekStartDate}-{$weekEndDate} OKTOBER 2024)";
+                                        $laporanPerMinggu[$weekNumber]['header'] = "MINGGU {$weekNumber} ({$weekStartDate}-{$weekEndDate} {$periode->periode_bulan} 2024)";
                                         $laporanPerMinggu[$weekNumber]['data'][] = $lp;
                                     @endphp
                                 @endforeach
@@ -277,11 +273,11 @@
                                             @endphp
 
                                             @if ($lp->laporan_jumlah_hari == null)
-                                                @for ($i = 1; $i < $days; $i++)
+                                                @for ($i = 1; $i <= $days; $i++) {{-- Ganti < dengan <= --}}
                                                     <td class=""></td>
                                                 @endfor
                                             @else
-                                                @for ($i = 1; $i < $days; $i++)
+                                                @for ($i = 1; $i <= $days; $i++) {{-- Ganti < dengan <= --}}
                                                     <td class="@if (isset($jumlah_hari[$i]) && $jumlah_hari[$i] === true) jadi-hitam @endif">
                                                     </td>
                                                 @endfor
@@ -300,7 +296,6 @@
                                         </tr>
                                     @endforeach
                                 @endforeach
-
                             </tbody>
                         </table>
                     </div>

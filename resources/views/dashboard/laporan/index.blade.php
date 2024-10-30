@@ -324,26 +324,56 @@
         <div class="card-body">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-6 col-md-6 col-lg-6">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
                         <h4>
                             <b>
                                 Laporan
                             </b>
                         </h4>
                     </div>
-                    <div class="col-sm-6 col-md-6 col-lg-6 d-flex justify-content-end">
+
+                    <div class="col-sm-5 col-md-5 col-lg-5 d-flex justify-content-end">
+                        <label for="filter-bulan">Filter Periode : </label>
+                        <select id="filter-bulan" class="form-control">
+                            <option value="">-- Pilih Bulan --</option>
+                            <option value="2024-01">Januari</option>
+                            <option value="2024-02">Februari</option>
+                            <option value="2024-03">Maret</option>
+                            <option value="2024-04">April</option>
+                            <option value="2024-05">Mei</option>
+                            <option value="2024-06">Juni</option>
+                            <option value="2024-07">Juli</option>
+                            <option value="2024-08">Agustus</option>
+                            <option value="2024-09">September</option>
+                            <option value="2024-10">Oktober</option>
+                            <option value="2024-11">November</option>
+                            <option value="2024-12">Desember</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 col-lg-3 d-flex justify-content-end">
                         <h4>
                             <b>
-                                <form action="{{ route('print-laporan') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="divisi_nama" value="{{ $divisi_nama }}">
-                                    <button type="submit" class="btn btn-warning">
-                                        Print Laporan
-                                    </button>
-                                </form>
+                                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Print Laporan untuk Bulan
+                                </button>
+                                <div class="dropdown-menu">
+                                    <!-- Menggunakan loop untuk bulan dari 1 hingga 12 -->
+                                    @foreach (range(1, 12) as $bulan)
+                                        <form action="{{ route('print-laporan') }}" method="POST" class="m-0">
+                                            @csrf
+                                            <input type="hidden" name="divisi_nama" value="{{ $divisi_nama }}">
+                                            <input type="hidden" name="bulan" value="{{ $bulan }}">
+                                            <button type="submit" class="dropdown-item">
+                                                {{ date('F', mktime(0, 0, 0, $bulan, 1)) }} (Bulan {{ $bulan }})
+                                            </button>
+                                        </form>
+                                    @endforeach
+                                </div>
                             </b>
                         </h4>
                     </div>
+
                 </div>
                 <hr />
                 <div class="row">
@@ -633,9 +663,21 @@
 @push('js')
     <script src="{{ asset('assets/datatables') }}/datatables.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#example').DataTable({
+        // $(document).ready(function() {
+        //     $('#example').DataTable({
+        //     });
+        // });
 
+        $(document).ready(function() {
+            // Inisialisasi DataTable
+            var table = $('#example').DataTable();
+
+            // Event listener untuk dropdown bulan
+            $('#filter-bulan').on('change', function() {
+                var bulan = $(this).val(); // Dapatkan nilai dari dropdown (misalnya: "2024-11" untuk November 2024)
+
+                // Terapkan filter global pada seluruh tabel
+                table.search(bulan).draw(); // Mencari nilai bulan di seluruh tabel
             });
         });
 

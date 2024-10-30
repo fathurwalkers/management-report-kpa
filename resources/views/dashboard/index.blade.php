@@ -116,8 +116,8 @@
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <h5 class="text-center">
                                     <b>
-                                        Presentase Laporan Bulanan Divisi {{ $users->divisi->divisi_nama }} - Periode
-                                        {{ $periode_sekarang }} Tahun {{ $year }}
+                                        Presentase Laporan Bulanan Divisi {{ $users->divisi->divisi_nama }} - Tahun
+                                        {{ $year }}
                                     </b>
                                 </h5>
                                 <hr />
@@ -136,39 +136,19 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            var reportCounts = {!! json_encode($reportCounts) !!};
-
-            // Dapatkan nilai tertinggi dan terendah dari reportCounts
-            var minValue = Math.min(...reportCounts); // Nilai terendah
-            var maxValue = Math.max(...reportCounts); // Nilai tertinggi
-
-            // Fungsi untuk memberikan warna berdasarkan nilai
-            function getBarColor(value) {
-                if (value === minValue) { // Jika nilai adalah yang terendah, beri warna merah
-                    return 'rgba(255, 99, 132, 0.8)';
-                } else if (value === maxValue) { // Jika nilai adalah yang tertinggi, beri warna hijau
-                    return 'rgba(102, 255, 0, 0.8)';
-                } else { // Jika nilai di antara terendah dan tertinggi, beri warna biru
-                    return 'rgba(54, 162, 235, 0.8)';
-                }
-            }
-
-            // Buat array warna berdasarkan data laporan
-            var backgroundColors = reportCounts.map(function(value) {
-                return getBarColor(value);
-            });
+            var reportCounts = {!! json_encode($reportCounts) !!}; // Jumlah laporan per bulan
+            // var months = {!! json_encode($months) !!}; // Label bulan
 
             var ctx = document.getElementById('monthlyPerformanceChart').getContext('2d');
             var monthlyPerformanceChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: {!! json_encode($dates) !!}, // Tanggal laporan
+                    // labels: months, // Gunakan label bulan
                     datasets: [{
                         label: 'Jumlah Laporan',
-                        data: reportCounts, // Jumlah laporan harian
-                        backgroundColor: backgroundColors, // Warna batang berdasarkan nilai laporan
-                        borderColor: backgroundColors.map(color => color.replace('0.8',
-                            '1')), // Warna border dengan opacity penuh
+                        data: reportCounts, // Jumlah laporan per bulan
+                        backgroundColor: 'rgba(54, 162, 235, 0.8)', // Warna batang
+                        borderColor: 'rgba(54, 162, 235, 1)', // Warna border
                         borderWidth: 1
                     }]
                 },
