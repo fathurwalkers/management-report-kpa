@@ -266,7 +266,7 @@
                                     @foreach ($weekData['data'] as $lp)
                                         <tr class="baris row-{{ $weekData['header'] }}">
                                             <td>{{ $loop->iteration }}</td>
-                                            <td class="text-start">{{ $lp->laporan_rencana_kerja }}</td>
+                                            <td class="text-start">{!! $lp->laporan_rencana_kerja !!}</td>
 
                                             @php
                                                 $jumlah_hari = json_decode($lp->laporan_jumlah_hari, true);
