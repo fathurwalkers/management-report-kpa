@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('folder_id')->nullable()->default(null);
             $table->foreign('folder_id')->references('id')->on('folder')->onDelete('cascade');
-            
+
             $table->unsignedBigInteger('login_id')->nullable()->default(null);
             $table->foreign('login_id')->references('id')->on('login')->onDelete('cascade');
 

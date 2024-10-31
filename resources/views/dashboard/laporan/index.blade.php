@@ -3,6 +3,8 @@
 @section('title', '{$divisi} - PT. Kartika Prima Abadi')
 
 @push('css')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.tiny.cloud/1/natu535fc6x5hoxtcw6gd8qeurcdt5n39lri73aevx4w65q0/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <link href="{{ asset('assets/datatables') }}/datatables.min.css" rel="stylesheet">
     <style>
         .checkbox-table {
@@ -129,11 +131,11 @@
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group">
                                         <label for="laporan_rencana_kerja">Rencana Kerja</label>
-                                        <textarea id="laporan_rencana_kerja" cols="1" rows="4" class="form-control" id="laporan_rencana_kerja"
-                                    name="laporan_rencana_kerja">
+                                        <textarea id="laporan_rencana_kerja" cols="1" rows="4" class="form-control"
+                                        name="laporan_rencana_kerja">
+                                        </textarea>
                                         {{-- <input type="text" class="form-control" id="laporan_rencana_kerja"
                                             name="laporan_rencana_kerja" > --}}
-                                        </textarea>
                                     </div>
                                 </div>
                             </div>
@@ -243,13 +245,32 @@
 
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="mt-1 mb-1">
+                                    <button type="button" class="btn btn-primary" onClick="ubahValue('Crusher Lama')">Tombol 1</button>
+                                    <button type="button" class="btn btn-primary" onClick="ubahValue('Crusher Sedang')">Tombol 2</button>
+                                    <button type="button" class="btn btn-primary" onClick="ubahValue('Crusher Mini')">Tombol 3</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="laporan_rencana_kerja">Rencana Kerja</label>
-                                    {{-- <textarea id="laporan_rencana_kerja" cols="1" rows="4" class="form-control" id="laporan_rencana_kerja"
-                                    name="laporan_rencana_kerja"> --}}
-                                    <input type="text" class="form-control" id="laporan_rencana_kerja"
-                                        name="laporan_rencana_kerja" >
+                                    <textarea id="laporan_rencana_kerja" class="form-control"
+                                    name="laporan_rencana_kerja">
+                                    <h4>
+                                        Area Kerja :
+                                        <b id="areakerja" style="color:red;">
+                                            Crusher Baru
+                                        </b>
+                                    </h4>
+                                    <br />
+                                    <div class="editable-class">
+                                        {{-- Code Here... --}}
+                                    </div>
                                     </textarea>
+                                {{-- <input type="text" class="form-control" id="laporan_rencana_kerja"
+                                    name="laporan_rencana_kerja" > --}}
                                 </div>
                             </div>
                         </div>
@@ -684,12 +705,43 @@
 @push('js')
     <script src="{{ asset('assets/datatables') }}/datatables.min.js"></script>
     <script>
-        // $(document).ready(function() {
-        //     $('#example').DataTable({
-        //     });
-        // });
+        tinymce.init({
+            selector: 'textarea',
+            plugins: [
+                // Core editing features
+                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+                // Your account includes a free trial of TinyMCE premium features
+                // Try the most popular premium features until Nov 13, 2024:
+                'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
+                // Early access to document converters
+                'importword', 'exportword', 'exportpdf'
+            ],
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+            exportpdf_converter_options: { 'format': 'Letter', 'margin_top': '1in', 'margin_right': '1in', 'margin_bottom': '1in', 'margin_left': '1in' },
+            exportword_converter_options: { 'document': { 'size': 'Letter' } },
+            importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline',	'defaults': 'inline', } },
+        });
+      </script>
+    <script>
+
 
         $(document).ready(function() {
+            function ubahValue(newValue) {
+                // Pastikan TinyMCE sudah siap dan bisa diubah
+                const editor = tinymce.get('laporan_rencana_kerja');
+                if (editor) {
+                    editor.setContent('<h4>Area Kerja : <b style="color:red;">' + newValue + '</b></h4>');
+                } else {
+                    console.error("TinyMCE tidak terinisialisasi dengan benar.");
+                }
+            }
             // Inisialisasi DataTable
             var table = $('#example').DataTable();
 

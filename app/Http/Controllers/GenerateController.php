@@ -12,28 +12,47 @@ use App\Models\Divisi;
 use App\Models\Laporan;
 use App\Models\Login;
 use App\Models\Periode;
+use App\Models\Area;
 
 class GenerateController extends Controller
 {
-    public function generate_laporan_hrd()
+    public function generate_area()
     {
-        $faker = Faker::create('id_ID');
-        $divisi_id = 2;
-
-        $laporan_rencana_kerja = $request->laporan_rencana_kerja;
-        $laporan_keterangan = $request->laporan_keterangan;
-        $laporan_presentasi_pencapaian = $request->laporan_presentasi_pencapaian;
-        $currentMonth = date('n');
-        $currentYear = date('Y');
-        $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();
-        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $periode->periode_bulan_int, $periode->periode_tahun);
-        $arrayTanggal =  [
-            false,
+        $array_area = [
+            'Crusher Baru',
+            'Crusher Lama to Mixer',
+            'J2 Tank',
+            'Thickener',
+            'Vaccum Filter',
+            'V-20109A dan Desalter',
+            'Tanki 6',
+            'Tanki 7',
+            'Distilasi',
+            'Packing',
+            'Lab',
+            'Boiler',
+            'WTP',
+            'RO Pabrik',
+            'Genset',
+            'Electric',
+            'Gudang',
+            'Gudang Gas',
+            'Workshop',
+            'Stockpile',
+            '304',
+            '305',
+            'Mixer',
         ];
-        for ($i=0; $i <= $daysInMonth; $i++) {
-            $arrayTanggal[$i] = in_array($i, $checkedDays) ? true : false;
+
+        foreach ($array_area as $areas) {
+            $area = new Area;
+            $save_area = $area->create([
+                'areakerja_lokasi' => $areas,
+                'areakerja_kode' => $areas,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            $save_area->save();
         }
-        $laporan_jumlah_hari = json_encode($arrayTanggal);
-        die;
     }
 }

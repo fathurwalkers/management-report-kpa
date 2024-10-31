@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FilingController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\GenerateController;
 use App\Http\Controllers\BackController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CekLogin;
@@ -41,3 +42,5 @@ Route::group(['prefix' => '/dashboard', 'middleware' => CekLogin::class], functi
 Route::group(['prefix' => '/archive', 'middleware' => CekLogin::class], function () {
     Route::get('/', [FilingController::class, 'index'])->name('files');
 });
+
+Route::get('/generate-area', [GenerateController::class, 'generate_area'])->name('generate-area');

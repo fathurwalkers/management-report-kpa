@@ -134,7 +134,7 @@ class LaporanController extends Controller
         }
         $laporan = new Laporan;
         $save_laporan = $laporan->create([
-            'laporan_rencana_kerja' => htmlspecialchars($laporan_rencana_kerja),
+            'laporan_rencana_kerja' => $laporan_rencana_kerja,
             'laporan_jumlah_hari' => $laporan_jumlah_hari,
             'laporan_presentasi_pencapaian' => $laporan_presentasi_pencapaian,
             'laporan_keterangan' => $laporan_keterangan,
