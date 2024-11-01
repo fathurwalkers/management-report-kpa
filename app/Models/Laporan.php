@@ -29,6 +29,11 @@ class Laporan extends Model
         return $this->belongsTo(Login::class);
     }
 
+    public function laporan_tujuan()
+    {
+        return $this->belongsTo(Login::class);
+    }
+
     public function periode()
     {
         return $this->belongsTo(Periode::class);
