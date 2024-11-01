@@ -41,7 +41,7 @@ class BackController extends Controller
             ]);
             return redirect()->route('home')->with('status', 'Berhasil mengubah password Akun.');
         } else {
-            die;
+            return redirect()->route('home')->with('status', 'Gagal Mengganti Password.');
         }
     }
 
