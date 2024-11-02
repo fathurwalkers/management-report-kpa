@@ -8,6 +8,7 @@ use App\Models\Divisi;
 use App\Models\Laporan;
 use App\Models\Login;
 use App\Models\Periode;
+use App\Models\Area;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -15,6 +16,7 @@ class LaporanController extends Controller
 {
     public function index($divisi_nama)
     {
+        $area = Area::all();
         $users = session('data_login');
         if ($users->divisi_id == 2) {
             $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
@@ -66,6 +68,7 @@ class LaporanController extends Controller
             'month' => $currentMonth,
             'reportCounts' => $reportCounts,
             'periode_sekarang' => $periode_sekarang,
+            'area' => $area,
         ]);
     }
 
@@ -108,6 +111,7 @@ class LaporanController extends Controller
 
     public function proses_laporan(Request $request)
     {
+        dd($request->areakerja);
         $users = session('data_login');
         $before_created_at = $request->created_at;
         $created_at = Carbon::createFromFormat('Y-m-d', $before_created_at);

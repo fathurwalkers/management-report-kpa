@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('laporan_keterangan')->nullable();
             $table->string('laporan_status')->nullable();
 
+            $table->unsignedBigInteger('area_id')->nullable()->default(null);
+            $table->foreign('area_id')->references('id')->on('area')->onDelete('cascade');
+
             $table->unsignedBigInteger('divisi_id')->nullable()->default(null);
             $table->foreign('divisi_id')->references('id')->on('divisi')->onDelete('cascade');
 

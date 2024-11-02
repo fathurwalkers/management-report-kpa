@@ -49,7 +49,7 @@
                 <form action="{{ route('post-login') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="username" class="form-control" placeholder="Username" name="login_username">
+                        <input type="username" class="form-control" placeholder="Username" name="login_username" autofocus oninput="this.value = this.value.toUpperCase()" maxlength="8">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>

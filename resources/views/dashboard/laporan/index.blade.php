@@ -243,31 +243,31 @@
                     <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST">
                         @csrf
 
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="mt-1 mb-1">
-                                    <button type="button" class="btn btn-primary" onClick="ubahValue('Crusher Lama')">Tombol 1</button>
-                                    <button type="button" class="btn btn-primary" onClick="ubahValue('Crusher Sedang')">Tombol 2</button>
-                                    <button type="button" class="btn btn-primary" onClick="ubahValue('Crusher Mini')">Tombol 3</button>
+                                    <label for="areakerja">Area Kerja : <span id="areakerjaspan">Tidak Ada</span> </label>
+                                    <div id="areakerja" class="">
+                                        <input type="hidden" name="areakerja" value="" id="hiddenInput">
+                                        @foreach ($area as $aresss)
+                                        <button type="button" class="btn btn-primary mr-1 mb-1" onclick="setValue('{{ $aresss->areakerja_lokasi }}')">
+                                            {{ $aresss->areakerja_lokasi }}
+                                        </button>
+                                    @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+
+                        <hr />
+
+                        <div class="row mb-1">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="laporan_rencana_kerja">Rencana Kerja</label>
                                     <textarea id="laporan_rencana_kerja" class="form-control"
                                     name="laporan_rencana_kerja">
-                                    <h4>
-                                        Area Kerja :
-                                        <b id="areakerja" style="color:red;">
-                                            Crusher Baru
-                                        </b>
-                                    </h4>
-                                    <br />
-                                    <div class="editable-class">
-                                        {{-- Code Here... --}}
-                                    </div>
+                                    Silahkan mengetikkan laporan anda disini...
                                     </textarea>
                                 {{-- <input type="text" class="form-control" id="laporan_rencana_kerja"
                                     name="laporan_rencana_kerja" > --}}
@@ -275,7 +275,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-sm-4 col-md-4 col-lg-4">
                                 <div class="form-group">
                                     <label for="laporan_keterangan">Keterangan</label>
@@ -299,7 +299,9 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <hr />
+
+                        <div class="row mb-2">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <label for="">Pilih Tanggal Kerja</label>
 
@@ -326,7 +328,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row mb-1 mt-2">
                             <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-info" data-toggle="modal" data-target="">
                                     Upload Data
@@ -495,7 +497,7 @@
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
-                                                                <form id="laporan-form"
+                                                                <form id="laporan-form{{ $lp->id }}"
                                                                     action="{{ route('edit-laporan') }}" method="POST">
                                                                     @csrf
                                                                     <div class="modal-body">
@@ -508,7 +510,7 @@
                                                                                             for="laporan_keterangan">Keterangan</label>
                                                                                         <input type="text"
                                                                                             class="form-control"
-                                                                                            id="laporan_keterangan"
+                                                                                            id="laporan_keterangan{{ $lp->id }}"
                                                                                             name="laporan_keterangan"
                                                                                             value="{{ $lp->laporan_keterangan }}"
                                                                                             >
@@ -522,7 +524,7 @@
                                                                                         </label>
                                                                                         <input type="number"
                                                                                             class="form-control"
-                                                                                            id="laporan_presentasi_pencapaian"
+                                                                                            id="laporan_presentasi_pencapaian{{ $lp->id }}"
                                                                                             name="laporan_presentasi_pencapaian"
                                                                                             value="{{ $lp->laporan_presentasi_pencapaian }}"
                                                                                             >
@@ -534,7 +536,7 @@
                                                                                             Kegiatan</label>
                                                                                         <input type="date"
                                                                                             class="form-control"
-                                                                                            id="created_at"
+                                                                                            id="created_at{{ $lp->id }}"
                                                                                             name="created_at"
                                                                                             value="{{ $lp->created_at->format('Y-m-d') }}"
                                                                                             >
@@ -549,7 +551,7 @@
                                                                                         </label>
                                                                                         <input type="text"
                                                                                             class="form-control"
-                                                                                            id="laporan_rencana_kerja"
+                                                                                            id="laporan_rencana_kerja{{ $lp->id }}"
                                                                                             name="laporan_rencana_kerja"
                                                                                             value="{{ $lp->laporan_rencana_kerja }}"
                                                                                             >
@@ -708,12 +710,8 @@
         tinymce.init({
             selector: 'textarea',
             plugins: [
-                // Core editing features
                 'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                // Your account includes a free trial of TinyMCE premium features
-                // Try the most popular premium features until Nov 13, 2024:
                 'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
-                // Early access to document converters
                 'importword', 'exportword', 'exportpdf'
             ],
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
@@ -730,43 +728,21 @@
         });
       </script>
     <script>
-
-
-        $(document).ready(function() {
-            function ubahValue(newValue) {
-                // Pastikan TinyMCE sudah siap dan bisa diubah
-                const editor = tinymce.get('laporan_rencana_kerja');
-                if (editor) {
-                    editor.setContent('<h4>Area Kerja : <b style="color:red;">' + newValue + '</b></h4>');
-                } else {
-                    console.error("TinyMCE tidak terinisialisasi dengan benar.");
-                }
-            }
-            // Inisialisasi DataTable
-            var table = $('#example').DataTable();
-
-            // Event listener untuk dropdown bulan
-            $('#filter-bulan').on('change', function() {
-                var bulan = $(this)
-            .val(); // Dapatkan nilai dari dropdown (misalnya: "2024-11" untuk November 2024)
-
-                // Terapkan filter global pada seluruh tabel
-                table.search(bulan).draw(); // Mencari nilai bulan di seluruh tabel
-            });
-        });
+        function setValue(value) {
+            // Set the value of the hidden input
+            document.getElementById("hiddenInput").value = value;
+            // Update the display text for feedback
+            document.getElementById("areakerjaspan").innerHTML = " " + value + " ";
+        }
 
         $(document).ready(function() {
             $('.ubah-button').on('click', function() {
-                // Ambil data JSON dari atribut data-jumlah-hari
                 var id = $(this).data('id');
-                var jumlahHariJson = $(this).attr(
-                    'data-jumlah-hari'); // JSON yang berupa "[false, true, ...]"
-                var jumlahHariArray = JSON.parse(jumlahHariJson); // Konversi ke array boolean
+                var jumlahHariJson = $(this).attr('data-jumlah-hari');
+                var jumlahHariArray = JSON.parse(jumlahHariJson);
 
-                // Pastikan jumlah data valid, yaitu 31 hari
                 if (jumlahHariArray.length === 31) {
                     for (var i = 1; i <= 31; i++) {
-                        // Set setiap checkbox berdasarkan nilai dari array jumlahHariArray
                         $('#day' + i + '-' + id).prop('checked', jumlahHariArray[i - 1]);
                     }
                 } else {
@@ -778,38 +754,33 @@
     <script>
         $(document).ready(function() {
             var reportCounts = {!! json_encode($reportCounts) !!};
+            var minValue = Math.min(...reportCounts);
+            var maxValue = Math.max(...reportCounts);
 
-            // Dapatkan nilai tertinggi dan terendah dari reportCounts
-            var minValue = Math.min(...reportCounts); // Nilai terendah
-            var maxValue = Math.max(...reportCounts); // Nilai tertinggi
-
-            // Fungsi untuk memberikan warna berdasarkan nilai
             function getBarColor(value) {
-                if (value === minValue) { // Jika nilai adalah yang terendah, beri warna merah
+                if (value === minValue) {
                     return 'rgba(255, 99, 132, 0.8)';
-                } else if (value === maxValue) { // Jika nilai adalah yang tertinggi, beri warna hijau
+                } else if (value === maxValue) {
                     return 'rgba(102, 255, 0, 0.8)';
-                } else { // Jika nilai di antara terendah dan tertinggi, beri warna biru
+                } else {
                     return 'rgba(54, 162, 235, 0.8)';
                 }
             }
 
-            // Buat array warna berdasarkan data laporan
             var backgroundColors = reportCounts.map(function(value) {
                 return getBarColor(value);
             });
-
             var ctx = document.getElementById('monthlyPerformanceChart').getContext('2d');
             var monthlyPerformanceChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: {!! json_encode($dates) !!}, // Tanggal laporan
+                    labels: {!! json_encode($dates) !!},
                     datasets: [{
                         label: 'Jumlah Laporan',
-                        data: reportCounts, // Jumlah laporan harian
-                        backgroundColor: backgroundColors, // Warna batang berdasarkan nilai laporan
+                        data: reportCounts,
+                        backgroundColor: backgroundColors,
                         borderColor: backgroundColors.map(color => color.replace('0.8',
-                            '1')), // Warna border dengan opacity penuh
+                            '1')),
                         borderWidth: 1
                     }]
                 },
