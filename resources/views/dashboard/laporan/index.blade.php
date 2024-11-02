@@ -128,9 +128,9 @@
                         <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST">
                             @csrf
 
-                            <div class="row mb-2">
+                            <div class="row mb-1">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <div class="mt-1 mb-1">
+                                    <div class="mt-1">
                                         @php
                                             $array_divisi_office = [
                                                 2, 3, 4, 5, 8, 9
@@ -182,9 +182,17 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row mt-2">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group">
+                                        <p>
+                                            <b>
+                                                <span style="color:red;">
+                                                    * NOTE :
+                                                </span>
+                                            </b>
+                                            Klik pada kotak Checkbox jika anda ingin membuat Laporan ini hanya ditujukan pada User tertentu saja.
+                                        </p>
                                         <input type="checkbox" id="toggleLaporanTujuan" />
                                         <label for="toggleLaporanTujuan">Pilih User untuk Laporan Tujuan</label>
                                     </div>
@@ -311,9 +319,9 @@
                     <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST">
                         @csrf
 
-                        <div class="row mb-2">
+                        <div class="row mb-1">
                             <div class="col-sm-12 col-md-12 col-lg-12">
-                                <div class="mt-1 mb-1">
+                                <div class="mt-1">
                                     @php
                                         $array_divisi_office = [
                                             2, 3, 4, 5, 8, 9
@@ -368,6 +376,14 @@
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
+                                    <p>
+                                        <b>
+                                            <span style="color:red;">
+                                                * NOTE :
+                                            </span>
+                                        </b>
+                                        Klik pada kotak Checkbox jika anda ingin membuat Laporan ini hanya ditujukan pada User tertentu saja.
+                                    </p>
                                     <input type="checkbox" id="toggleLaporanTujuan" />
                                     <label for="toggleLaporanTujuan">Pilih User untuk Laporan Tujuan</label>
                                 </div>
