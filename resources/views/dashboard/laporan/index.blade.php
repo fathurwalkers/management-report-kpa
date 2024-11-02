@@ -182,6 +182,25 @@
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <input type="checkbox" id="toggleLaporanTujuan" />
+                                        <label for="toggleLaporanTujuan">Pilih User untuk Laporan Tujuan</label>
+                                    </div>
+
+                                    <div class="form-group" id="laporanTujuanRow" style="display: none;">
+                                        <label for="laporan_tujuan">Pilih User</label>
+                                        <select name="laporan_tujuan" id="laporan_tujuan" class="form-control">
+                                            <option value="">-- Pilih User --</option>
+                                            @foreach($logins as $login)
+                                                <option value="{{ $login->id }}">{{ $login->login_nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row mb-1">
                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
@@ -342,6 +361,25 @@
                                     </textarea>
                                 {{-- <input type="text" class="form-control" id="laporan_rencana_kerja"
                                     name="laporan_rencana_kerja" > --}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <input type="checkbox" id="toggleLaporanTujuan" />
+                                    <label for="toggleLaporanTujuan">Pilih User untuk Laporan Tujuan</label>
+                                </div>
+
+                                <div class="form-group" id="laporanTujuanRow" style="display: none;">
+                                    <label for="laporan_tujuan">Pilih User</label>
+                                    <select name="laporan_tujuan" id="laporan_tujuan" class="form-control">
+                                        <option value="">-- Pilih User --</option>
+                                        @foreach($logins as $login)
+                                            <option value="{{ $login->id }}">{{ $login->login_nama }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -514,7 +552,13 @@
                                             <b>{{ strtoupper($lp->divisi->divisi_nama) }}</b>
                                         </td>
                                         @if (in_array($users->divisi_id, $array_divisi_lain))
-                                            <td class="text-center">{{ $lp->area->areakerja_lokasi }}</td>
+                                            <td class="text-center">
+                                                @if ($lp->area_id === null)
+                                                    Tidak Ada
+                                                @else
+                                                    {{ $lp->area->areakerja_lokasi }}
+                                                @endif
+                                            </td>
                                         @endif
                                         <td>{{ $lp->login->login_nama }}</td>
                                         <td class="">{!! $lp->laporan_rencana_kerja !!}</td>
@@ -841,6 +885,15 @@
                     }
                 } else {
                     console.error("Data hari tidak valid untuk laporan dengan ID " + id);
+                }
+            });
+
+            document.getElementById('toggleLaporanTujuan').addEventListener('change', function() {
+                var laporanTujuanRow = document.getElementById('laporanTujuanRow');
+                if (this.checked) {
+                    laporanTujuanRow.style.display = 'block';
+                } else {
+                    laporanTujuanRow.style.display = 'none';
                 }
             });
         });

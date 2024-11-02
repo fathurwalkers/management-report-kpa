@@ -35,6 +35,20 @@ class LaporanController extends Controller
             $get_divisi = Divisi::where('id', $users->divisi_id)->first();
             $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
         }
+        $laporan_tambahan = Laporan::where('laporan_tujuan', $users->id)->get();
+        $laporan = $laporan->merge($laporan_tambahan);
+
+        // Filter untuk hanya menampilkan laporan yang relevan
+        $laporan = $laporan->filter(function ($laporanItem) use ($users) {
+            // Tampilkan laporan yang dibuat oleh user atau yang ditujukan kepadanya
+            return $laporanItem->login_id === $users->id || $laporanItem->laporan_tujuan === $users->id;
+        });
+        $laporan = $laporan->values();
+
+        // $laporan_tambahan = Laporan::where('laporan_tujuan', $users->id)->get();
+        // $laporan = $laporan->merge($laporan_tambahan);
+        // dd($laporan);
+
         $currentMonth = date('n');
         $currentYear = date('Y');
         $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();
@@ -57,8 +71,10 @@ class LaporanController extends Controller
             $reportCounts[] = $report->total;
         }
         $periode_sekarang = DashboardController::getBulanIndonesia(intval($currentMonth));
+        $logins = Login::all();
         return view('dashboard.laporan.index', [
             'laporan' => $laporan,
+            'logins' => $logins,
             'users' => $users,
             'divisi' => $get_divisi,
             'divisi_nama' => $get_divisi->divisi_nama,
@@ -115,7 +131,22 @@ class LaporanController extends Controller
 
     public function proses_laporan(Request $request)
     {
-        $areakerja = Area::where('areakerja_lokasi', $request->areakerja)->first();
+        $laporan_tujuan_request = $request->laporan_tujuan;
+        if ($laporan_tujuan_request == null) {
+            $laporan_tujuan = null;
+        } else {
+            $convert_int_laporan_tujuan = intval($laporan_tujuan_request);
+            $laporan_tujuan_query = Login::find($convert_int_laporan_tujuan);
+            $laporan_tujuan_hasil = $laporan_tujuan_query->id;
+            $laporan_tujuan = $laporan_tujuan_hasil;
+        }
+        $areakerjaquery = Area::where('areakerja_lokasi', $request->areakerja)->first();
+        if ($areakerjaquery !== null) {
+            $areakerja = $areakerjaquery->id;
+        } else {
+            $areakerja = null;
+        }
+        // dd($areakerja);
         $users = session('data_login');
         $before_created_at_tanggal = $request->created_at_tanggal;
         $before_created_at_waktu = $request->created_at_waktu;
@@ -148,8 +179,8 @@ class LaporanController extends Controller
             'laporan_presentasi_pencapaian' => $laporan_presentasi_pencapaian,
             'laporan_keterangan' => $laporan_keterangan,
             'laporan_status' => $laporan_status,
-            'area_id' => $areakerja->id,
-            'laporan_tujuan' => NULL,
+            'area_id' => $areakerja,
+            'laporan_tujuan' => $laporan_tujuan,
             'divisi_id' => $users->divisi_id,
             'login_id' => $users->id,
             'periode_id' => $created_at->month,
