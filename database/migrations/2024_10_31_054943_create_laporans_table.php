@@ -20,6 +20,9 @@ return new class extends Migration
             $table->unsignedBigInteger('area_id')->nullable()->default(null);
             $table->foreign('area_id')->references('id')->on('area')->onDelete('cascade');
 
+            $table->unsignedBigInteger('laporan_tujuan')->nullable()->default(null);
+            $table->foreign('laporan_tujuan')->references('id')->on('login')->onDelete('cascade');
+
             $table->unsignedBigInteger('divisi_id')->nullable()->default(null);
             $table->foreign('divisi_id')->references('id')->on('divisi')->onDelete('cascade');
 

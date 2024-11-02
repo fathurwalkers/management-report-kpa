@@ -90,14 +90,18 @@ class LaporanController extends Controller
         $laporan_id = $request->input('laporan_id');
         $divisi_nama = $request->input('divisi_nama');
         $laporan = Laporan::find($laporan_id);
-        if ($laporan) {
-            $laporan->update([
-                'laporan_status' => "SETUJU",
-                'updated_at' => now()
-            ]);
-            return redirect()->route('laporan', $divisi_nama)->with('status', 'Berhasil konfirmasi Data Laporan!');
+        if ($laporan->laporan_presentasi_pencapaian !== 100) {
+            return redirect()->route('laporan', $divisi_nama)->with('status', 'Presentasi Laporan yang tidak sampai 100% tidak dapat disetujui, karena belum selesainya rencana kerja!');
         } else {
-            return redirect()->route('laporan')->with('status', 'Gagal konfirmasi Data Laporan!');
+            if ($laporan) {
+                $laporan->update([
+                    'laporan_status' => "SETUJU",
+                    'updated_at' => now()
+                ]);
+                return redirect()->route('laporan', $divisi_nama)->with('status', 'Berhasil konfirmasi Data Laporan!');
+            } else {
+                return redirect()->route('laporan')->with('status', 'Gagal konfirmasi Data Laporan!');
+            }
         }
     }
 
@@ -111,10 +115,11 @@ class LaporanController extends Controller
 
     public function proses_laporan(Request $request)
     {
-        dd($request->areakerja);
+        $areakerja = Area::where('areakerja_lokasi', $request->areakerja)->first();
         $users = session('data_login');
-        $before_created_at = $request->created_at;
-        $created_at = Carbon::createFromFormat('Y-m-d', $before_created_at);
+        $before_created_at_tanggal = $request->created_at_tanggal;
+        $before_created_at_waktu = $request->created_at_waktu;
+        $created_at = Carbon::createFromFormat('Y-m-d H:i', $before_created_at_tanggal . ' ' . $before_created_at_waktu);
         $checkedDays = $request->laporan_jumlah_hari;
         $laporan_rencana_kerja = $request->laporan_rencana_kerja;
         $laporan_keterangan = $request->laporan_keterangan;
@@ -143,6 +148,8 @@ class LaporanController extends Controller
             'laporan_presentasi_pencapaian' => $laporan_presentasi_pencapaian,
             'laporan_keterangan' => $laporan_keterangan,
             'laporan_status' => $laporan_status,
+            'area_id' => $areakerja->id,
+            'laporan_tujuan' => NULL,
             'divisi_id' => $users->divisi_id,
             'login_id' => $users->id,
             'periode_id' => $created_at->month,

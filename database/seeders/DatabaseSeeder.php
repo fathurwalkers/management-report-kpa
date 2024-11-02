@@ -91,6 +91,7 @@ class DatabaseSeeder extends Seeder
             '304',
             '305',
             'Mixer',
+            'Office',
         ];
 
         foreach ($array_area as $areas) {

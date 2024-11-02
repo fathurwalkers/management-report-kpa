@@ -39,6 +39,7 @@
             border-color: white;
             color: white;
         }
+
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -127,44 +128,92 @@
                         <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST">
                             @csrf
 
-                            <div class="row">
+                            <div class="row mb-2">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group">
-                                        <label for="laporan_rencana_kerja">Rencana Kerja</label>
-                                        <textarea id="laporan_rencana_kerja" cols="1" rows="4" class="form-control"
-                                        name="laporan_rencana_kerja">
-                                        </textarea>
-                                        {{-- <input type="text" class="form-control" id="laporan_rencana_kerja"
-                                            name="laporan_rencana_kerja" > --}}
+                                    <div class="mt-1 mb-1">
+                                        @php
+                                            $array_divisi_office = [
+                                                2, 3, 4, 5, 8, 9
+                                            ];
+                                            $array_divisi_lain = [
+                                                1, 6, 7, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25
+                                            ];
+                                        @endphp
+                                        <label for="areakerja">
+                                            Area Kerja :
+                                            <span id="areakerjaspan">
+                                                @if (in_array($users->divisi_id, $array_divisi_office))
+                                                    Office
+                                                @endif
+                                            </span>
+                                        </label>
+                                        <div id="areakerja" class="">
+                                            @switch(true)
+                                                @case(in_array($users->divisi_id, $array_divisi_office))
+                                                    <input type="hidden" name="areakerja" value="24" id="hiddenInput">
+                                                    @break
+                                                @case(in_array($users->divisi_id, $array_divisi_lain))
+                                                    <input type="hidden" name="areakerja" value="" id="hiddenInput">
+                                                    @foreach ($area as $aresss)
+                                                        <button type="button" class="btn btn-primary mr-1 mb-1" onclick="setValue('{{ $aresss->areakerja_lokasi }}')">
+                                                            {{ $aresss->areakerja_lokasi }}
+                                                        </button>
+                                                    @endforeach
+                                                    @break
+                                            @endswitch
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-4 col-md-4 col-lg-4">
+                            <hr />
+
+                            <div class="row mb-1">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="laporan_rencana_kerja">Rencana Kerja</label>
+                                        <textarea id="laporan_rencana_kerja" class="form-control"
+                                        name="laporan_rencana_kerja">
+                                        Silahkan mengetikkan laporan anda disini...
+                                        </textarea>
+                                    {{-- <input type="text" class="form-control" id="laporan_rencana_kerja"
+                                        name="laporan_rencana_kerja" > --}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-1">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label for="laporan_keterangan">Keterangan</label>
                                         <input type="text" class="form-control" id="laporan_keterangan"
-                                            name="laporan_keterangan" >
+                                            name="laporan_keterangan">
                                     </div>
                                 </div>
-                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
                                         <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
                                             name="laporan_presentasi_pencapaian" >
                                     </div>
                                 </div>
-                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
-                                        <label for="created_at">Tgl/Waktu Kegiatan</label>
-                                        <input type="date" class="form-control" id="created_at" name="created_at"
-                                            >
+                                        <label for="created_at_waktu">Tanggal Kegiatan</label>
+                                        <input type="date" class="form-control" id="created_at_tanggal" name="created_at_tanggal">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="created_at_waktu">Waktu Kegiatan</label>
+                                        <input type="time" class="form-control" id="created_at_waktu" name="created_at_waktu">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <hr />
+
+                            <div class="row mb-2">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <label for="">Pilih Tanggal Kerja</label>
 
@@ -191,7 +240,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row mb-1 mt-2">
                                 <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-info" data-toggle="modal" data-target="">
                                         Upload Data
@@ -246,14 +295,36 @@
                         <div class="row mb-2">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="mt-1 mb-1">
-                                    <label for="areakerja">Area Kerja : <span id="areakerjaspan">Tidak Ada</span> </label>
+                                    @php
+                                        $array_divisi_office = [
+                                            2, 3, 4, 5, 8, 9
+                                        ];
+                                        $array_divisi_lain = [
+                                            1, 6, 7, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25
+                                        ];
+                                    @endphp
+                                    <label for="areakerja">
+                                        Area Kerja :
+                                        <span id="areakerjaspan">
+                                            @if (in_array($users->divisi_id, $array_divisi_office))
+                                                Office
+                                            @endif
+                                        </span>
+                                    </label>
                                     <div id="areakerja" class="">
-                                        <input type="hidden" name="areakerja" value="" id="hiddenInput">
-                                        @foreach ($area as $aresss)
-                                        <button type="button" class="btn btn-primary mr-1 mb-1" onclick="setValue('{{ $aresss->areakerja_lokasi }}')">
-                                            {{ $aresss->areakerja_lokasi }}
-                                        </button>
-                                    @endforeach
+                                        @switch(true)
+                                            @case(in_array($users->divisi_id, $array_divisi_office))
+                                                <input type="hidden" name="areakerja" value="24" id="hiddenInput">
+                                                @break
+                                            @case(in_array($users->divisi_id, $array_divisi_lain))
+                                                <input type="hidden" name="areakerja" value="" id="hiddenInput">
+                                                @foreach ($area as $aresss)
+                                                    <button type="button" class="btn btn-primary mr-1 mb-1" onclick="setValue('{{ $aresss->areakerja_lokasi }}')">
+                                                        {{ $aresss->areakerja_lokasi }}
+                                                    </button>
+                                                @endforeach
+                                                @break
+                                        @endswitch
                                     </div>
                                 </div>
                             </div>
@@ -276,25 +347,30 @@
                         </div>
 
                         <div class="row mb-1">
-                            <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     <label for="laporan_keterangan">Keterangan</label>
                                     <input type="text" class="form-control" id="laporan_keterangan"
                                         name="laporan_keterangan">
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
                                     <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
                                         name="laporan_presentasi_pencapaian" >
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
-                                    <label for="created_at">Tgl/Waktu Kegiatan</label>
-                                    <input type="date" class="form-control" id="created_at" name="created_at"
-                                        >
+                                    <label for="created_at_waktu">Tanggal Kegiatan</label>
+                                    <input type="date" class="form-control" id="created_at_tanggal" name="created_at_tanggal">
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    <label for="created_at_waktu">Waktu Kegiatan</label>
+                                    <input type="time" class="form-control" id="created_at_waktu" name="created_at_waktu">
                                 </div>
                             </div>
                         </div>
@@ -401,12 +477,23 @@
                 </div>
                 <hr />
                 <div class="row">
-                    <div class="table-responsive">
-                        <table id="example" class="display table-bordered" style="width:100%">
+                    <div class="table-light table-responsive">
+                        <table id="example" class="display table-bordered nowrap" style="width:100%">
+                            @php
+                                $array_divisi_office = [
+                                    2, 3, 4, 5, 8, 9
+                                ];
+                                $array_divisi_lain = [
+                                    1, 6, 7, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25
+                                ];
+                            @endphp
                             <thead class="thead-dark">
                                 <tr>
                                     <th>No.</th>
                                     <th>Divisi</th>
+                                    @if (in_array($users->divisi_id, $array_divisi_lain))
+                                        <th>Area Kerja</th>
+                                    @endif
                                     <th>Nama Penginput</th>
                                     <th>Rencana Kerja</th>
                                     <th>Presentasi Pencapaian</th>
@@ -423,15 +510,20 @@
                                 @foreach ($laporan as $lp)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td class="text-center">{{ $lp->divisi->divisi_nama }}</td>
+                                        <td class="text-center">
+                                            <b>{{ strtoupper($lp->divisi->divisi_nama) }}</b>
+                                        </td>
+                                        @if (in_array($users->divisi_id, $array_divisi_lain))
+                                            <td class="text-center">{{ $lp->area->areakerja_lokasi }}</td>
+                                        @endif
                                         <td>{{ $lp->login->login_nama }}</td>
-                                        <td>{{ $lp->laporan_rencana_kerja }}</td>
-                                        <td class="text-center">{{ $lp->laporan_presentasi_pencapaian }}</td>
+                                        <td class="">{!! $lp->laporan_rencana_kerja !!}</td>
+                                        <td class="text-center">{{ $lp->laporan_presentasi_pencapaian }}%</td>
                                         <td class="text-center">{{ $lp->laporan_keterangan }}</td>
                                         <td>{{ $lp->created_at }}</td>
                                         @if ($users->divisi_id !== 26)
                                             <td class="">
-                                                <div class="row">
+                                                <div class="row mx-auto">
                                                     <div class="col-sm-12 col-md-12 col-lg-12 mx-auto btn-group">
                                                         @switch($lp->laporan_status)
                                                             @case('PENDING')
@@ -736,6 +828,8 @@
         }
 
         $(document).ready(function() {
+            $('#example').DataTable({});
+
             $('.ubah-button').on('click', function() {
                 var id = $(this).data('id');
                 var jumlahHariJson = $(this).attr('data-jumlah-hari');
