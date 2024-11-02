@@ -36,21 +36,17 @@ class LaporanController extends Controller
             $get_divisi = Divisi::where('id', $users->divisi_id)->first();
             $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
         }
-
         $laporan_tambahan = Laporan::where('laporan_tujuan', $users->id)->get();
         $laporan = $laporan->merge($laporan_tambahan);
-
         $laporan_cari = $laporan->where('laporan_tujuan', '!==', $users->id)
         ->where('login_id', '!==', $users->id)
         ->where('laporan_tujuan', '!==', NULL);
-
         foreach ($laporan_cari as $lapo) {
             $laporan_get = $laporan->where('id', $lapo->id)->first();
             if($laporan_get == true) {
                 $laporan = $laporan->reject($lapo);
             }
         }
-
         $currentMonth = date('n');
         $currentYear = date('Y');
         $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();
@@ -142,14 +138,12 @@ class LaporanController extends Controller
             $laporan_tujuan_hasil = $laporan_tujuan_query->id;
             $laporan_tujuan = $laporan_tujuan_hasil;
         }
-        // dd($laporan_tujuan);
         $areakerjaquery = Area::where('areakerja_lokasi', $request->areakerja)->first();
         if ($areakerjaquery !== null) {
             $areakerja = $areakerjaquery->id;
         } else {
             $areakerja = null;
         }
-        // dd($areakerja);
         $users = session('data_login');
         $before_created_at_tanggal = $request->created_at_tanggal;
         $before_created_at_waktu = $request->created_at_waktu;
