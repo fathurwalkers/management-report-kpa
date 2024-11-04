@@ -41,11 +41,11 @@ class LaporanController extends Controller
         $laporan_tambahan = Laporan::where('laporan_tujuan', $users->id)->get();
         $laporan = $laporan->merge($laporan_tambahan);
         $laporan_cari = $laporan->where('laporan_tujuan', '!==', $users->id)
-        ->where('login_id', '!==', $users->id)
-        ->where('laporan_tujuan', '!==', NULL);
+            ->where('login_id', '!==', $users->id)
+            ->where('laporan_tujuan', '!==', NULL);
         foreach ($laporan_cari as $lapo) {
             $laporan_get = $laporan->where('id', $lapo->id)->first();
-            if($laporan_get == true) {
+            if ($laporan_get == true) {
                 $laporan = $laporan->reject($lapo);
             }
         }
