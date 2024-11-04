@@ -14,6 +14,8 @@ use App\Models\Login;
 use App\Models\Divisi;
 use App\Models\Periode;
 use App\Models\Laporan;
+use App\Models\Folder;
+use App\Models\File;
 use App\Models\Area;
 
 class DatabaseSeeder extends Seeder
@@ -227,6 +229,22 @@ class DatabaseSeeder extends Seeder
                 'login_jabatan' => $insert["Div"],
                 'login_status' => "verified",
                 'divisi_id' => intval($insert["Jabatan"]),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
+
+        $ambil_divisi = Divisi::all();
+        foreach ($ambil_divisi as $divs) {
+            $folder_keterangan = "Folder Dokumen dan Laporan Divisi " . $divs->divisi_nama;
+            $folder_kode = "KPA-DOC-00" . $divs->id;
+            $folder_status = "AKTIF";
+            Folder::create([
+                'folder_nama' => $divs->divisi_nama,
+                'folder_keterangan' => $folder_keterangan,
+                'folder_kode' => $folder_kode,
+                'folder_status' => $folder_status,
+                'divisi_id' => $divs->id,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

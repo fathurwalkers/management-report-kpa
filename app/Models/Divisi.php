@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Laporan;
+use App\Models\Folder;
 
 class Divisi extends Model
 {
@@ -21,5 +22,10 @@ class Divisi extends Model
     public function laporan()
     {
         return $this->hasMany(Laporan::class);
+    }
+
+    public function folder()
+    {
+        return $this->hasMany(Folder::class);
     }
 }

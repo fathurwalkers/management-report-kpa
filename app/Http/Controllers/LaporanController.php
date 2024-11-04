@@ -184,6 +184,20 @@ class LaporanController extends Controller
             'created_at' => $created_at,
             'updated_at' => now()
         ]);
+
+        $laporan_id_baru = $save_laporan->id;
+        $laporan_file = $request->laporan_file;
+
+        foreach ($laporan_file as $files) {
+            dump($laporan_id_baru);
+            dump($files->getClientOriginalName());
+            dump($files->getClientOriginalExtension());
+            echo "<br />";
+            echo "<br />==================================";
+        }
+
+        die;
+
         $save_laporan->save();
         return redirect()->route('laporan', [$users->divisi->divisi_nama])->with('status', 'Berhasil membuat data laporan!');
     }

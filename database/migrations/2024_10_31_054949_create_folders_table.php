@@ -19,9 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('divisi_id')->nullable()->default(null);
             $table->foreign('divisi_id')->references('id')->on('divisi')->onDelete('cascade');
 
-            $table->unsignedBigInteger('periode_id')->nullable()->default(null);
-            $table->foreign('periode_id')->references('id')->on('periode')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Laporan;
 use App\Models\Divisi;
+use App\Models\File;
 
 class Login extends Model
 {
@@ -22,5 +23,9 @@ class Login extends Model
     public function laporan()
     {
         return $this->hasMany(Laporan::class);
+    }
+    public function file()
+    {
+        return $this->hasMany(File::class);
     }
 }

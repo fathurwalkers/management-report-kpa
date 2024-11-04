@@ -125,7 +125,7 @@
                         @endif
                         <div id="success-message" style="display:none;" class="alert alert-success mt-3"></div>
 
-                        <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST">
+                        <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             <div class="row mb-1">
@@ -240,6 +240,16 @@
 
                             <hr />
 
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <button id="tambahDokumenBtn" class="btn btn-primary mb-3">Tambah Dokumen</button>
+                                </div>
+                            </div>
+
+                            <div id="formContainer"></div>
+
+                            <hr />
+
                             <div class="row mb-2">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <label for="">Pilih Tanggal Kerja</label>
@@ -316,7 +326,7 @@
                     @endif
                     <div id="success-message" style="display:none;" class="alert alert-success mt-3"></div>
 
-                    <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST">
+                    <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row mb-1">
@@ -428,6 +438,24 @@
                                 </div>
                             </div>
                         </div>
+
+                        <hr />
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <p>
+                                    <b>
+                                        <span style="color:red;">
+                                            * NOTE :
+                                        </span>
+                                    </b>
+                                    Tekan tombol "Tambah Dokumen" jika anda ingin melampirkan satu atau beberapa Dokumen pada Data Laporan ini.
+                                </p>
+                                <button type="button" id="tambahDokumenBtn" class="btn btn-primary mb-3">Tambah Dokumen</button>
+                            </div>
+                        </div>
+
+                        <div id="formContainer"></div>
 
                         <hr />
 
@@ -912,7 +940,34 @@
                     laporanTujuanRow.style.display = 'none';
                 }
             });
+
+            let fileIndex = 1;
+
+            // Menambahkan form input file secara dinamis
+            $('#tambahDokumenBtn').click(function() {
+                const formRow = `
+                    <div class="form-group row" id="rowFile${fileIndex}">
+                        <label for="laporan_file${fileIndex}" class="col-sm-2 col-form-label">Upload Dokumen</label>
+                        <div class="col-sm-8">
+                            <input type="file" name="laporan_file[]" id="laporan_file${fileIndex}" class="form-control-file">
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-danger btn-sm remove-file-btn">Hapus</button>
+                        </div>
+                    </div>
+                `;
+
+                // Menambahkan elemen form ke dalam container
+                $('#formContainer').append(formRow);
+                fileIndex++;
+            });
+
+            // Menghapus form input file menggunakan event delegation
+            $('#formContainer').on('click', '.remove-file-btn', function() {
+                $(this).closest('.form-group').remove();
+            });
         });
+
     </script>
     <script>
         $(document).ready(function() {
