@@ -187,13 +187,39 @@ class LaporanController extends Controller
 
         $laporan_id_baru = $save_laporan->id;
         $laporan_file = $request->laporan_file;
+        $divisi_id = $users->divisi->id;
+        $login_id = $users->id;
 
         foreach ($laporan_file as $files) {
             dump($laporan_id_baru);
             dump($files->getClientOriginalName());
             dump($files->getClientOriginalExtension());
-            echo "<br />";
-            echo "<br />==================================";
+
+            $ext_file = $files->getClientOriginalExtension();
+            $nama_file_baru = KOSONG???????
+
+            $array_dokumen = ["pdf", "doc", "docs", "xls", "xlss"];
+            $array_gambar = ["png", "jpg", "jpeg", "webp"];
+            if (in_array($ext_file, $array_dokumen)) {
+                $file_jenis = "Dokumen";
+            } elseif (in_array($ext_file, $array_gambar)) {
+                $file_jenis = "Gambar / Foto";
+            }
+
+            dd($file_jenis);
+
+            $folder = Folder::where('divisi_id', $divisi_id)->first();
+            $file_new = new File;
+            $save_file_new = $file_new->create([
+                'file_nama' => $nama_file_baru,
+                'file_extensi' => $ext_file,
+                'file_kode' => "FILES-" . $folder->folder_kode,
+                'file_jenis' => $ext_file,
+                'folder_id' => $folder->id,
+                'login_id' => $login_id,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
         }
 
         die;
