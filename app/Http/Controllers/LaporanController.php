@@ -178,6 +178,7 @@ class LaporanController extends Controller
             'laporan_presentasi_pencapaian' => $laporan_presentasi_pencapaian,
             'laporan_keterangan' => $laporan_keterangan,
             'laporan_status' => $laporan_status,
+            'laporan_file' => null,
             'area_id' => $areakerja,
             'laporan_tujuan' => $laporan_tujuan,
             'divisi_id' => $users->divisi_id,
@@ -192,41 +193,37 @@ class LaporanController extends Controller
         $divisi_id = $users->divisi->id;
         $login_id = $users->id;
 
-        foreach ($laporan_file as $files) {
-            dump($laporan_id_baru);
-            dump($files->getClientOriginalName());
-            dump($files->getClientOriginalExtension());
-
-            $ext_file = $files->getClientOriginalExtension();
-
-            $array_dokumen = ["pdf", "doc", "docs", "xls", "xlsx"];
-            $array_gambar = ["png", "jpg", "jpeg", "webp"];
-
-            if (in_array($ext_file, $array_dokumen)) {
-                $file_jenis = "Dokumen";
-            } elseif (in_array($ext_file, $array_gambar)) {
-                $file_jenis = "Gambar";
-            } else {
-                return redirect()->route('laporan', [$users->divisi->divisi_nama])
-                    ->with('status', 'Maaf, file Dokumen yang anda input tidak memenuhi syarat / tidak sesuai.');
+        if ($laporan_file !== null) {
+            foreach ($laporan_file as $files) {
+                $ext_file = $files->getClientOriginalExtension();
+                $array_dokumen = ["pdf", "doc", "docs", "xls", "xlsx"];
+                $array_gambar = ["png", "PNG", "jpg", "JPG", "jpeg", "JPEG", "webp"];
+                if (in_array($ext_file, $array_dokumen)) {
+                    $file_jenis = "Dokumen";
+                } elseif (in_array($ext_file, $array_gambar)) {
+                    $file_jenis = "Gambar";
+                } else {
+                    return redirect()->route('laporan', [$users->divisi->divisi_nama])
+                        ->with('status', 'Maaf, file Dokumen yang anda input tidak memenuhi syarat / tidak sesuai.');
+                }
+                $nama_file_baru = "FILES-" . $users->divisi->divisi_nama . "-" . $users->divisi->id . "-" . $files->getClientOriginalName() . "-KPA." . $ext_file;
+                $directory = $file_jenis . '/' . $users->divisi->divisi_nama;
+                $path = $files->storeAs($directory, $nama_file_baru, 'public');
+                $folder = Folder::where('divisi_id', $divisi_id)->first();
+                $file_new = new File;
+                $save_file_new = $file_new->create([
+                    'file_nama' => $nama_file_baru,
+                    'file_extensi' => $ext_file,
+                    'file_kode' => "FILES-" . $folder->folder_kode,
+                    'file_jenis' => $file_jenis,
+                    'file_path' => $path,
+                    'laporan_id' => $laporan_id_baru,
+                    'folder_id' => $folder->id,
+                    'login_id' => $login_id,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
             }
-            $nama_file_baru = "FILES-" . $users->divisi->divisi_nama . "-" . $users->divisi->id . "-" . $files->getClientOriginalName() . "-KPA." . $ext_file;
-            $directory = $file_jenis . '/' . $users->divisi->divisi_nama;
-            $path = $files->storeAs($directory, $nama_file_baru, 'public');
-            $folder = Folder::where('divisi_id', $divisi_id)->first();
-
-            $file_new = new File;
-            $save_file_new = $file_new->create([
-                'file_nama' => $nama_file_baru,
-                'file_extensi' => $ext_file,
-                'file_kode' => "FILES-" . $folder->folder_kode,
-                'file_jenis' => $file_jenis,
-                'laporan_id' => $laporan_id_baru,
-                'folder_id' => $folder->id,
-                'login_id' => $login_id,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
         }
         $save_laporan->save();
         return redirect()->route('laporan', [$users->divisi->divisi_nama])->with('status', 'Berhasil membuat data laporan!');

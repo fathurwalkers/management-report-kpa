@@ -242,7 +242,15 @@
 
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <button id="tambahDokumenBtn" class="btn btn-primary mb-3">Tambah Dokumen</button>
+                                    <p>
+                                        <b>
+                                            <span style="color:red;">
+                                                * NOTE :
+                                            </span>
+                                        </b>
+                                        Tekan tombol "Tambah Dokumen" jika anda ingin melampirkan satu atau beberapa Dokumen pada Data Laporan ini.
+                                    </p>
+                                    <button type="button" onclick="event.preventDefault()" id="tambahDokumenBtn" class="btn btn-primary mb-3">Tambah Dokumen</button>
                                 </div>
                             </div>
 
@@ -451,7 +459,7 @@
                                     </b>
                                     Tekan tombol "Tambah Dokumen" jika anda ingin melampirkan satu atau beberapa Dokumen pada Data Laporan ini.
                                 </p>
-                                <button type="button" id="tambahDokumenBtn" class="btn btn-primary mb-3">Tambah Dokumen</button>
+                                <button type="button" onclick="event.preventDefault()" id="tambahDokumenBtn" class="btn btn-primary mb-3">Tambah Dokumen</button>
                             </div>
                         </div>
 
@@ -605,7 +613,31 @@
                                             </td>
                                         @endif
                                         <td>{{ $lp->login->login_nama }}</td>
-                                        <td class="">{!! $lp->laporan_rencana_kerja !!}</td>
+                                        <td class="">
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                @php
+                                                    $file = \App\Models\File::where('laporan_id', $lp->id)->get();
+                                                    $array_dokumen = ["pdf", "doc", "docs", "xls", "xlsx"];
+                                                    $array_gambar = ["png", "PNG", "jpg", "JPG", "jpeg", "JPEG", "webp"];
+                                                @endphp
+                                                @if ($file->isNotEmpty())
+                                                    @foreach ($file as $ff)
+                                                    <button type="button" class="badge badge-sm badge-info" onclick="window.open('{{ route('file-preview', ['id' => $ff->id]) }}', '_blank')">
+                                                        @if (in_array($ff->file_extensi, $array_dokumen))
+                                                            Dokumen Terlampir <span style="color:green;">Lihat Lampiran</span>
+                                                        @elseif (in_array($ff->file_extensi, $array_gambar))
+                                                            Gambar Terlampir <span style="color:green;">Lihat Lampiran</span>
+                                                        @endif
+                                                        </button>
+                                                    @endforeach
+                                                @else
+
+                                                @endif
+                                            </div>
+                                            <div class="col-sm-8 col-md-8 col-lg-8">
+                                                {!! $lp->laporan_rencana_kerja !!}
+                                            </div>
+                                        </td>
                                         <td class="text-center">{{ $lp->laporan_presentasi_pencapaian }}%</td>
                                         <td class="text-center">{{ $lp->laporan_keterangan }}</td>
                                         <td>{{ $lp->created_at }}</td>
@@ -909,20 +941,20 @@
       </script>
     <script>
         function setValue(value) {
-            // Set the value of the hidden input
             document.getElementById("hiddenInput").value = value;
-            // Update the display text for feedback
             document.getElementById("areakerjaspan").innerHTML = " " + value + " ";
         }
 
         $(document).ready(function() {
-            $('#example').DataTable({});
-
+            var table = $('#example').DataTable({});
+            $('#filter-bulan').on('change', function() {
+                var selectedValue = $(this).val();
+                table.search(selectedValue).draw();
+            });
             $('.ubah-button').on('click', function() {
                 var id = $(this).data('id');
                 var jumlahHariJson = $(this).attr('data-jumlah-hari');
                 var jumlahHariArray = JSON.parse(jumlahHariJson);
-
                 if (jumlahHariArray.length === 31) {
                     for (var i = 1; i <= 31; i++) {
                         $('#day' + i + '-' + id).prop('checked', jumlahHariArray[i - 1]);
@@ -931,7 +963,6 @@
                     console.error("Data hari tidak valid untuk laporan dengan ID " + id);
                 }
             });
-
             document.getElementById('toggleLaporanTujuan').addEventListener('change', function() {
                 var laporanTujuanRow = document.getElementById('laporanTujuanRow');
                 if (this.checked) {
@@ -940,10 +971,7 @@
                     laporanTujuanRow.style.display = 'none';
                 }
             });
-
             let fileIndex = 1;
-
-            // Menambahkan form input file secara dinamis
             $('#tambahDokumenBtn').click(function() {
                 const formRow = `
                     <div class="form-group row" id="rowFile${fileIndex}">
@@ -956,13 +984,9 @@
                         </div>
                     </div>
                 `;
-
-                // Menambahkan elemen form ke dalam container
                 $('#formContainer').append(formRow);
                 fileIndex++;
             });
-
-            // Menghapus form input file menggunakan event delegation
             $('#formContainer').on('click', '.remove-file-btn', function() {
                 $(this).closest('.form-group').remove();
             });
@@ -974,7 +998,6 @@
             var reportCounts = {!! json_encode($reportCounts) !!};
             var minValue = Math.min(...reportCounts);
             var maxValue = Math.max(...reportCounts);
-
             function getBarColor(value) {
                 if (value === minValue) {
                     return 'rgba(255, 99, 132, 0.8)';
@@ -984,7 +1007,6 @@
                     return 'rgba(54, 162, 235, 0.8)';
                 }
             }
-
             var backgroundColors = reportCounts.map(function(value) {
                 return getBarColor(value);
             });

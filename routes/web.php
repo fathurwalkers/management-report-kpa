@@ -32,6 +32,8 @@ Route::post('/logout', [BackController::class, 'logout'])->name('logout');
 Route::group(['prefix' => '/dashboard', 'middleware' => CekLogin::class], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
 
+    Route::get('/file/preview/{id}', [FilingController::class, 'preview'])->name('file-preview');
+
     // Laporan Route
     Route::group(['prefix' => '/laporan'], function () {
         Route::get('/go/{divisi_nama}', [LaporanController::class, 'index'])->name('laporan');

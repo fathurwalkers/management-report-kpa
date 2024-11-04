@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('file_kode')->nullable();
             $table->string('file_jenis')->nullable();
             $table->string('file_status')->nullable();
+            $table->string('file_path')->nullable();
 
             $table->unsignedBigInteger('laporan_id')->nullable()->default(null);
             $table->foreign('laporan_id')->references('id')->on('laporan')->onDelete('cascade');
