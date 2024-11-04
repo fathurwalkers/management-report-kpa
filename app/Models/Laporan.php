@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Divisi;
 use App\Models\Periode;
 use App\Models\Login;
+use App\Models\File;
 use App\Models\Area;
 
 class Laporan extends Model
@@ -43,6 +44,11 @@ class Laporan extends Model
     public function periode()
     {
         return $this->belongsTo(Periode::class);
+    }
+
+    public function file()
+    {
+        return $this->hasMany(File::class);
     }
 
 }

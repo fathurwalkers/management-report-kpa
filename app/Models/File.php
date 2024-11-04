@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Folder;
 use App\Models\Login;
+use App\Models\Laporan;
 
 class File extends Model
 {
@@ -22,5 +23,10 @@ class File extends Model
     public function login()
     {
         $this->belongsTo(Login::class);
+    }
+
+    public function laporan()
+    {
+        $this->belongsTo(Laporan::class);
     }
 }
