@@ -24,14 +24,13 @@ Route::get('/', function () {
     return redirect()->route('home');
 });
 
-// Route::get('/register', [BackController::class, 'register'])->name('register');
 Route::get('/login', [BackController::class, 'login'])->name('login');
 Route::post('/post-login', [BackController::class, 'post_login'])->name('post-login');
 Route::post('/logout', [BackController::class, 'logout'])->name('logout');
-// Route::post('/post-register', [BackController::class, 'post_register'])->name('post-register');
 Route::group(['prefix' => '/dashboard', 'middleware' => CekLogin::class], function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('home');
 
+    // Index Route
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::get('/file/preview/{id}', [FilingController::class, 'preview'])->name('file-preview');
 
     // Laporan Route

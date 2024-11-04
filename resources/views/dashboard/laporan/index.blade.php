@@ -176,13 +176,11 @@
                                         name="laporan_rencana_kerja">
                                         Silahkan mengetikkan laporan anda disini...
                                         </textarea>
-                                    {{-- <input type="text" class="form-control" id="laporan_rencana_kerja"
-                                        name="laporan_rencana_kerja" > --}}
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row mt-2">
+                            <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group">
                                         <p>
@@ -209,25 +207,35 @@
                                 </div>
                             </div>
 
+                            <div class="row mt-2">
+                                <p>
+                                    <b>
+                                        <span style="color:red;">
+                                            * NOTE :
+                                        </span>
+                                    </b>
+                                    Kosongkan <span style="color:red;">Waktu Kegiatan</span> jika tidak diperlukan, untuk Presentasi Pencapaian, jika belum ada progress yang berlalu bisa di isi 0 persen saja.
+                                </p>
+                            </div>
                             <div class="row mb-1">
                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label for="laporan_keterangan">Keterangan</label>
                                         <input type="text" class="form-control" id="laporan_keterangan"
-                                            name="laporan_keterangan">
+                                            name="laporan_keterangan" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
                                         <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
-                                            name="laporan_presentasi_pencapaian" >
+                                            name="laporan_presentasi_pencapaian" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label for="created_at_waktu">Tanggal Kegiatan</label>
-                                        <input type="date" class="form-control" id="created_at_tanggal" name="created_at_tanggal">
+                                        <input type="date" class="form-control" id="created_at_tanggal" name="created_at_tanggal" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3">
@@ -385,8 +393,6 @@
                                     name="laporan_rencana_kerja">
                                     Silahkan mengetikkan laporan anda disini...
                                     </textarea>
-                                {{-- <input type="text" class="form-control" id="laporan_rencana_kerja"
-                                    name="laporan_rencana_kerja" > --}}
                                 </div>
                             </div>
                         </div>
@@ -418,25 +424,35 @@
                             </div>
                         </div>
 
+                        <div class="row mt-2">
+                            <p>
+                                <b>
+                                    <span style="color:red;">
+                                        * NOTE :
+                                    </span>
+                                </b>
+                                Kosongkan <span style="color:red;">Waktu Kegiatan</span> jika tidak diperlukan, untuk Presentasi Pencapaian, jika belum ada progress yang berlalu bisa di isi 0 persen saja.
+                            </p>
+                        </div>
                         <div class="row mb-1">
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     <label for="laporan_keterangan">Keterangan</label>
                                     <input type="text" class="form-control" id="laporan_keterangan"
-                                        name="laporan_keterangan">
+                                        name="laporan_keterangan" required>
                                 </div>
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
                                     <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
-                                        name="laporan_presentasi_pencapaian" >
+                                        name="laporan_presentasi_pencapaian" required>
                                 </div>
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     <label for="created_at_waktu">Tanggal Kegiatan</label>
-                                    <input type="date" class="form-control" id="created_at_tanggal" name="created_at_tanggal">
+                                    <input type="date" class="form-control" id="created_at_tanggal" name="created_at_tanggal" required>
                                 </div>
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-3">
