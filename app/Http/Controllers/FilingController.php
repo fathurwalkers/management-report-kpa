@@ -17,13 +17,9 @@ class FilingController extends Controller
     {
         $file = File::findOrFail($id);
         $filePath = storage_path('app/public/' . $file->file_path);
-
-        // Cek apakah file ada
         if (!file_exists($filePath)) {
             abort(404);
         }
-
-        // Dapatkan ekstensi dan set Content-Type
         $extension = strtolower(pathinfo($file->file_nama, PATHINFO_EXTENSION));
         switch ($extension) {
             case 'pdf':
@@ -40,10 +36,8 @@ class FilingController extends Controller
                 $contentType = 'image/gif';
                 break;
             default:
-                // Jika tipe tidak dikenal, bisa memicu error atau mendefinisikan default
-                abort(415); // Unsupported Media Type
+                abort(415);
         }
-
         return Response::make(file_get_contents($filePath), 200, [
             'Content-Type' => $contentType,
             'Content-Disposition' => 'inline; filename="' . $file->file_nama . '"'
