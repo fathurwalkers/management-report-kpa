@@ -728,6 +728,7 @@
                                                                 <form id="laporan-form{{ $lp->id }}"
                                                                     action="{{ route('edit-laporan') }}" method="POST">
                                                                     @csrf
+                                                                    <input type="hidden" name="current_page" id="current_page{{$lp->id}}" value="">
                                                                     <div class="modal-body">
 
                                                                         <div class="container">
@@ -768,8 +769,8 @@
                                                                             <div class="row mb-1">
                                                                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                                                                     <div class="form-group">
-                                                                                        <label for="laporan_rencana_kerja">Rencana Kerja</label>
-                                                                                        <textarea id="laporan_rencana_kerja" class="form-control"
+                                                                                        <label for="laporan_rencana_kerja{{ $lp->id }}">Rencana Kerja</label>
+                                                                                        <textarea id="laporan_rencana_kerja{{ $lp->id }}" class="form-control laporan_rencana_kerjatextarea_class"
                                                                                         name="laporan_rencana_kerja">
                                                                                             {{ $lp->laporan_rencana_kerja }}
                                                                                         </textarea>
@@ -856,7 +857,7 @@
                                                                             class="btn btn-outline-danger"
                                                                             data-dismiss="modal">Batalkan</button>
                                                                         <button type="submit"
-                                                                            class="btn btn-outline-success">Setuju</button>
+                                                                            class="btn btn-outline-success" onclick="setPage()">Setuju</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -988,8 +989,15 @@
             document.getElementById("areakerjaspan").innerHTML = " " + value + " ";
         }
 
+        function setPage() {
+            // Mengambil nomor halaman saat ini dari DataTable
+            var page = $('#example').DataTable().page.info().page;
+            document.getElementById('current_page').value = page;
+        }
+
         $(document).ready(function() {
             var table = $('#example').DataTable({});
+
             $('#filter-bulan').on('change', function() {
                 var selectedValue = $(this).val();
                 table.search(selectedValue).draw();
