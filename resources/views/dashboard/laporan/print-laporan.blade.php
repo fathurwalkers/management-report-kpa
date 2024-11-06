@@ -212,9 +212,19 @@
                                     <th rowspan="2" class="align-middle p-2">PERSENTASE PENCAPAIAN</th>
                                     <th rowspan="2" class="align-middle p-2">KETERANGAN</th>
                                 </tr>
+                                @php
+                                    use Carbon\Carbon;
+                                    $currentDate = Carbon::create($currentyear, $selectedmonth, 1);
+                                @endphp
                                 <tr class="tanggal">
                                     @for ($i = 1; $i <= $days; $i++) <!-- Loop dari 1 sampai $days -->
-                                        <td>{{ $i }}</td>
+                                    @php
+                                        $date = $currentDate->copy()->day($i);
+                                    @endphp
+
+                                    <td style="background-color: {{ $date->isSunday() ? 'red' : 'transparent' }};">
+                                        {{ $i }}
+                                    </td>
                                     @endfor
                                 </tr>
                             </thead>

@@ -731,89 +731,116 @@
                                                                     <div class="modal-body">
 
                                                                         <div class="container">
-                                                                            <div class="row">
-                                                                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                                                            <div class="row mb-1">
+                                                                                <div class="col-sm-3 col-md-3 col-lg-3">
                                                                                     <div class="form-group">
-                                                                                        <label
-                                                                                            for="laporan_keterangan">Keterangan</label>
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            id="laporan_keterangan{{ $lp->id }}"
-                                                                                            name="laporan_keterangan"
-                                                                                            value="{{ $lp->laporan_keterangan }}"
-                                                                                            >
+                                                                                        <label for="laporan_keterangan{{$lp->id}}">Keterangan</label>
+                                                                                        <input type="text" class="form-control" id="laporan_keterangan{{$lp->id}}"
+                                                                                            name="laporan_keterangan" value="{{ $lp->laporan_keterangan }}">
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                                                                <div class="col-sm-3 col-md-3 col-lg-3">
                                                                                     <div class="form-group">
-                                                                                        <label
-                                                                                            for="laporan_presentasi_pencapaian">
-                                                                                            Pencapaian
-                                                                                        </label>
-                                                                                        <input type="number"
-                                                                                            class="form-control"
-                                                                                            id="laporan_presentasi_pencapaian{{ $lp->id }}"
-                                                                                            name="laporan_presentasi_pencapaian"
-                                                                                            value="{{ $lp->laporan_presentasi_pencapaian }}"
-                                                                                            >
+                                                                                        <label for="laporan_presentasi_pencapaian{{$lp->id}}">Presentasi Pencapaian</label>
+                                                                                        <input type="number" class="form-control" id="laporan_presentasi_pencapaian{{$lp->id}}"
+                                                                                            name="laporan_presentasi_pencapaian" value="{{ $lp->laporan_presentasi_pencapaian }}">
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                                                                @php
+                                                                                    $update_created_at = \Illuminate\Support\Carbon::parse($lp->created_at);
+                                                                                    $update_tanggal = $update_created_at->format('Y-m-d');
+                                                                                    $update_waktu = $update_created_at->format('H:i');
+                                                                                @endphp
+                                                                                <div class="col-sm-3 col-md-3 col-lg-3">
                                                                                     <div class="form-group">
-                                                                                        <label for="created_at">Tgl/Waktu
-                                                                                            Kegiatan</label>
-                                                                                        <input type="date"
-                                                                                            class="form-control"
-                                                                                            id="created_at{{ $lp->id }}"
-                                                                                            name="created_at"
-                                                                                            value="{{ $lp->created_at->format('Y-m-d') }}"
-                                                                                            >
+                                                                                        <label for="created_at_tanggal{{$lp->id}}">Tanggal Kegiatan</label>
+                                                                                        <input value="{{$update_tanggal}}" type="date" class="form-control" id="created_at_tanggal{{$lp->id}}" name="created_at_tanggal">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label for="created_at_waktu{{$lp->id}}">Waktu Kegiatan</label>
+                                                                                        <input value="{{$update_waktu}}" type="time" class="form-control" id="created_at_waktu{{$lp->id}}" name="created_at_waktu">
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="row">
+
+                                                                            <div class="row mb-1">
                                                                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                                                                     <div class="form-group">
-                                                                                        <label for="laporan_rencana_kerja">
-                                                                                            Rencana Kerja
-                                                                                        </label>
-                                                                                        <input type="text"
-                                                                                            class="form-control"
-                                                                                            id="laporan_rencana_kerja{{ $lp->id }}"
-                                                                                            name="laporan_rencana_kerja"
-                                                                                            value="{{ $lp->laporan_rencana_kerja }}"
-                                                                                            >
+                                                                                        <label for="laporan_rencana_kerja">Rencana Kerja</label>
+                                                                                        <textarea id="laporan_rencana_kerja" class="form-control"
+                                                                                        name="laporan_rencana_kerja">
+                                                                                            {{ $lp->laporan_rencana_kerja }}
                                                                                         </textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
 
-                                                                            <div class="row">
+                                                                            <div class="row mb-2">
                                                                                 <div class="col-sm-12 col-md-12 col-lg-12">
-                                                                                    <label>Pilih Hari Kerja:</label>
-                                                                                    <div class="checkbox-table d-flex justify-content-center mx-auto">
-                                                                                        <table>
-                                                                                            <tbody>
-                                                                                                @for ($i = 1; $i <= 31; $i++)
-                                                                                                    @if ($i % 10 == 1)
-                                                                                                            <tr>
-                                                                                                    @endif
-                                                                                                        <td>
-                                                                                                            <input
-                                                                                                                type="checkbox"
-                                                                                                                class="styled-checkbox"
-                                                                                                                id="day{{ $i }}-{{ $lp->id }}"
-                                                                                                                name="laporan_jumlah_hari[]"
-                                                                                                                value="{{ $i }}">
-                                                                                                            <label for="day{{ $i }}-{{ $lp->id }}">{{ $i }}</label>
-                                                                                                        </td>
-                                                                                                    @if ($i % 10 == 0 || $i == 31)
-                                                                                                        </tr>
-                                                                                                    @endif
-                                                                                                @endfor
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </div>
+                                                                                    <label for="">Pilih Tanggal Kerja</label>
+
+                                                                                    <table class="checkbox-table">
+                                                                                        <tbody>
+                                                                                            @php
+                                                                                                switch ($lp->periode->periode_bulan_int) {
+                                                                                                    case 1: // Januari
+                                                                                                    case 3: // Maret
+                                                                                                    case 5: // Mei
+                                                                                                    case 7: // Juli
+                                                                                                    case 8: // Agustus
+                                                                                                    case 10: // Oktober
+                                                                                                    case 12: // Desember
+                                                                                                        $bb_the_jumlah_hari = 31 + 1;
+                                                                                                        // $bb_the_jumlah_hari =- 1;
+                                                                                                        break;
+                                                                                                    case 4: // April
+                                                                                                    case 6: // Juni
+                                                                                                    case 9: // September
+                                                                                                    case 11: // November
+                                                                                                        $bb_the_jumlah_hari = 30 + 1;
+                                                                                                        // $bb_the_jumlah_hari =- 1;
+                                                                                                        break;
+                                                                                                    case 2: // Februari
+                                                                                                    // Mengecek tahun kabisat untuk Februari
+                                                                                                        $der = ($lp->periode->periode_tahun % 4 == 0 && ($lp->periode->periode_tahun % 100 != 0 || $lp->periode->periode_tahun % 400 == 0)) ? 29 : 28;
+                                                                                                        $bb_the_jumlah_hari = $der + 1;
+                                                                                                        break;
+                                                                                                }
+                                                                                                if ($lp->laporan_jumlah_hari === null || $lp->laporan_jumlah_hari === '' || $lp->laporan_jumlah_hari === 'null' || !isset($lp->laporan_jumlah_hari) || strlen($lp->laporan_jumlah_hari) === 0 || is_array($lp->laporan_jumlah_hari) && count($lp->laporan_jumlah_hari) === 0) {
+                                                                                                    $decode_jumlah_hari = null;
+                                                                                                    $the_jumlah_hari = $bb_the_jumlah_hari;
+                                                                                                } else {
+                                                                                                    $decode_jumlah_hari = json_decode($lp->laporan_jumlah_hari, true);
+                                                                                                    // array_shift($decode_jumlah_hari);
+                                                                                                    $the_jumlah_hari = count($decode_jumlah_hari);
+                                                                                                }
+                                                                                            @endphp
+                                                                                            @for ($i = 1; $i < $the_jumlah_hari; $i++)
+                                                                                                @if ($i % 10 == 1)
+                                                                                                    <tr>
+                                                                                                @endif
+                                                                                                <td>
+                                                                                                    <input type="checkbox" id="day{{$lp->id}}{{ $i }}"
+                                                                                                        class="styled-checkbox" name="laporan_jumlah_hari[]"
+                                                                                                        value="{{ $i }}"
+                                                                                                        @if ($decode_jumlah_hari !== null)
+                                                                                                            @if ($decode_jumlah_hari[$i] == true)
+                                                                                                                checked
+                                                                                                            @endif
+                                                                                                        @endif
+                                                                                                        >
+                                                                                                    <label for="day{{$lp->id}}{{ $i }}">
+                                                                                                        {{ $i }}
+                                                                                                    </label>
+                                                                                                </td>
+                                                                                                @if ($i % 10 == 0 || $i == $the_jumlah_hari)
+                                                                                                    </tr>
+                                                                                                @endif
+                                                                                            @endfor
+                                                                                        </tbody>
+                                                                                    </table>
                                                                                 </div>
                                                                             </div>
 

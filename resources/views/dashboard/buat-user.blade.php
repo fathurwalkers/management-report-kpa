@@ -65,7 +65,7 @@
                                     <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST">
 
                                         <div class="row">
-                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="col-sm-12 col-md-4 col-lg-4">
                                                 <div class="form-group" id="login_username">
                                                     <label for="login_username" class="form-label">Username</label>
                                                     <input type="text" class="form-control" id="login_username" aria-describedby="login_username" maxlength="5" oninput="this.value = this.value.toUpperCase()" required autofocus>
@@ -74,13 +74,24 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="col-sm-12 col-md-4 col-lg-4">
                                                 <div class="form-group" id="login_jabatan">
                                                     <label for="login_jabatan" class="form-label">Level / Role Akses</label>
                                                     <input type="text" class="form-control" id="login_jabatan" aria-describedby="login_jabatan">
                                                     <div id="login_jabatan" class="form-text text-sm">
                                                         <span style="color:red;">*</span> Contoh : SPV IT
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4 col-lg-4">
+                                                <div class="form-group" id="login_level">
+                                                    <label for="login_level">Departement / Divisi</label>
+                                                    <select name="login_level" id="login_level" class="form-control">
+                                                        <option value="">-- Departement / Divisi --</option>
+                                                        <option value="ho">KANTOR PUSAT</option>
+                                                        <option value="pj">PENANGGUNG JAWAB / DIREKSI / LEADER</option>
+                                                        <option value="sp">USER / ANGGOTA</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>

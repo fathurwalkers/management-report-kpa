@@ -236,11 +236,24 @@ class LaporanController extends Controller
 
     public function edit_laporan(Request $request)
     {
+        $areakerjaquery = Area::where('areakerja_lokasi', $request->areakerja)->first();
+        if ($areakerjaquery !== null) {
+            $areakerja = $areakerjaquery->id;
+        } else {
+            $areakerja = null;
+        }
+        $before_created_at_tanggal = $request->created_at_tanggal;
+        $before_created_at_waktu = $request->created_at_waktu;
+        if($before_created_at_waktu === null) {
+            $before_created_at_waktu = "00:01";
+            $created_at = Carbon::createFromFormat('Y-m-d H:i', $before_created_at_tanggal . ' ' . $before_created_at_waktu);
+        } else {
+            $created_at = Carbon::createFromFormat('Y-m-d H:i', $before_created_at_tanggal . ' ' . $before_created_at_waktu);
+        }
         $divisi_nama = $request->divisi_nama;
         $laporan_id = $request->laporan_id;
+        $laporan = Laporan::find($laporan_id);
         $users = session('data_login');
-        $before_created_at = $request->created_at;
-        $created_at = Carbon::createFromFormat('Y-m-d', $before_created_at);
         $checkedDays = $request->laporan_jumlah_hari;
         $laporan_rencana_kerja = $request->laporan_rencana_kerja;
         $laporan_keterangan = $request->laporan_keterangan;
@@ -259,10 +272,9 @@ class LaporanController extends Controller
             $laporan_jumlah_hari = json_encode($arrayTanggal);
         } else {
             $checkedDays = null;
-            $laporan_jumlah_hari = null;
+            $laporan_jumlah_hari = $laporan->laporan_jumlah_hari;
         }
         $laporan_jumlah_hari = json_encode($arrayTanggal);
-        $laporan = Laporan::find($laporan_id);
         $laporan->update([
             'laporan_rencana_kerja' => $laporan_rencana_kerja,
             'laporan_jumlah_hari' => $laporan_jumlah_hari,
@@ -303,6 +315,8 @@ class LaporanController extends Controller
             'laporan' => $laporan,
             'days' => $daysInMonth,
             'periode' => $periode,
+            'selectedmonth' => $selectedMonth,
+            'currentyear' => $currentYear,
         ]);
     }
 }

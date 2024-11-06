@@ -90,8 +90,11 @@ class DashboardController extends Controller
     public function buat_user()
     {
         $users = session('data_login');
+        $divisi = Divisi::all();
         if ($users->divisi_id == 2 || $users->divisi_id == 1) {
-            return view('dashboard.buat-user');
+            return view('dashboard.buat-user', [
+                'divisi' => $divisi
+            ]);
         } else {
             return redirect()->route('home')->with('status', 'Maaf, anda tidak punya otoritas untuk mengakses halaman ini. ');
         }
