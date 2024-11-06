@@ -35,6 +35,16 @@ class FilingController extends Controller
             case 'gif':
                 $contentType = 'image/gif';
                 break;
+            case 'txt':
+                $contentType = 'text/plain';
+                break;
+            case 'doc':
+            case 'docx':
+                $contentType = 'application/msword';
+                break;
+            case 'xlsx':
+                $contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                break;
             default:
                 abort(415);
         }

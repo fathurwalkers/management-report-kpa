@@ -446,7 +446,7 @@
                                 <div class="form-group">
                                     <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
                                     <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
-                                        name="laporan_presentasi_pencapaian" maxlength="3" required>
+                                        name="laporan_presentasi_pencapaian" max="3" required>
                                 </div>
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-3">

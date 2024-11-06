@@ -295,7 +295,11 @@
 
                                             <td>
                                                 @if ($lp->laporan_presentasi_pencapaian !== null)
-                                                    {{ $lp->laporan_presentasi_pencapaian }}%
+                                                    @if ($lp->laporan_presentasi_pencapaian == 0)
+                                                        Continue
+                                                    @else
+                                                        {{ $lp->laporan_presentasi_pencapaian }}%
+                                                    @endif
                                                 @endif
                                             </td>
                                             <td>
