@@ -86,4 +86,35 @@ class DashboardController extends Controller
         ];
         return $bulan[$month];
     }
+
+    public function buat_user()
+    {
+        $users = session('data_login');
+        if ($users->divisi_id == 2 || $users->divisi_id == 1) {
+            return view('dashboard.buat-user');
+        } else {
+            return redirect()->route('home')->with('status', 'Maaf, anda tidak punya otoritas untuk mengakses halaman ini. ');
+        }
+    }
+
+    public function proses_buat_user(Request $request)
+    {
+        $hashPassword = Hash::make('12345', [
+            'rounds' => 12,
+        ]);
+        $hashToken = Hash::make($token, [
+            'rounds' => 12,
+        ]);
+
+        $login_username = "KPA" . $request->login_username;
+        $login_password = $hashPassword;
+        $login_token = $hashToken;
+        $login_no_karyawan = $login_username;
+        $login_email = $request->login_email;
+        $login_no_telepon = $request->login_no_telepon;
+        $login_level = $request->login_level;
+        $login_jabatan = $request->login_jabatan;
+        $login_status = "verified";
+
+    }
 }
