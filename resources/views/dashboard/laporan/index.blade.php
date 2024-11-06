@@ -728,7 +728,7 @@
                                                                 <form id="laporan-form{{ $lp->id }}"
                                                                     action="{{ route('edit-laporan') }}" method="POST">
                                                                     @csrf
-                                                                    <input type="hidden" name="current_page" id="current_page{{$lp->id}}" value="">
+                                                                    <input type="hidden" name="current_page" id="current_page_ubah{{$lp->id}}" value="">
                                                                     <div class="modal-body">
 
                                                                         <div class="container">
@@ -857,7 +857,7 @@
                                                                             class="btn btn-outline-danger"
                                                                             data-dismiss="modal">Batalkan</button>
                                                                         <button type="submit"
-                                                                            class="btn btn-outline-success" onclick="setPage()">Setuju</button>
+                                                                            class="btn btn-outline-success" onclick="setPage_ubah('current_page_ubah{{$lp->id}}')">Setuju</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -889,6 +889,7 @@
                                                                     <form action="{{ route('konfirmasi-laporan') }}"
                                                                         method="POST">
                                                                         @csrf
+                                                                        <input type="hidden" name="current_page" id="current_page_konfirmasi{{$lp->id}}" value="">
                                                                         <input type="hidden" name="laporan_id"
                                                                             value="{{ $lp->id }}">
                                                                         <input type="hidden" name="divisi_nama"
@@ -897,7 +898,7 @@
                                                                             class="btn btn-outline-danger"
                                                                             data-dismiss="modal">Batalkan</button>
                                                                         <button type="submit"
-                                                                            class="btn btn-outline-success">Setuju</button>
+                                                                            class="btn btn-outline-success"  onclick="setPage_konfirmasi('current_page_konfirmasi{{$lp->id}}')">Setuju</button>
                                                                     </form>
                                                                 </div>
                                                             </div>
@@ -929,6 +930,7 @@
                                                                     <form action="{{ route('hapus-laporan') }}"
                                                                         method="POST">
                                                                         @csrf
+                                                                        <input type="hidden" name="current_page" id="current_page_hapus{{$lp->id}}" value="">
                                                                         <input type="hidden" name="hapus_id"
                                                                             value="{{ $lp->id }}">
                                                                         <input type="hidden" name="divisi_nama"
@@ -937,7 +939,7 @@
                                                                             class="btn btn-outline-danger"
                                                                             data-dismiss="modal">Batalkan</button>
                                                                         <button type="submit"
-                                                                            class="btn btn-primary">Hapus</button>
+                                                                            class="btn btn-primary" onclick="setPage_hapus('current_page_hapus{{$lp->id}}')">Hapus</button>
                                                                     </form>
                                                                 </div>
                                                             </div>
@@ -989,10 +991,17 @@
             document.getElementById("areakerjaspan").innerHTML = " " + value + " ";
         }
 
-        function setPage() {
-            // Mengambil nomor halaman saat ini dari DataTable
-            var page = $('#example').DataTable().page.info().page;
-            document.getElementById('current_page').value = page;
+        function setPage_ubah(set_current_page_id_ubah) {
+            var page = table.page.info().page;
+            document.getElementById(id_page).value = page;
+        }
+        function setPage_konfirmasi(set_current_page_id_konfirmasi) {
+            var page = table.page.info().page;
+            document.getElementById(set_current_page_id_konfirmasi).value = page;
+        }
+        function setPage_hapus(set_current_page_id_hapus) {
+            var page = table.page.info().page;
+            document.getElementById(set_current_page_id_hapus).value = page;
         }
 
         $(document).ready(function() {

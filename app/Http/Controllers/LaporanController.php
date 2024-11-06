@@ -90,6 +90,8 @@ class LaporanController extends Controller
 
     public function hapus_laporan(Request $request)
     {
+        $current_page = $request->current_page;
+        dd($current_page);
         $divisi_nama = $request->divisi_nama;
         $hapus_id = $request->input('hapus_id');
         $laporan = Laporan::find($hapus_id);
