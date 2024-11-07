@@ -25,12 +25,12 @@ class LaporanController extends Controller
             $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
             $laporan = Laporan::where('divisi_id', $get_divisi->id)
                 ->get();
-        } elseif ($users->divisi_id == 26) {
+        } elseif ($users->divisi->id == 26 || $users->login_jabatan == "Head Office" || $users->login_jabatan == "Staff Kantor Pusat") {
             $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
             $laporan = Laporan::where('divisi_id', $get_divisi->id)
                 ->where('laporan_status', 'SETUJU')
                 ->get();
-        } elseif ($users->login_level == 'pj') {
+        } elseif ($users->login_level == 'pj' && $users->divisi->id !== 26) {
             $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
             $laporan = Laporan::where('divisi_id', $get_divisi->id)
                 ->get();

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Divisi;
 use App\Models\Laporan;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Faker\Factory as Faker;
+use Illuminate\Support\Arr;
 use App\Models\Login;
 use App\Models\Periode;
 use Illuminate\Support\Carbon;
@@ -102,13 +107,18 @@ class DashboardController extends Controller
 
     public function proses_buat_user(Request $request)
     {
+        $token = Str::random(16);
         $hashPassword = Hash::make('12345', [
             'rounds' => 12,
         ]);
         $hashToken = Hash::make($token, [
             'rounds' => 12,
         ]);
+        $divisi_id = intval($request->divisi_id);
+        $divisi = Divisi::find($divisi_id);
+        // dd($divisi);
 
+        $login_nama = $request->login_nama;
         $login_username = "KPA" . $request->login_username;
         $login_password = $hashPassword;
         $login_token = $hashToken;
@@ -118,6 +128,29 @@ class DashboardController extends Controller
         $login_level = $request->login_level;
         $login_jabatan = $request->login_jabatan;
         $login_status = "verified";
+
+        $login = new Login;
+        $save_login = $login->create([
+                'login_nama' => $login_nama,
+                'login_username' => $login_username,
+                'login_password' => $login_password,
+                'login_no_karyawan' => $login_no_karyawan,
+                'login_email' => $login_email,
+                'login_telepon' => $login_no_telepon,
+                'login_token' => $login_token,
+                'login_level' => $login_level,
+                'login_jabatan' => $login_jabatan,
+                'login_status' => "verified",
+                'divisi_id' => $divisi->id,
+                'created_at' => now(),
+                'updated_at' => now()
+        ]);
+        $save_login->save();
+        if ($save_login) {
+            return redirect()->route('buat-user')->with('status', 'User telah berhasil dibuat!');
+        } else {
+            return redirect()->route('buat-user')->with('status', 'Ada kesalahan saat membuat user, user tidak dapat dibuat!');
+        }
 
     }
 }

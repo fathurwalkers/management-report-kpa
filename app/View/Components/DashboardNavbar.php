@@ -24,6 +24,10 @@ class DashboardNavbar extends Component
                 $typing = 'A';
                 $divisinew = $divisi_all;
                 break;
+            case 'Head Office':
+                $typing = 'A';
+                $divisinew = $divisi_all;
+                break;
             case 'Human Capital & GA':
                 $typing = 'A';
                 $array_divisi = [1, 2, 17, 18, 19, 20];

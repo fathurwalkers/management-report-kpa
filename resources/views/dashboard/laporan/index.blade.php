@@ -666,7 +666,7 @@
                                                                 <button type="button" class="btn btn-sm btn-warning mr-1">
                                                                     PENDING
                                                                 </button>
-                                                                @if ($users->login_level == 'pj')
+                                                                @if ($users->login_level == 'pj' && $users->divisi->id == $lp->divisi_id)
                                                                     <button type="button" class="btn btn-sm btn-info mr-1"
                                                                         data-toggle="modal"
                                                                         data-target="#modal_konfirmasi{{ $lp->id }}">
