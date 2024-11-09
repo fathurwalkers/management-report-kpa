@@ -823,9 +823,13 @@
                                                                                                     <tr>
                                                                                                 @endif
                                                                                                 <td>
+                                                                                                    @php
+                                                                                                        $randomStrID = \Illuminate\Support\Str::random(5);
+                                                                                                    @endphp
                                                                                                     <input type="checkbox" id="day{{$lp->id}}{{ $i }}"
                                                                                                         class="styled-checkbox" name="laporan_jumlah_hari[]"
-                                                                                                        value="{{ $i }}"
+                                                                                                        value="{{ $i }}" data-index="{{ $i }}"
+                                                                                                        data-id="{{ $lp->id }}"
                                                                                                         @if ($decode_jumlah_hari !== null)
                                                                                                             @if ($decode_jumlah_hari[$i] == true)
                                                                                                                 checked
@@ -990,20 +994,6 @@
             document.getElementById("hiddenInput").value = value;
             document.getElementById("areakerjaspan").innerHTML = " " + value + " ";
         }
-
-        function setPage_ubah(set_current_page_id_ubah) {
-            var page = table.page.info().page;
-            document.getElementById(id_page).value = page;
-        }
-        function setPage_konfirmasi(set_current_page_id_konfirmasi) {
-            var page = table.page.info().page;
-            document.getElementById(set_current_page_id_konfirmasi).value = page;
-        }
-        function setPage_hapus(set_current_page_id_hapus) {
-            var page = table.page.info().page;
-            document.getElementById(set_current_page_id_hapus).value = page;
-        }
-
         $(document).ready(function() {
             var table = $('#example').DataTable({});
 
