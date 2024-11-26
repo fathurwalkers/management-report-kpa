@@ -119,14 +119,19 @@ class DashboardController extends Controller
         // dd($divisi);
 
         $login_nama = $request->login_nama;
-        $login_username = "KPA" . $request->login_username;
         $login_password = $hashPassword;
         $login_token = $hashToken;
-        $login_no_karyawan = $login_username;
         $login_email = $request->login_email;
         $login_no_telepon = $request->login_no_telepon;
         $login_level = $request->login_level;
-        $login_jabatan = $request->login_jabatan;
+        if ($divisi->id == 26) {
+            $login_username = $request->login_username;
+            $login_jabatan = "Head Office";
+        } else {
+            $login_username = "KPA" . $request->login_username;
+            $login_jabatan = $request->login_jabatan;
+        }
+        $login_no_karyawan = $login_username;
         $login_status = "verified";
 
         $login = new Login;

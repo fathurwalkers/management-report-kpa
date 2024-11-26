@@ -19,6 +19,7 @@ class DashboardNavbar extends Component
     {
         $divisi_all = Divisi::all();
         $users = session('data_login');
+        // dd($users->login_jabatan);
         switch ($users->login_jabatan) {
             case 'Staff Kantor Pusat':
                 $typing = 'A';

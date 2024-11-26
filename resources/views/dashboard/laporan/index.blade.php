@@ -3,8 +3,9 @@
 @section('title', '{$divisi} - PT. Kartika Prima Abadi')
 
 @push('css')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.tiny.cloud/1/natu535fc6x5hoxtcw6gd8qeurcdt5n39lri73aevx4w65q0/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/uxhd06jpvzzjy21b9i2gc4d0ke46ydzfoerta9x1q4yupxx7/tinymce/7/tinymce.min.js"
+        referrerpolicy="origin"></script>
     <link href="{{ asset('assets/datatables') }}/datatables.min.css" rel="stylesheet">
     <style>
         .checkbox-table {
@@ -39,7 +40,6 @@
             border-color: white;
             color: white;
         }
-
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -125,18 +125,34 @@
                         @endif
                         <div id="success-message" style="display:none;" class="alert alert-success mt-3"></div>
 
-                        <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST" enctype="multipart/form-data">
+                        <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
 
                             <div class="row mb-1">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <div class="mt-1">
                                         @php
-                                            $array_divisi_office = [
-                                                3, 5
-                                            ];
+                                            $array_divisi_office = [3, 5];
                                             $array_divisi_lain = [
-                                                1, 6, 7, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25
+                                                1,
+                                                6,
+                                                7,
+                                                10,
+                                                11,
+                                                12,
+                                                13,
+                                                14,
+                                                15,
+                                                17,
+                                                18,
+                                                19,
+                                                20,
+                                                21,
+                                                22,
+                                                23,
+                                                24,
+                                                25,
                                             ];
                                         @endphp
                                         <label for="areakerja">
@@ -151,15 +167,18 @@
                                             @switch(true)
                                                 @case(in_array($users->divisi_id, $array_divisi_office))
                                                     <input type="hidden" name="areakerja" value="24" id="hiddenInput">
-                                                    @break
+                                                @break
+
                                                 @case(in_array($users->divisi_id, $array_divisi_lain))
                                                     <input type="hidden" name="areakerja" value="" id="hiddenInput">
                                                     @foreach ($area as $aresss)
-                                                        <button type="button" class="btn btn-primary mr-1 mb-1" onclick="setValue('{{ $aresss->areakerja_lokasi }}')">
+                                                        <button type="button" class="btn btn-primary mr-1 mb-1"
+                                                            onclick="setValue('{{ $aresss->areakerja_lokasi }}')">
                                                             {{ $aresss->areakerja_lokasi }}
                                                         </button>
                                                     @endforeach
-                                                    @break
+                                                @break
+
                                             @endswitch
                                         </div>
                                     </div>
@@ -172,8 +191,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group">
                                         <label for="laporan_rencana_kerja">Rencana Kerja</label>
-                                        <textarea id="laporan_rencana_kerja" class="form-control"
-                                        name="laporan_rencana_kerja">
+                                        <textarea id="laporan_rencana_kerja" class="form-control" name="laporan_rencana_kerja">
                                         Silahkan mengetikkan laporan anda disini...
                                         </textarea>
                                     </div>
@@ -189,7 +207,8 @@
                                                     * NOTE :
                                                 </span>
                                             </b>
-                                            Klik pada kotak Checkbox jika anda ingin membuat Laporan ini hanya ditujukan pada User tertentu saja.
+                                            Klik pada kotak Checkbox jika anda ingin membuat Laporan ini hanya ditujukan
+                                            pada User tertentu saja.
                                         </p>
                                         <input type="checkbox" id="toggleLaporanTujuan" />
                                         <label for="toggleLaporanTujuan">Pilih User untuk Laporan Tujuan</label>
@@ -199,7 +218,7 @@
                                         <label for="laporan_tujuan">Pilih User</label>
                                         <select name="laporan_tujuan" id="laporan_tujuan" class="form-control">
                                             <option value="">-- Pilih User --</option>
-                                            @foreach($logins as $login)
+                                            @foreach ($logins as $login)
                                                 <option value="{{ $login->id }}">{{ $login->login_nama }}</option>
                                             @endforeach
                                         </select>
@@ -214,7 +233,8 @@
                                             * NOTE :
                                         </span>
                                     </b>
-                                    Kosongkan <span style="color:red;">Waktu Kegiatan</span> jika tidak diperlukan, untuk Presentasi Pencapaian, jika belum ada progress yang berlalu bisa di isi 0 persen saja.
+                                    Kosongkan <span style="color:red;">Waktu Kegiatan</span> jika tidak diperlukan, untuk
+                                    Presentasi Pencapaian, jika belum ada progress yang berlalu bisa di isi 0 persen saja.
                                 </p>
                             </div>
                             <div class="row mb-1">
@@ -229,19 +249,21 @@
                                     <div class="form-group">
                                         <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
                                         <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
-                                            name="laporan_presentasi_pencapaian" maxlength="3" required>
+                                            name="laporan_presentasi_pencapaian" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label for="created_at_waktu">Tanggal Kegiatan</label>
-                                        <input type="date" class="form-control" id="created_at_tanggal" name="created_at_tanggal" required>
+                                        <input type="date" class="form-control" id="created_at_tanggal"
+                                            name="created_at_tanggal" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label for="created_at_waktu">Waktu Kegiatan</label>
-                                        <input type="time" class="form-control" id="created_at_waktu" name="created_at_waktu">
+                                        <input type="time" class="form-control" id="created_at_waktu"
+                                            name="created_at_waktu">
                                     </div>
                                 </div>
                             </div>
@@ -256,9 +278,11 @@
                                                 * NOTE :
                                             </span>
                                         </b>
-                                        Tekan tombol "Tambah Dokumen" jika anda ingin melampirkan satu atau beberapa Dokumen pada Data Laporan ini.
+                                        Tekan tombol "Tambah Dokumen" jika anda ingin melampirkan satu atau beberapa Dokumen
+                                        pada Data Laporan ini.
                                     </p>
-                                    <button type="button" onclick="event.preventDefault()" id="tambahDokumenBtn" class="btn btn-primary mb-3">Tambah Dokumen</button>
+                                    <button type="button" onclick="event.preventDefault()" id="tambahDokumenBtn"
+                                        class="btn btn-primary mb-3">Tambah Dokumen</button>
                                 </div>
                             </div>
 
@@ -342,18 +366,34 @@
                     @endif
                     <div id="success-message" style="display:none;" class="alert alert-success mt-3"></div>
 
-                    <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST" enctype="multipart/form-data">
+                    <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
 
                         <div class="row mb-1">
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="mt-1">
                                     @php
-                                        $array_divisi_office = [
-                                            2, 3, 4, 5, 8, 9
-                                        ];
+                                        $array_divisi_office = [2, 3, 4, 5, 8, 9];
                                         $array_divisi_lain = [
-                                            1, 6, 7, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25
+                                            1,
+                                            6,
+                                            7,
+                                            10,
+                                            11,
+                                            12,
+                                            13,
+                                            14,
+                                            15,
+                                            17,
+                                            18,
+                                            19,
+                                            20,
+                                            21,
+                                            22,
+                                            23,
+                                            24,
+                                            25,
                                         ];
                                     @endphp
                                     <label for="areakerja">
@@ -368,15 +408,18 @@
                                         @switch(true)
                                             @case(in_array($users->divisi_id, $array_divisi_office))
                                                 <input type="hidden" name="areakerja" value="24" id="hiddenInput">
-                                                @break
+                                            @break
+
                                             @case(in_array($users->divisi_id, $array_divisi_lain))
                                                 <input type="hidden" name="areakerja" value="" id="hiddenInput">
                                                 @foreach ($area as $aresss)
-                                                    <button type="button" class="btn btn-primary mr-1 mb-1" onclick="setValue('{{ $aresss->areakerja_lokasi }}')">
+                                                    <button type="button" class="btn btn-primary mr-1 mb-1"
+                                                        onclick="setValue('{{ $aresss->areakerja_lokasi }}')">
                                                         {{ $aresss->areakerja_lokasi }}
                                                     </button>
                                                 @endforeach
-                                                @break
+                                            @break
+
                                         @endswitch
                                     </div>
                                 </div>
@@ -389,8 +432,7 @@
                             <div class="col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="laporan_rencana_kerja">Rencana Kerja</label>
-                                    <textarea id="laporan_rencana_kerja" class="form-control"
-                                    name="laporan_rencana_kerja">
+                                    <textarea id="laporan_rencana_kerja" class="form-control" name="laporan_rencana_kerja">
                                     Silahkan mengetikkan laporan anda disini...
                                     </textarea>
                                 </div>
@@ -406,7 +448,8 @@
                                                 * NOTE :
                                             </span>
                                         </b>
-                                        Klik pada kotak Checkbox jika anda ingin membuat Laporan ini hanya ditujukan pada User tertentu saja.
+                                        Klik pada kotak Checkbox jika anda ingin membuat Laporan ini hanya ditujukan pada
+                                        User tertentu saja.
                                     </p>
                                     <input type="checkbox" id="toggleLaporanTujuan" />
                                     <label for="toggleLaporanTujuan">Pilih User untuk Laporan Tujuan</label>
@@ -416,7 +459,7 @@
                                     <label for="laporan_tujuan">Pilih User</label>
                                     <select name="laporan_tujuan" id="laporan_tujuan" class="form-control">
                                         <option value="">-- Pilih User --</option>
-                                        @foreach($logins as $login)
+                                        @foreach ($logins as $login)
                                             <option value="{{ $login->id }}">{{ $login->login_nama }}</option>
                                         @endforeach
                                     </select>
@@ -431,7 +474,8 @@
                                         * NOTE :
                                     </span>
                                 </b>
-                                Kosongkan <span style="color:red;">Waktu Kegiatan</span> jika tidak diperlukan, untuk Presentasi Pencapaian, jika belum ada progress yang berlalu bisa di isi 0 persen saja.
+                                Kosongkan <span style="color:red;">Waktu Kegiatan</span> jika tidak diperlukan, untuk
+                                Presentasi Pencapaian, jika belum ada progress yang berlalu bisa di isi 0 persen saja.
                             </p>
                         </div>
                         <div class="row mb-1">
@@ -446,19 +490,21 @@
                                 <div class="form-group">
                                     <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
                                     <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
-                                        name="laporan_presentasi_pencapaian" max="3" required>
+                                        name="laporan_presentasi_pencapaian" required>
                                 </div>
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     <label for="created_at_waktu">Tanggal Kegiatan</label>
-                                    <input type="date" class="form-control" id="created_at_tanggal" name="created_at_tanggal" required>
+                                    <input type="date" class="form-control" id="created_at_tanggal"
+                                        name="created_at_tanggal" required>
                                 </div>
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     <label for="created_at_waktu">Waktu Kegiatan</label>
-                                    <input type="time" class="form-control" id="created_at_waktu" name="created_at_waktu">
+                                    <input type="time" class="form-control" id="created_at_waktu"
+                                        name="created_at_waktu">
                                 </div>
                             </div>
                         </div>
@@ -473,9 +519,11 @@
                                             * NOTE :
                                         </span>
                                     </b>
-                                    Tekan tombol "Tambah Dokumen" jika anda ingin melampirkan satu atau beberapa Dokumen pada Data Laporan ini.
+                                    Tekan tombol "Tambah Dokumen" jika anda ingin melampirkan satu atau beberapa Dokumen
+                                    pada Data Laporan ini.
                                 </p>
-                                <button type="button" onclick="event.preventDefault()" id="tambahDokumenBtn" class="btn btn-primary mb-3">Tambah Dokumen</button>
+                                <button type="button" onclick="event.preventDefault()" id="tambahDokumenBtn"
+                                    class="btn btn-primary mb-3">Tambah Dokumen</button>
                             </div>
                         </div>
 
@@ -586,11 +634,26 @@
                     <div class="table-light table-responsive">
                         <table id="example" class="display table-bordered nowrap" style="width:100%">
                             @php
-                                $array_divisi_office = [
-                                    2, 3, 4, 5, 8, 9
-                                ];
+                                $array_divisi_office = [2, 3, 4, 5, 8, 9];
                                 $array_divisi_lain = [
-                                    1, 6, 7, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25
+                                    1,
+                                    6,
+                                    7,
+                                    10,
+                                    11,
+                                    12,
+                                    13,
+                                    14,
+                                    15,
+                                    17,
+                                    18,
+                                    19,
+                                    20,
+                                    21,
+                                    22,
+                                    23,
+                                    24,
+                                    25,
                                 ];
                             @endphp
                             <thead class="thead-dark">
@@ -633,21 +696,31 @@
                                             <div class="col-sm-4 col-md-4 col-lg-4">
                                                 @php
                                                     $file = \App\Models\File::where('laporan_id', $lp->id)->get();
-                                                    $array_dokumen = ["pdf", "doc", "docs", "xls", "xlsx"];
-                                                    $array_gambar = ["png", "PNG", "jpg", "JPG", "jpeg", "JPEG", "webp"];
+                                                    $array_dokumen = ['pdf', 'doc', 'docs', 'xls', 'xlsx'];
+                                                    $array_gambar = [
+                                                        'png',
+                                                        'PNG',
+                                                        'jpg',
+                                                        'JPG',
+                                                        'jpeg',
+                                                        'JPEG',
+                                                        'webp',
+                                                    ];
                                                 @endphp
                                                 @if ($file->isNotEmpty())
                                                     @foreach ($file as $ff)
-                                                    <button type="button" class="badge badge-sm badge-info" onclick="window.open('{{ route('file-preview', ['id' => $ff->id]) }}', '_blank')">
-                                                        @if (in_array($ff->file_extensi, $array_dokumen))
-                                                            Dokumen Terlampir <span style="color:green;">Lihat Lampiran</span>
-                                                        @elseif (in_array($ff->file_extensi, $array_gambar))
-                                                            Gambar Terlampir <span style="color:green;">Lihat Lampiran</span>
-                                                        @endif
+                                                        <button type="button" class="badge badge-sm badge-info"
+                                                            onclick="window.open('{{ route('file-preview', ['id' => $ff->id]) }}', '_blank')">
+                                                            @if (in_array($ff->file_extensi, $array_dokumen))
+                                                                Dokumen Terlampir <span style="color:green;">Lihat
+                                                                    Lampiran</span>
+                                                            @elseif (in_array($ff->file_extensi, $array_gambar))
+                                                                Gambar Terlampir <span style="color:green;">Lihat
+                                                                    Lampiran</span>
+                                                            @endif
                                                         </button>
                                                     @endforeach
                                                 @else
-
                                                 @endif
                                             </div>
                                             <div class="col-sm-8 col-md-8 col-lg-8">
@@ -666,7 +739,7 @@
                                                                 <button type="button" class="btn btn-sm btn-warning mr-1">
                                                                     PENDING
                                                                 </button>
-                                                                @if ($users->login_level == 'pj' && $users->divisi->id == $lp->divisi_id)
+                                                                @if ($users->login_level == 'pj')
                                                                     <button type="button" class="btn btn-sm btn-info mr-1"
                                                                         data-toggle="modal"
                                                                         data-target="#modal_konfirmasi{{ $lp->id }}">
@@ -728,40 +801,70 @@
                                                                 <form id="laporan-form{{ $lp->id }}"
                                                                     action="{{ route('edit-laporan') }}" method="POST">
                                                                     @csrf
-                                                                    <input type="hidden" name="current_page" id="current_page_ubah{{$lp->id}}" value="">
+                                                                    <input type="hidden" name="current_page"
+                                                                        id="current_page_ubah{{ $lp->id }}"
+                                                                        value="">
                                                                     <div class="modal-body">
 
                                                                         <div class="container">
                                                                             <div class="row mb-1">
                                                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                                                     <div class="form-group">
-                                                                                        <label for="laporan_keterangan{{$lp->id}}">Keterangan</label>
-                                                                                        <input type="text" class="form-control" id="laporan_keterangan{{$lp->id}}"
-                                                                                            name="laporan_keterangan" value="{{ $lp->laporan_keterangan }}">
+                                                                                        <label
+                                                                                            for="laporan_keterangan{{ $lp->id }}">Keterangan</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="laporan_keterangan{{ $lp->id }}"
+                                                                                            name="laporan_keterangan"
+                                                                                            value="{{ $lp->laporan_keterangan }}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                                                     <div class="form-group">
-                                                                                        <label for="laporan_presentasi_pencapaian{{$lp->id}}">Presentasi Pencapaian</label>
-                                                                                        <input type="number" class="form-control" id="laporan_presentasi_pencapaian{{$lp->id}}"
-                                                                                            name="laporan_presentasi_pencapaian" value="{{ $lp->laporan_presentasi_pencapaian }}">
+                                                                                        <label
+                                                                                            for="laporan_presentasi_pencapaian{{ $lp->id }}">Presentasi
+                                                                                            Pencapaian</label>
+                                                                                        <input type="number"
+                                                                                            class="form-control"
+                                                                                            id="laporan_presentasi_pencapaian{{ $lp->id }}"
+                                                                                            name="laporan_presentasi_pencapaian"
+                                                                                            value="{{ $lp->laporan_presentasi_pencapaian }}">
                                                                                     </div>
                                                                                 </div>
                                                                                 @php
-                                                                                    $update_created_at = \Illuminate\Support\Carbon::parse($lp->created_at);
-                                                                                    $update_tanggal = $update_created_at->format('Y-m-d');
-                                                                                    $update_waktu = $update_created_at->format('H:i');
+                                                                                    $update_created_at = \Illuminate\Support\Carbon::parse(
+                                                                                        $lp->created_at,
+                                                                                    );
+                                                                                    $update_tanggal = $update_created_at->format(
+                                                                                        'Y-m-d',
+                                                                                    );
+                                                                                    $update_waktu = $update_created_at->format(
+                                                                                        'H:i',
+                                                                                    );
                                                                                 @endphp
                                                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                                                     <div class="form-group">
-                                                                                        <label for="created_at_tanggal{{$lp->id}}">Tanggal Kegiatan</label>
-                                                                                        <input value="{{$update_tanggal}}" type="date" class="form-control" id="created_at_tanggal{{$lp->id}}" name="created_at_tanggal">
+                                                                                        <label
+                                                                                            for="created_at_tanggal{{ $lp->id }}">Tanggal
+                                                                                            Kegiatan</label>
+                                                                                        <input
+                                                                                            value="{{ $update_tanggal }}"
+                                                                                            type="date"
+                                                                                            class="form-control"
+                                                                                            id="created_at_tanggal{{ $lp->id }}"
+                                                                                            name="created_at_tanggal">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                                                     <div class="form-group">
-                                                                                        <label for="created_at_waktu{{$lp->id}}">Waktu Kegiatan</label>
-                                                                                        <input value="{{$update_waktu}}" type="time" class="form-control" id="created_at_waktu{{$lp->id}}" name="created_at_waktu">
+                                                                                        <label
+                                                                                            for="created_at_waktu{{ $lp->id }}">Waktu
+                                                                                            Kegiatan</label>
+                                                                                        <input value="{{ $update_waktu }}"
+                                                                                            type="time"
+                                                                                            class="form-control"
+                                                                                            id="created_at_waktu{{ $lp->id }}"
+                                                                                            name="created_at_waktu">
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -769,9 +872,11 @@
                                                                             <div class="row mb-1">
                                                                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                                                                     <div class="form-group">
-                                                                                        <label for="laporan_rencana_kerja{{ $lp->id }}">Rencana Kerja</label>
+                                                                                        <label
+                                                                                            for="laporan_rencana_kerja{{ $lp->id }}">Rencana
+                                                                                            Kerja</label>
                                                                                         <textarea id="laporan_rencana_kerja{{ $lp->id }}" class="form-control laporan_rencana_kerjatextarea_class"
-                                                                                        name="laporan_rencana_kerja">
+                                                                                            name="laporan_rencana_kerja">
                                                                                             {{ $lp->laporan_rencana_kerja }}
                                                                                         </textarea>
                                                                                     </div>
@@ -780,12 +885,16 @@
 
                                                                             <div class="row mb-2">
                                                                                 <div class="col-sm-12 col-md-12 col-lg-12">
-                                                                                    <label for="">Pilih Tanggal Kerja</label>
+                                                                                    <label for="">Pilih Tanggal
+                                                                                        Kerja</label>
 
                                                                                     <table class="checkbox-table">
                                                                                         <tbody>
                                                                                             @php
-                                                                                                switch ($lp->periode->periode_bulan_int) {
+                                                                                                switch (
+                                                                                                    $lp->periode
+                                                                                                        ->periode_bulan_int
+                                                                                                ) {
                                                                                                     case 1: // Januari
                                                                                                     case 3: // Maret
                                                                                                     case 5: // Mei
@@ -793,29 +902,72 @@
                                                                                                     case 8: // Agustus
                                                                                                     case 10: // Oktober
                                                                                                     case 12: // Desember
-                                                                                                        $bb_the_jumlah_hari = 31 + 1;
+                                                                                                        $bb_the_jumlah_hari =
+                                                                                                            31 + 1;
                                                                                                         // $bb_the_jumlah_hari =- 1;
                                                                                                         break;
                                                                                                     case 4: // April
                                                                                                     case 6: // Juni
                                                                                                     case 9: // September
                                                                                                     case 11: // November
-                                                                                                        $bb_the_jumlah_hari = 30 + 1;
+                                                                                                        $bb_the_jumlah_hari =
+                                                                                                            30 + 1;
                                                                                                         // $bb_the_jumlah_hari =- 1;
                                                                                                         break;
                                                                                                     case 2: // Februari
-                                                                                                    // Mengecek tahun kabisat untuk Februari
-                                                                                                        $der = ($lp->periode->periode_tahun % 4 == 0 && ($lp->periode->periode_tahun % 100 != 0 || $lp->periode->periode_tahun % 400 == 0)) ? 29 : 28;
-                                                                                                        $bb_the_jumlah_hari = $der + 1;
+                                                                                                        // Mengecek tahun kabisat untuk Februari
+                                                                                                        $der =
+                                                                                                            $lp->periode
+                                                                                                                ->periode_tahun %
+                                                                                                                4 ==
+                                                                                                                0 &&
+                                                                                                            ($lp
+                                                                                                                ->periode
+                                                                                                                ->periode_tahun %
+                                                                                                                100 !=
+                                                                                                                0 ||
+                                                                                                                $lp
+                                                                                                                    ->periode
+                                                                                                                    ->periode_tahun %
+                                                                                                                    400 ==
+                                                                                                                    0)
+                                                                                                                ? 29
+                                                                                                                : 28;
+                                                                                                        $bb_the_jumlah_hari =
+                                                                                                            $der + 1;
                                                                                                         break;
                                                                                                 }
-                                                                                                if ($lp->laporan_jumlah_hari === null || $lp->laporan_jumlah_hari === '' || $lp->laporan_jumlah_hari === 'null' || !isset($lp->laporan_jumlah_hari) || strlen($lp->laporan_jumlah_hari) === 0 || is_array($lp->laporan_jumlah_hari) && count($lp->laporan_jumlah_hari) === 0) {
+                                                                                                if (
+                                                                                                    $lp->laporan_jumlah_hari ===
+                                                                                                        null ||
+                                                                                                    $lp->laporan_jumlah_hari ===
+                                                                                                        '' ||
+                                                                                                    $lp->laporan_jumlah_hari ===
+                                                                                                        'null' ||
+                                                                                                    !isset(
+                                                                                                        $lp->laporan_jumlah_hari,
+                                                                                                    ) ||
+                                                                                                    strlen(
+                                                                                                        $lp->laporan_jumlah_hari,
+                                                                                                    ) === 0 ||
+                                                                                                    (is_array(
+                                                                                                        $lp->laporan_jumlah_hari,
+                                                                                                    ) &&
+                                                                                                        count(
+                                                                                                            $lp->laporan_jumlah_hari,
+                                                                                                        ) === 0)
+                                                                                                ) {
                                                                                                     $decode_jumlah_hari = null;
                                                                                                     $the_jumlah_hari = $bb_the_jumlah_hari;
                                                                                                 } else {
-                                                                                                    $decode_jumlah_hari = json_decode($lp->laporan_jumlah_hari, true);
+                                                                                                    $decode_jumlah_hari = json_decode(
+                                                                                                        $lp->laporan_jumlah_hari,
+                                                                                                        true,
+                                                                                                    );
                                                                                                     // array_shift($decode_jumlah_hari);
-                                                                                                    $the_jumlah_hari = count($decode_jumlah_hari);
+                                                                                                    $the_jumlah_hari = count(
+                                                                                                        $decode_jumlah_hari,
+                                                                                                    );
                                                                                                 }
                                                                                             @endphp
                                                                                             @for ($i = 1; $i < $the_jumlah_hari; $i++)
@@ -823,145 +975,126 @@
                                                                                                     <tr>
                                                                                                 @endif
                                                                                                 <td>
-                                                                                                    @php
-                                                                                                        $randomStrID = \Illuminate\Support\Str::random(5);
-                                                                                                    @endphp
-                                                                                                    <input type="checkbox" id="day{{$lp->id}}{{ $i }}"
-                                                                                                        class="styled-checkbox" name="laporan_jumlah_hari[]"
-                                                                                                        value="{{ $i }}" data-index="{{ $i }}"
-                                                                                                        data-id="{{ $lp->id }}"
-                                                                                                        @if ($decode_jumlah_hari !== null)
-                                                                                                            @if ($decode_jumlah_hari[$i] == true)
-                                                                                                                checked
-                                                                                                            @endif
+                                                                                                    <input type="checkbox"
+                                                                                                        id="day{{ $lp->id }}{{ $i }}"
+                                                                                                        class="styled-checkbox"
+                                                                                                        name="laporan_jumlah_hari[]"
+                                                                                                        value="{{ $i }}"
+                                                                                                        @if ($decode_jumlah_hari !== null) @if ($decode_jumlah_hari[$i] == true)
+                                                                                                                checked @endif
                                                                                                         @endif
-                                                                                                        >
-                                                                                                    <label for="day{{$lp->id}}{{ $i }}">
+                                                                                                    >
+                                                                                                    <label
+                                                                                                        for="day{{ $lp->id }}{{ $i }}">
                                                                                                         {{ $i }}
                                                                                                     </label>
                                                                                                 </td>
                                                                                                 @if ($i % 10 == 0 || $i == $the_jumlah_hari)
-                                                                                                    </tr>
-                                                                                                @endif
-                                                                                            @endfor
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <input type="hidden" name="laporan_id"
-                                                                            value="{{ $lp->id }}">
-                                                                        <input type="hidden" name="divisi_nama"
-                                                                            value="{{ $lp->divisi->divisi_nama }}">
-                                                                        <button type="button"
-                                                                            class="btn btn-outline-danger"
-                                                                            data-dismiss="modal">Batalkan</button>
-                                                                        <button type="submit"
-                                                                            class="btn btn-outline-success" onclick="setPage_ubah('current_page_ubah{{$lp->id}}')">Setuju</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Modal Konfirmasi -->
-                                                    <div class="modal fade" id="modal_konfirmasi{{ $lp->id }}"
-                                                        tabindex="-1" role="dialog"
-                                                        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabelLogout">
-                                                                        Konfirmasi Penyetujuan Laporan.
-                                                                    </h5>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <p>Apakah anda yakin ingin menyetujui Laporan ini?
-                                                                        <br>
-                                                                        Laporan : <b>{{ $lp->laporan_rencana_kerja }}</b>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <form action="{{ route('konfirmasi-laporan') }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        <input type="hidden" name="current_page" id="current_page_konfirmasi{{$lp->id}}" value="">
-                                                                        <input type="hidden" name="laporan_id"
-                                                                            value="{{ $lp->id }}">
-                                                                        <input type="hidden" name="divisi_nama"
-                                                                            value="{{ $lp->divisi->divisi_nama }}">
-                                                                        <button type="button"
-                                                                            class="btn btn-outline-danger"
-                                                                            data-dismiss="modal">Batalkan</button>
-                                                                        <button type="submit"
-                                                                            class="btn btn-outline-success"  onclick="setPage_konfirmasi('current_page_konfirmasi{{$lp->id}}')">Setuju</button>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Modal Hapus -->
-                                                    <div class="modal fade" id="modal_hapus{{ $lp->id }}"
-                                                        tabindex="-1" role="dialog"
-                                                        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabelLogout">
-                                                                        Peringatan
-                                                                        Aksi!</h5>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <p>Apakah anda yakin ingin menghapus item ini?
-                                                                        <br>
-                                                                        Laporan : <b>(Laporan)</b>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <form action="{{ route('hapus-laporan') }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        <input type="hidden" name="current_page" id="current_page_hapus{{$lp->id}}" value="">
-                                                                        <input type="hidden" name="hapus_id"
-                                                                            value="{{ $lp->id }}">
-                                                                        <input type="hidden" name="divisi_nama"
-                                                                            value="{{ $lp->divisi->divisi_nama }}">
-                                                                        <button type="button"
-                                                                            class="btn btn-outline-danger"
-                                                                            data-dismiss="modal">Batalkan</button>
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary" onclick="setPage_hapus('current_page_hapus{{$lp->id}}')">Hapus</button>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </td>
                                     </tr>
-                                @endforeach
-
+                                @endif
+                                @endfor
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" name="laporan_id" value="{{ $lp->id }}">
+            <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
+            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
+            <button type="submit" class="btn btn-outline-success"
+                onclick="setPage_ubah('current_page_ubah{{ $lp->id }}')">Setuju</button>
+        </div>
+        </form>
+    </div>
+    </div>
+    </div>
+
+    <!-- Modal Konfirmasi -->
+    <div class="modal fade" id="modal_konfirmasi{{ $lp->id }}" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelLogout">
+                        Konfirmasi Penyetujuan Laporan.
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menyetujui Laporan ini?
+                        <br>
+                        Laporan : <b>{{ $lp->laporan_rencana_kerja }}</b>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('konfirmasi-laporan') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="current_page" id="current_page_konfirmasi{{ $lp->id }}"
+                            value="">
+                        <input type="hidden" name="laporan_id" value="{{ $lp->id }}">
+                        <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
+                        <button type="submit" class="btn btn-outline-success"
+                            onclick="setPage_konfirmasi('current_page_konfirmasi{{ $lp->id }}')">Setuju</button>
+                    </form>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- Modal Hapus -->
+    <div class="modal fade" id="modal_hapus{{ $lp->id }}" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelLogout">
+                        Peringatan
+                        Aksi!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menghapus item ini?
+                        <br>
+                        Laporan : <b>(Laporan)</b>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('hapus-laporan') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="current_page" id="current_page_hapus{{ $lp->id }}"
+                            value="">
+                        <input type="hidden" name="hapus_id" value="{{ $lp->id }}">
+                        <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
+                        <button type="submit" class="btn btn-primary"
+                            onclick="setPage_hapus('current_page_hapus{{ $lp->id }}')">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    </td>
+    </tr>
+    @endforeach
+
+    </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    </div>
     </div>
 
 @endsection
@@ -972,28 +1105,65 @@
         tinymce.init({
             selector: 'textarea',
             plugins: [
-                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
-                'importword', 'exportword', 'exportpdf'
+                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media',
+                'searchreplace', 'table', 'visualblocks', 'wordcount'
             ],
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
             tinycomments_mode: 'embedded',
             tinycomments_author: 'Author name',
-            mergetags_list: [
-                { value: 'First.Name', title: 'First Name' },
-                { value: 'Email', title: 'Email' },
+            mergetags_list: [{
+                    value: 'First.Name',
+                    title: 'First Name'
+                },
+                {
+                    value: 'Email',
+                    title: 'Email'
+                },
             ],
-            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-            exportpdf_converter_options: { 'format': 'Letter', 'margin_top': '1in', 'margin_right': '1in', 'margin_bottom': '1in', 'margin_left': '1in' },
-            exportword_converter_options: { 'document': { 'size': 'Letter' } },
-            importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline',	'defaults': 'inline', } },
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject(
+                'See docs to implement AI Assistant')),
+            exportpdf_converter_options: {
+                'format': 'Letter',
+                'margin_top': '1in',
+                'margin_right': '1in',
+                'margin_bottom': '1in',
+                'margin_left': '1in'
+            },
+            exportword_converter_options: {
+                'document': {
+                    'size': 'Letter'
+                }
+            },
+            importword_converter_options: {
+                'formatting': {
+                    'styles': 'inline',
+                    'resets': 'inline',
+                    'defaults': 'inline',
+                }
+            },
         });
-      </script>
+    </script>
     <script>
         function setValue(value) {
             document.getElementById("hiddenInput").value = value;
             document.getElementById("areakerjaspan").innerHTML = " " + value + " ";
         }
+
+        function setPage_ubah(set_current_page_id_ubah) {
+            var page = table.page.info().page;
+            document.getElementById(id_page).value = page;
+        }
+
+        function setPage_konfirmasi(set_current_page_id_konfirmasi) {
+            var page = table.page.info().page;
+            document.getElementById(set_current_page_id_konfirmasi).value = page;
+        }
+
+        function setPage_hapus(set_current_page_id_hapus) {
+            var page = table.page.info().page;
+            document.getElementById(set_current_page_id_hapus).value = page;
+        }
+
         $(document).ready(function() {
             var table = $('#example').DataTable({});
 
@@ -1041,13 +1211,13 @@
                 $(this).closest('.form-group').remove();
             });
         });
-
     </script>
     <script>
         $(document).ready(function() {
             var reportCounts = {!! json_encode($reportCounts) !!};
             var minValue = Math.min(...reportCounts);
             var maxValue = Math.max(...reportCounts);
+
             function getBarColor(value) {
                 if (value === minValue) {
                     return 'rgba(255, 99, 132, 0.8)';
