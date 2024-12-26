@@ -212,13 +212,13 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             {{-- <a href="index3.html" class="brand-link"> --}}
-            {{-- <img src="{{ asset('assets/img') }}/logo-eco.png" alt="ECOASPHALT" class="brand-image"
+            {{-- <img src="{{ asset('assets') }}/logo.png" alt="ECOASPHALT" class="brand-image"
                     style="opacity: .8"> --}}
             {{-- <span class="brand-text font-weight-light">PT. KPA</span> --}}
             {{-- </a> --}}
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">
-                    <img src="{{ asset('assets/img') }}/logo-eco.png" alt="ECOASPHALT" class="brand-image my-2"
+                    <img src="{{ asset('assets') }}/logo.png" alt="ECOASPHALT" class="brand-image my-2"
                         style="" width="200px">
                 </div>
             </div>

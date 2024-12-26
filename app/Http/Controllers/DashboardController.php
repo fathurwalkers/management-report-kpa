@@ -116,8 +116,6 @@ class DashboardController extends Controller
         ]);
         $divisi_id = intval($request->divisi_id);
         $divisi = Divisi::find($divisi_id);
-        // dd($divisi);
-
         $login_nama = $request->login_nama;
         $login_password = $hashPassword;
         $login_token = $hashToken;
@@ -133,7 +131,6 @@ class DashboardController extends Controller
         }
         $login_no_karyawan = $login_username;
         $login_status = "verified";
-
         $login = new Login;
         $save_login = $login->create([
                 'login_nama' => $login_nama,
@@ -156,6 +153,28 @@ class DashboardController extends Controller
         } else {
             return redirect()->route('buat-user')->with('status', 'Ada kesalahan saat membuat user, user tidak dapat dibuat!');
         }
+    }
 
+    public function tambah_area_kerja()
+    {
+        $array_area = [
+            'Safety',
+            'Health',
+            'Environment',
+            'Training',
+        ];
+
+        foreach ($array_area as $areas) {
+            $area_nama = $areas;
+            $area_check = Area::all();
+            $check = $area_check->where('area_nama', $areas)->first();
+            dd($check);
+            // Area::create([
+            //     'areakerja_lokasi' => $area_nama,
+            //     'areakerja_kode' => $area_nama,
+            //     'created_at' => now(),
+            //     'updated_at' => now()
+            // ]);
+        }
     }
 }

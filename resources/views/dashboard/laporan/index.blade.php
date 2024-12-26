@@ -4,8 +4,7 @@
 
 @push('css')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/uxhd06jpvzzjy21b9i2gc4d0ke46ydzfoerta9x1q4yupxx7/tinymce/7/tinymce.min.js"
-        referrerpolicy="origin"></script>
+  <script src="https://cdn.tiny.cloud/1/zgmkp4v6rahlh561a8hr41wzuzvyfeze8ndn6ctki1dotsyk/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <link href="{{ asset('assets/datatables') }}/datatables.min.css" rel="stylesheet">
     <style>
         .checkbox-table {

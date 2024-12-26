@@ -32,6 +32,7 @@ Route::group(['prefix' => '/dashboard', 'middleware' => CekLogin::class], functi
     // Index Route
     Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::get('/buat-user', [DashboardController::class, 'buat_user'])->name('buat-user');
+    Route::get('/tambah-area-kerja', [DashboardController::class, 'tambah_area_kerja'])->name('tambah-area-kerja');
     Route::post('/buat-user/proses', [DashboardController::class, 'proses_buat_user'])->name('proses-buat-user');
     Route::get('/file/preview/{id}', [FilingController::class, 'preview'])->name('file-preview');
 

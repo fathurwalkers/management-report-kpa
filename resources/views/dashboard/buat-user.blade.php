@@ -97,7 +97,7 @@
                                                 <div class="form-group" id="login_username">
                                                     <label for="login_username" class="form-label">Username</label>
                                                     <input name="login_username" type="text" class="form-control"
-                                                        id="login_username" aria-describedby="login_username" maxlength="5"
+                                                        id="login_username" aria-describedby="login_username"
                                                         oninput="this.value = this.value.toUpperCase()" required>
                                                     <div id="login_username" class="form-text text-sm">
                                                         <span style="color:red;">*</span> Jumlah maks karakter 5, cukup

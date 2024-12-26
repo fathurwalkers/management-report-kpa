@@ -33,7 +33,7 @@
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
                 <a href="#" class="h1">
-                    <img src="{{ asset('assets') }}/img/logo-eco.png" alt="ECOASPHALT" class="brand-image my-2"
+                    <img src="{{ asset('assets') }}/logo.png" alt="ECOASPHALT" class="brand-image my-2"
                         style="" width="200px">
                 </a>
             </div>
