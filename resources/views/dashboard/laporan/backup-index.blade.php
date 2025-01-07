@@ -800,9 +800,7 @@
                                                         data-target="#modal_hapus{{ $lp->id }}">Hapus</button>
 
                                                     <!-- Modal Ubah -->
-                                                    <div class="modal fade" id="modal_ubah{{ $lp->id }}"
-                                                        tabindex="-1" role="dialog"
-                                                        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                                                    <div class="modal fade" id="modal_ubah{{ $lp->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
                                                         <div class="modal-dialog modal-lg" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">

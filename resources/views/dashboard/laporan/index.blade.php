@@ -58,7 +58,6 @@
                 0 0 20px rgba(255, 255, 255, 0.6);
         }
 
-        /* Tambahan CSS jika diperlukan */
         .table-responsive {
             overflow-x: auto;
             /* Pastikan overflow horizontal diaktifkan */
@@ -67,7 +66,12 @@
         .table th,
         .table td {
             white-space: nowrap;
-            /* Mencegah teks membungkus ke baris berikutnya */
+        }
+
+        .table td {
+            padding-top: .45rem !important;
+            padding-bottom: .10rem !important;
+            vertical-align: center !important; /* Menempatkan teks di tengah secara horizontal */
         }
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -724,12 +728,14 @@
 
                                 @foreach ($laporan as $lp)
                                     <tr>
-                                        <th scope="row">{{ $loop->iteration }}</th>
-                                        <td class="text-center">
+                                        <td scope="row">
+                                            <b>{{ $loop->iteration }}</b>
+                                        </td>
+                                        <td class="custom-padding text-center">
                                             <b>{{ strtoupper($lp->divisi->divisi_nama) }}</b>
                                         </td>
                                         @if (in_array($users->divisi_id, $array_divisi_lain))
-                                            <td class="text-center">
+                                            <td class="custom-padding text-center">
                                                 @if ($lp->area_id === null)
                                                     Tidak Ada
                                                 @else
@@ -738,7 +744,7 @@
                                             </td>
                                         @endif
                                         <td>{{ $lp->login->login_nama }}</td>
-                                        <td class="">
+                                        <td class="custom-padding ">
                                             <div class="col-sm-4 col-md-4 col-lg-4">
                                                 @php
                                                     $file = \App\Models\File::where('laporan_id', $lp->id)->get();
@@ -773,11 +779,11 @@
                                                 {!! $lp->laporan_rencana_kerja !!}
                                             </div>
                                         </td>
-                                        <td class="text-center">{{ $lp->laporan_presentasi_pencapaian }}%</td>
-                                        <td class="text-center">{{ $lp->laporan_keterangan }}</td>
+                                        <td class="custom-padding text-center">{{ $lp->laporan_presentasi_pencapaian }}%</td>
+                                        <td class="custom-padding text-center">{{ $lp->laporan_keterangan }}</td>
                                         <td>{{ $lp->created_at }}</td>
                                         @if ($users->divisi_id !== 26)
-                                            <td class="">
+                                            <td class="custom-padding ">
                                                 <div class="row mx-auto">
                                                     <div class="col-sm-12 col-md-12 col-lg-12 mx-auto btn-group">
                                                         @switch($lp->laporan_status)
@@ -820,25 +826,106 @@
                                         <td>
                                             <div class="row justify-content-center">
                                                 <div class="col-sm-12 col-md-12 col-lg-12 text-center">
-                                                    <button class="btn btn-sm btn-success btn-glow mx-1" type="submit">
+                                                    {{-- <button class="btn btn-sm btn-success btn-glow mx-1" type="submit">
                                                         <i class="nav-icon fas fa-arrow-right"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-info btn-glow mx-1" type="submit">
-                                                        <i class="nav-icon fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-danger btn-glow mx-1" type="submit">
-                                                        <i class="nav-icon fas fa-trash"></i>
+                                                    </button> --}}
+                                                    {{-- <button type="button" class="btn btn-sm btn-info ubah-button mr-1"
+                                                        data-toggle="modal"
+                                                        data-target="#modal_ubah{{ $lp->id }}">
+                                                            <i class="nav-icon fas fa-edit"></i>
+                                                    </button> --}}
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        data-toggle="modal"
+                                                        data-target="#modal_hapus{{ $lp->id }}">
+                                                            <i class="nav-icon fas fa-trash"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                         </td>
+
+                                        <!-- Modal Konfirmasi -->
+                                        <div class="modal fade" id="modal_konfirmasi{{ $lp->id }}" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabelLogout">
+                                                            Konfirmasi Penyetujuan Laporan.
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Apakah anda yakin ingin menyetujui Laporan ini?
+                                                            <br>
+                                                            Laporan : <b>{{ $lp->laporan_rencana_kerja }}</b>
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="{{ route('konfirmasi-laporan') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="current_page" id="current_page_konfirmasi{{ $lp->id }}"
+                                                                value="">
+                                                            <input type="hidden" name="laporan_id" value="{{ $lp->id }}">
+                                                            <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
+                                                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
+                                                            <button type="submit" class="btn btn-outline-success"
+                                                                onclick="setPage_konfirmasi('current_page_konfirmasi{{ $lp->id }}')">Setuju</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal Hapus -->
+                                        <div class="modal fade" id="modal_hapus{{ $lp->id }}" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabelLogout">
+                                                            Peringatan
+                                                            Aksi!</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Apakah anda yakin ingin menghapus item ini?
+                                                            <br>
+                                                            Laporan : <b>(Laporan)</b>
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="{{ route('hapus-laporan') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="current_page" id="current_page_hapus{{ $lp->id }}"
+                                                                value="">
+                                                            <input type="hidden" name="hapus_id" value="{{ $lp->id }}">
+                                                            <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
+                                                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
+                                                            <button type="submit" class="btn btn-primary"
+                                                                onclick="setPage_hapus('current_page_hapus{{ $lp->id }}')">Hapus</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
                                     </tr>
                                 @endforeach
 
                             </tbody>
                         </table>
-                        {{ $laporan->links('pagination::bootstrap-4') }}
                     </div> <!-- Tutup div table-responsive -->
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center mx-auto">
+                    {{ $laporan->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>
