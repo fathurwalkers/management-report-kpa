@@ -1006,111 +1006,111 @@
                                                                                                     </label>
                                                                                                 </td>
                                                                                                 @if ($i % 10 == 0 || $i == $the_jumlah_hari)
+                                                                                                    </tr>
+                                                                                                @endif
+                                                                                            @endfor
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <input type="hidden" name="laporan_id" value="{{ $lp->id }}">
+                                                                        <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
+                                                                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
+                                                                        <button type="submit" class="btn btn-outline-success"
+                                                                            onclick="setPage_ubah('current_page_ubah{{ $lp->id }}')">Setuju</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Modal Konfirmasi -->
+                                                    <div class="modal fade" id="modal_konfirmasi{{ $lp->id }}" tabindex="-1" role="dialog"
+                                                        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabelLogout">
+                                                                        Konfirmasi Penyetujuan Laporan.
+                                                                    </h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Apakah anda yakin ingin menyetujui Laporan ini?
+                                                                        <br>
+                                                                        Laporan : <b>{{ $lp->laporan_rencana_kerja }}</b>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <form action="{{ route('konfirmasi-laporan') }}" method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="current_page" id="current_page_konfirmasi{{ $lp->id }}"
+                                                                            value="">
+                                                                        <input type="hidden" name="laporan_id" value="{{ $lp->id }}">
+                                                                        <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
+                                                                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
+                                                                        <button type="submit" class="btn btn-outline-success"
+                                                                            onclick="setPage_konfirmasi('current_page_konfirmasi{{ $lp->id }}')">Setuju</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Modal Hapus -->
+                                                    <div class="modal fade" id="modal_hapus{{ $lp->id }}" tabindex="-1" role="dialog"
+                                                        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabelLogout">
+                                                                        Peringatan
+                                                                        Aksi!</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Apakah anda yakin ingin menghapus item ini?
+                                                                        <br>
+                                                                        Laporan : <b>(Laporan)</b>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <form action="{{ route('hapus-laporan') }}" method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="current_page" id="current_page_hapus{{ $lp->id }}"
+                                                                            value="">
+                                                                        <input type="hidden" name="hapus_id" value="{{ $lp->id }}">
+                                                                        <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
+                                                                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
+                                                                        <button type="submit" class="btn btn-primary"
+                                                                            onclick="setPage_hapus('current_page_hapus{{ $lp->id }}')">Hapus</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
-                                @endif
-                                @endfor
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-            </div>
-
-        </div>
-        <div class="modal-footer">
-            <input type="hidden" name="laporan_id" value="{{ $lp->id }}">
-            <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
-            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
-            <button type="submit" class="btn btn-outline-success"
-                onclick="setPage_ubah('current_page_ubah{{ $lp->id }}')">Setuju</button>
-        </div>
-        </form>
-    </div>
-    </div>
-    </div>
-
-    <!-- Modal Konfirmasi -->
-    <div class="modal fade" id="modal_konfirmasi{{ $lp->id }}" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabelLogout">
-                        Konfirmasi Penyetujuan Laporan.
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Apakah anda yakin ingin menyetujui Laporan ini?
-                        <br>
-                        Laporan : <b>{{ $lp->laporan_rencana_kerja }}</b>
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <form action="{{ route('konfirmasi-laporan') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="current_page" id="current_page_konfirmasi{{ $lp->id }}"
-                            value="">
-                        <input type="hidden" name="laporan_id" value="{{ $lp->id }}">
-                        <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
-                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
-                        <button type="submit" class="btn btn-outline-success"
-                            onclick="setPage_konfirmasi('current_page_konfirmasi{{ $lp->id }}')">Setuju</button>
-                    </form>
-                </div>
             </div>
         </div>
-    </div>
-
-    <!-- Modal Hapus -->
-    <div class="modal fade" id="modal_hapus{{ $lp->id }}" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabelLogout">
-                        Peringatan
-                        Aksi!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Apakah anda yakin ingin menghapus item ini?
-                        <br>
-                        Laporan : <b>(Laporan)</b>
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <form action="{{ route('hapus-laporan') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="current_page" id="current_page_hapus{{ $lp->id }}"
-                            value="">
-                        <input type="hidden" name="hapus_id" value="{{ $lp->id }}">
-                        <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
-                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
-                        <button type="submit" class="btn btn-primary"
-                            onclick="setPage_hapus('current_page_hapus{{ $lp->id }}')">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    </div>
-    </div>
-    </td>
-    </tr>
-    @endforeach
-
-    </tbody>
-    </table>
-    </div>
-    </div>
-    </div>
-    </div>
     </div>
 
 @endsection

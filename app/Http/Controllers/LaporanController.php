@@ -36,8 +36,6 @@ class LaporanController extends Controller
             $get_divisi = Divisi::where('id', $users->divisi_id)->first();
             $laporan = Laporan::where('divisi_id', $get_divisi->id);
         }
-        // $laporan_tambahan = Laporan::where('laporan_tujuan', $users->id)->get();
-        // $laporan = $laporan->merge($laporan_tambahan);
         $laporan_tambahan = Laporan::where('laporan_tujuan', $users->id);
         $laporan = $laporan->union($laporan_tambahan)->paginate(10);
         $laporan_cari = $laporan->where('laporan_tujuan', '!==', $users->id)
