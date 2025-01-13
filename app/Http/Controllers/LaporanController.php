@@ -44,26 +44,17 @@ class LaporanController extends Controller
                   ->where('laporan_tujuan', '!==', NULL);
         })->distinct()->get();
         $laporan = $laporan->merge($laporan_tambahan);
-
-        // Paginasi secara manual
         $page = LengthAwarePaginator::resolveCurrentPage();
         $perPage = 10;
         $offset = ($page - 1) * $perPage;
-
-        // Ambil subset dari koleksi yang sudah digabung
         $laporanSubset = $laporan->slice($offset, $perPage);
-
-        // Buat paginasi menggunakan koleksi yang sudah digabung
         $laporan = new LengthAwarePaginator(
             $laporanSubset,
-            $laporan->count(), // total item dalam koleksi
+            $laporan->count(),
             $perPage,
             $page,
-            ['path' => request()->url(), 'query' => request()->query()] // agar paginasi bisa bekerja dengan URL yang sesuai
+            ['path' => request()->url(), 'query' => request()->query()]
         );
-
-        // dd([$laporan,$laporan_tambahan], $users->id);
-
 
         // $laporan_tambahan = Laporan::where('laporan_tujuan', $users->id);
         // $laporan = $laporan->union($laporan_tambahan)->paginate(10);
