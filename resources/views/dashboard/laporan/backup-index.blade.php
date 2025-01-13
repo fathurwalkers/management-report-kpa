@@ -812,12 +812,9 @@
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
-                                                                <form id="laporan-form{{ $lp->id }}"
-                                                                    action="{{ route('edit-laporan') }}" method="POST">
+                                                                <form id="laporan-form{{ $lp->id }}" action="{{ route('edit-laporan') }}" method="POST">
                                                                     @csrf
-                                                                    <input type="hidden" name="current_page"
-                                                                        id="current_page_ubah{{ $lp->id }}"
-                                                                        value="">
+                                                                    <input type="hidden" name="current_page" id="current_page_ubah{{ $lp->id }}" value="">
                                                                     <div class="modal-body">
 
                                                                         <div class="container">

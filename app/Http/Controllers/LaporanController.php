@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class LaporanController extends Controller
 {
@@ -25,28 +26,57 @@ class LaporanController extends Controller
         $users = session('data_login');
         if ($users->divisi_id == 2) {
             $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
-            $laporan = Laporan::where('divisi_id', $get_divisi->id);
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
         } elseif ($users->divisi->id == 26 || $users->login_jabatan == "Head Office" || $users->login_jabatan == "Staff Kantor Pusat") {
             $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
-            $laporan = Laporan::where('divisi_id', $get_divisi->id);
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
         } elseif ($users->login_level == 'pj' && $users->divisi->id !== 26) {
             $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
-            $laporan = Laporan::where('divisi_id', $get_divisi->id);
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
         } else {
             $get_divisi = Divisi::where('id', $users->divisi_id)->first();
-            $laporan = Laporan::where('divisi_id', $get_divisi->id);
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
         }
-        $laporan_tambahan = Laporan::where('laporan_tujuan', $users->id);
-        $laporan = $laporan->union($laporan_tambahan)->paginate(10);
-        $laporan_cari = $laporan->where('laporan_tujuan', '!==', $users->id)
-            ->where('login_id', '!==', $users->id)
-            ->where('laporan_tujuan', '!==', NULL);
-        foreach ($laporan_cari as $lapo) {
-            $laporan_get = $laporan->where('id', $lapo->id)->first();
-            if ($laporan_get == true) {
-                $laporan = $laporan->reject($lapo);
-            }
-        }
+
+        $laporan_tambahan = Laporan::where(function($query) use ($users) {
+            $query->where('laporan_tujuan', $users->id)
+                  ->orWhere('login_id', $users->id)
+                  ->where('laporan_tujuan', '!==', NULL);
+        })->distinct()->get();
+        $laporan = $laporan->merge($laporan_tambahan);
+
+        // Paginasi secara manual
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 10;
+        $offset = ($page - 1) * $perPage;
+
+        // Ambil subset dari koleksi yang sudah digabung
+        $laporanSubset = $laporan->slice($offset, $perPage);
+
+        // Buat paginasi menggunakan koleksi yang sudah digabung
+        $laporan = new LengthAwarePaginator(
+            $laporanSubset,
+            $laporan->count(), // total item dalam koleksi
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()] // agar paginasi bisa bekerja dengan URL yang sesuai
+        );
+
+        // dd([$laporan,$laporan_tambahan], $users->id);
+
+
+        // $laporan_tambahan = Laporan::where('laporan_tujuan', $users->id);
+        // $laporan = $laporan->union($laporan_tambahan)->paginate(10);
+        // $laporan_cari = $laporan->where('laporan_tujuan', '!==', $users->id)
+        //     ->where('login_id', '!==', $users->id)
+        //     ->where('laporan_tujuan', '!==', NULL);
+        // foreach ($laporan_cari as $lapo) {
+        //     $laporan_get = $laporan->where('id', $lapo->id)->first();
+        //     if ($laporan_get == true) {
+        //         $laporan_sementara = $laporan->reject($lapo);
+        //     }
+        // }
+
         $currentMonth = date('n');
         $currentYear = date('Y');
         $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();

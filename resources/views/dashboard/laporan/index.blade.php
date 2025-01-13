@@ -829,11 +829,11 @@
                                                     {{-- <button class="btn btn-sm btn-success btn-glow mx-1" type="submit">
                                                         <i class="nav-icon fas fa-arrow-right"></i>
                                                     </button> --}}
-                                                    {{-- <button type="button" class="btn btn-sm btn-info ubah-button mr-1"
+                                                    <button type="button" class="btn btn-sm btn-info ubah-button mr-1"
                                                         data-toggle="modal"
                                                         data-target="#modal_ubah{{ $lp->id }}">
                                                             <i class="nav-icon fas fa-edit"></i>
-                                                    </button> --}}
+                                                    </button>
                                                     <button type="button" class="btn btn-sm btn-danger"
                                                         data-toggle="modal"
                                                         data-target="#modal_hapus{{ $lp->id }}">
@@ -842,6 +842,116 @@
                                                 </div>
                                             </div>
                                         </td>
+
+                                        <!-- Modal Edit -->
+                                        <div class="modal fade" id="modal_ubah{{ $lp->id }}" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl" role="document">
+                                                <form id="laporan-form{{ $lp->id }}" action="{{ route('edit-laporan') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="current_page" id="current_page_ubah{{ $lp->id }}" value="">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabelLogout">
+                                                                Ubah Data Laporan
+                                                            </h5>
+                                                            <button type="button" class="close"
+                                                                data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <div class="container">
+                                                                <div class="row mb-1">
+                                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <label
+                                                                                for="laporan_keterangan{{ $lp->id }}">Keterangan</label>
+                                                                            <input type="text"
+                                                                                class="form-control"
+                                                                                id="laporan_keterangan{{ $lp->id }}"
+                                                                                name="laporan_keterangan"
+                                                                                value="{{ $lp->laporan_keterangan }}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <label
+                                                                                for="laporan_presentasi_pencapaian{{ $lp->id }}">Presentasi
+                                                                                Pencapaian</label>
+                                                                            <input type="number"
+                                                                                class="form-control"
+                                                                                id="laporan_presentasi_pencapaian{{ $lp->id }}"
+                                                                                name="laporan_presentasi_pencapaian"
+                                                                                value="{{ $lp->laporan_presentasi_pencapaian }}">
+                                                                        </div>
+                                                                    </div>
+                                                                    @php
+                                                                        $update_created_at = \Illuminate\Support\Carbon::parse(
+                                                                            $lp->created_at,
+                                                                        );
+                                                                        $update_tanggal = $update_created_at->format(
+                                                                            'Y-m-d',
+                                                                        );
+                                                                        $update_waktu = $update_created_at->format(
+                                                                            'H:i',
+                                                                        );
+                                                                    @endphp
+                                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <label
+                                                                                for="created_at_tanggal{{ $lp->id }}">Tanggal
+                                                                                Kegiatan</label>
+                                                                            <input
+                                                                                value="{{ $update_tanggal }}"
+                                                                                type="date"
+                                                                                class="form-control"
+                                                                                id="created_at_tanggal{{ $lp->id }}"
+                                                                                name="created_at_tanggal">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                                        <div class="form-group">
+                                                                            <label
+                                                                                for="created_at_waktu{{ $lp->id }}">Waktu
+                                                                                Kegiatan</label>
+                                                                            <input value="{{ $update_waktu }}"
+                                                                                type="time"
+                                                                                class="form-control"
+                                                                                id="created_at_waktu{{ $lp->id }}"
+                                                                                name="created_at_waktu">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row mb-1">
+                                                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                        <div class="form-group">
+                                                                            <label
+                                                                                for="laporan_rencana_kerja{{ $lp->id }}">Rencana
+                                                                                Kerja</label>
+                                                                            <textarea id="laporan_rencana_kerja{{ $lp->id }}" class="form-control laporan_rencana_kerjatextarea_class"
+                                                                                name="laporan_rencana_kerja">
+                                                                                {{ $lp->laporan_rencana_kerja }}
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="laporan_id" value="{{ $lp->id }}">
+                                                            <input type="hidden" name="divisi_nama" value="{{ $lp->divisi->divisi_nama }}">
+                                                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Batalkan</button>
+                                                            <button type="submit" class="btn btn-outline-success"
+                                                                onclick="setPage_ubah('current_page_ubah{{ $lp->id }}')">Setuju</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
 
                                         <!-- Modal Konfirmasi -->
                                         <div class="modal fade" id="modal_konfirmasi{{ $lp->id }}" tabindex="-1" role="dialog"
