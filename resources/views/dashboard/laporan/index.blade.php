@@ -73,6 +73,7 @@
             padding-bottom: .10rem !important;
             vertical-align: center !important; /* Menempatkan teks di tengah secara horizontal */
         }
+
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -936,6 +937,121 @@
                                                                                 {{ $lp->laporan_rencana_kerja }}
                                                                             </textarea>
                                                                         </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row mb-2">
+                                                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                        <label for="">Pilih Tanggal
+                                                                            Kerja</label>
+
+                                                                        <table class="checkbox-table">
+                                                                            <tbody>
+                                                                                @php
+                                                                                    switch (
+                                                                                        $lp->periode
+                                                                                            ->periode_bulan_int
+                                                                                    ) {
+                                                                                        case 1: // Januari
+                                                                                        case 3: // Maret
+                                                                                        case 5: // Mei
+                                                                                        case 7: // Juli
+                                                                                        case 8: // Agustus
+                                                                                        case 10: // Oktober
+                                                                                        case 12: // Desember
+                                                                                            $bb_the_jumlah_hari =
+                                                                                                31 + 1;
+                                                                                            // $bb_the_jumlah_hari =- 1;
+                                                                                            break;
+                                                                                        case 4: // April
+                                                                                        case 6: // Juni
+                                                                                        case 9: // September
+                                                                                        case 11: // November
+                                                                                            $bb_the_jumlah_hari =
+                                                                                                30 + 1;
+                                                                                            // $bb_the_jumlah_hari =- 1;
+                                                                                            break;
+                                                                                        case 2: // Februari
+                                                                                            // Mengecek tahun kabisat untuk Februari
+                                                                                            $der =
+                                                                                                $lp->periode
+                                                                                                    ->periode_tahun %
+                                                                                                    4 ==
+                                                                                                    0 &&
+                                                                                                ($lp
+                                                                                                    ->periode
+                                                                                                    ->periode_tahun %
+                                                                                                    100 !=
+                                                                                                    0 ||
+                                                                                                    $lp
+                                                                                                        ->periode
+                                                                                                        ->periode_tahun %
+                                                                                                        400 ==
+                                                                                                        0)
+                                                                                                    ? 29
+                                                                                                    : 28;
+                                                                                            $bb_the_jumlah_hari =
+                                                                                                $der + 1;
+                                                                                            break;
+                                                                                    }
+                                                                                    if (
+                                                                                        $lp->laporan_jumlah_hari ===
+                                                                                            null ||
+                                                                                        $lp->laporan_jumlah_hari ===
+                                                                                            '' ||
+                                                                                        $lp->laporan_jumlah_hari ===
+                                                                                            'null' ||
+                                                                                        !isset(
+                                                                                            $lp->laporan_jumlah_hari,
+                                                                                        ) ||
+                                                                                        strlen(
+                                                                                            $lp->laporan_jumlah_hari,
+                                                                                        ) === 0 ||
+                                                                                        (is_array(
+                                                                                            $lp->laporan_jumlah_hari,
+                                                                                        ) &&
+                                                                                            count(
+                                                                                                $lp->laporan_jumlah_hari,
+                                                                                            ) === 0)
+                                                                                    ) {
+                                                                                        $decode_jumlah_hari = null;
+                                                                                        $the_jumlah_hari = $bb_the_jumlah_hari;
+                                                                                    } else {
+                                                                                        $decode_jumlah_hari = json_decode(
+                                                                                            $lp->laporan_jumlah_hari,
+                                                                                            true,
+                                                                                        );
+                                                                                        // array_shift($decode_jumlah_hari);
+                                                                                        $the_jumlah_hari = count(
+                                                                                            $decode_jumlah_hari,
+                                                                                        );
+                                                                                    }
+                                                                                @endphp
+                                                                                @for ($i = 1; $i < $the_jumlah_hari; $i++)
+                                                                                    @if ($i % 10 == 1)
+                                                                                        <tr>
+                                                                                    @endif
+                                                                                    <td>
+                                                                                        <input type="checkbox"
+                                                                                            id="day{{ $lp->id }}{{ $i }}"
+                                                                                            class="styled-checkbox"
+                                                                                            name="laporan_jumlah_hari[]"
+                                                                                            value="{{ $i }}"
+                                                                                            @if ($decode_jumlah_hari !== null) @if ($decode_jumlah_hari[$i] == true)
+                                                                                                    checked @endif
+                                                                                            @endif
+                                                                                        >
+                                                                                        <label
+                                                                                            for="day{{ $lp->id }}{{ $i }}">
+                                                                                            {{ $i }}
+                                                                                        </label>
+                                                                                    </td>
+                                                                                    @if ($i % 10 == 0 || $i == $the_jumlah_hari)
+                                                                                        </tr>
+                                                                                    @endif
+                                                                                @endfor
+                                                                            </tbody>
+                                                                        </table>
                                                                     </div>
                                                                 </div>
 

@@ -55,19 +55,17 @@ class LaporanController extends Controller
             $page,
             ['path' => request()->url(), 'query' => request()->query()]
         );
-
         // $laporan_tambahan = Laporan::where('laporan_tujuan', $users->id);
-        // $laporan = $laporan->union($laporan_tambahan)->paginate(10);
-        // $laporan_cari = $laporan->where('laporan_tujuan', '!==', $users->id)
-        //     ->where('login_id', '!==', $users->id)
-        //     ->where('laporan_tujuan', '!==', NULL);
-        // foreach ($laporan_cari as $lapo) {
-        //     $laporan_get = $laporan->where('id', $lapo->id)->first();
-        //     if ($laporan_get == true) {
-        //         $laporan_sementara = $laporan->reject($lapo);
-        //     }
+            // $laporan = $laporan->union($laporan_tambahan)->paginate(10);
+            // $laporan_cari = $laporan->where('laporan_tujuan', '!==', $users->id)
+            //     ->where('login_id', '!==', $users->id)
+            //     ->where('laporan_tujuan', '!==', NULL);
+            // foreach ($laporan_cari as $lapo) {
+            //     $laporan_get = $laporan->where('id', $lapo->id)->first();
+            //     if ($laporan_get == true) {
+            //         $laporan_sementara = $laporan->reject($lapo);
+            //     }
         // }
-
         $currentMonth = date('n');
         $currentYear = date('Y');
         $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();
