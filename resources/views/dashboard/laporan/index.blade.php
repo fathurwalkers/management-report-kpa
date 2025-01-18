@@ -4,7 +4,7 @@
 
 @push('css')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/7bx5ix0kiz0jq65g6z92wco2179whyg3gcv8yj446kc9gwrg/tinymce/7/tinymce.min.js"
+    <script src="https://cdn.tiny.cloud/1/kg5qslf01n1sz69dbhd065lxxoeccp52xwn3h0u0i131sqx7/tinymce/7/tinymce.min.js"
         referrerpolicy="origin"></script>
     <link href="{{ asset('assets/datatables') }}/datatables.min.css" rel="stylesheet">
     <style>
