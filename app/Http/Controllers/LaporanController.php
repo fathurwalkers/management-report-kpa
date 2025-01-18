@@ -55,17 +55,6 @@ class LaporanController extends Controller
             $page,
             ['path' => request()->url(), 'query' => request()->query()]
         );
-        // $laporan_tambahan = Laporan::where('laporan_tujuan', $users->id);
-            // $laporan = $laporan->union($laporan_tambahan)->paginate(10);
-            // $laporan_cari = $laporan->where('laporan_tujuan', '!==', $users->id)
-            //     ->where('login_id', '!==', $users->id)
-            //     ->where('laporan_tujuan', '!==', NULL);
-            // foreach ($laporan_cari as $lapo) {
-            //     $laporan_get = $laporan->where('id', $lapo->id)->first();
-            //     if ($laporan_get == true) {
-            //         $laporan_sementara = $laporan->reject($lapo);
-            //     }
-        // }
         $currentMonth = date('n');
         $currentYear = date('Y');
         $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();
@@ -180,11 +169,6 @@ class LaporanController extends Controller
         $currentMonth = date('n');
         $currentYear = date('Y');
         $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();
-
-        // dump($periode);
-        // dump($currentMonth);
-        // dump($currentYear);
-        // die;
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $periode->periode_bulan_int, $periode->periode_tahun);
         $arrayTanggal = [
             false,
@@ -256,6 +240,63 @@ class LaporanController extends Controller
         return redirect()->route('laporan', [$users->divisi->divisi_nama])->with('status', 'Berhasil membuat data laporan!');
     }
 
+    public function edit_laporan_view(Request $request, $id_laporan)
+    {
+        $area = Area::all();
+        $users = session('data_login');
+        if ($users->divisi_id == 2) {
+            $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
+        } elseif ($users->divisi->id == 26 || $users->login_jabatan == "Head Office" || $users->login_jabatan == "Staff Kantor Pusat") {
+            $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
+        } elseif ($users->login_level == 'pj' && $users->divisi->id !== 26) {
+            $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
+        } else {
+            $get_divisi = Divisi::where('id', $users->divisi_id)->first();
+            $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
+        }
+        $laporan = Laporan::find($id_laporan);
+        $currentMonth = date('n');
+        $currentYear = date('Y');
+        $periode = Periode::where('periode_bulan_int', $currentMonth)->where('periode_tahun', $currentYear)->first();
+        if ($periode) {
+            $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $periode->periode_bulan_int, $periode->periode_tahun);
+        } else {
+            $daysInMonth = 0;
+        }
+        $reports = DB::table('laporan')
+            ->select(DB::raw('DATE(created_at) as report_date'), DB::raw('count(*) as total'))
+            ->where('divisi_id', $get_divisi->id)
+            ->whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->groupBy('report_date')
+            ->get();
+        $dates = [];
+        $reportCounts = [];
+        foreach ($reports as $report) {
+            $dates[] = Carbon::parse($report->report_date)->format('d M');
+            $reportCounts[] = $report->total;
+        }
+        $periode_sekarang = DashboardController::getBulanIndonesia(intval($currentMonth));
+        $logins = Login::all();
+        return view('dashboard.laporan.edit-laporan', [
+            'laporan' => $laporan,
+            'logins' => $logins,
+            'users' => $users,
+            'divisi' => $get_divisi,
+            'divisi_nama' => $get_divisi->divisi_nama,
+            'jumlah_hari' => $daysInMonth,
+            'dates' => $dates,
+            'year' => $currentYear,
+            'month' => $currentMonth,
+            'reportCounts' => $reportCounts,
+            'periode_sekarang' => $periode_sekarang,
+            'area' => $area,
+        ]);
+    }
+
     public function edit_laporan(Request $request)
     {
         $areakerjaquery = Area::where('areakerja_lokasi', $request->areakerja)->first();
@@ -297,12 +338,24 @@ class LaporanController extends Controller
             $laporan_jumlah_hari = $laporan->laporan_jumlah_hari;
         }
         $laporan_jumlah_hari = json_encode($arrayTanggal);
+        $explodetanggal = explode("-",$request->created_at_tanggal);
+        $tahun = $explodetanggal[0];
+        $bulan = $explodetanggal[1];
+        $bulanint = intval($created_at->month);
+        switch($tahun) {
+            case "2024":
+                $bulanint;
+                break;
+            case "2025":
+                $bulanint += 12;
+                break;
+        }
         $laporan->update([
             'laporan_rencana_kerja' => $laporan_rencana_kerja,
             'laporan_jumlah_hari' => $laporan_jumlah_hari,
             'laporan_presentasi_pencapaian' => $laporan_presentasi_pencapaian,
             'laporan_keterangan' => $laporan_keterangan,
-            'periode_id' => $created_at->month,
+            'periode_id' => $bulanint,
             'created_at' => $created_at,
             'updated_at' => now()
         ]);

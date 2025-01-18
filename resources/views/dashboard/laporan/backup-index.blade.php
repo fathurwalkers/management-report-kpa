@@ -40,6 +40,27 @@
             border-color: white;
             color: white;
         }
+
+        .styled-checkbox2 {
+            display: none;
+        }
+
+        .styled-checkbox2+label {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: white;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .styled-checkbox2:checked+label {
+            background-color: black;
+            border-color: white;
+            color: white;
+        }
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -899,7 +920,7 @@
                                                                                     <label for="">Pilih Tanggal
                                                                                         Kerja</label>
 
-                                                                                    <table class="checkbox-table">
+                                                                                    <table class="checkbox-table2">
                                                                                         <tbody>
                                                                                             @php
                                                                                                 switch (
@@ -988,7 +1009,7 @@
                                                                                                 <td>
                                                                                                     <input type="checkbox"
                                                                                                         id="day{{ $lp->id }}{{ $i }}"
-                                                                                                        class="styled-checkbox"
+                                                                                                        class="styled-checkbox2"
                                                                                                         name="laporan_jumlah_hari[]"
                                                                                                         value="{{ $i }}"
                                                                                                         @if ($decode_jumlah_hari !== null) @if ($decode_jumlah_hari[$i] == true)
