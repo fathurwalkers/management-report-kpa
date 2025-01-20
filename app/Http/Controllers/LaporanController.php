@@ -245,13 +245,13 @@ class LaporanController extends Controller
         $area = Area::all();
         $users = session('data_login');
         if ($users->divisi_id == 2) {
-            $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
+            $get_divisi = Divisi::where('divisi_nama', $users->divisi->divisi_nama)->first();
             $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
         } elseif ($users->divisi->id == 26 || $users->login_jabatan == "Head Office" || $users->login_jabatan == "Staff Kantor Pusat") {
-            $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
+            $get_divisi = Divisi::where('divisi_nama', $users->divisi->divisi_nama)->first();
             $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
         } elseif ($users->login_level == 'pj' && $users->divisi->id !== 26) {
-            $get_divisi = Divisi::where('divisi_nama', $divisi_nama)->first();
+            $get_divisi = Divisi::where('divisi_nama', $users->divisi->divisi_nama)->first();
             $laporan = Laporan::where('divisi_id', $get_divisi->id)->get();
         } else {
             $get_divisi = Divisi::where('id', $users->divisi_id)->first();

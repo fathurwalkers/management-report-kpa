@@ -120,7 +120,7 @@
                             <div class="col-6">
                                 <h4>
                                     <b>
-                                        Input Data Laporan
+                                        Ubah Data Laporan
                                     </b>
                                 </h4>
                             </div>
@@ -145,10 +145,11 @@
                         @endif
                         <div id="success-message" style="display:none;" class="alert alert-success mt-3"></div>
 
-                        <form id="laporan-form" action="{{ route('proses-laporan') }}" method="POST"
+                        <form id="laporan-form" action="{{ route('edit-laporan') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
-
+                            <input type="hidden" name="laporan_id" value="{{ $laporan->id }}">
+                            <input type="hidden" name="divisi_nama" value="{{ $laporan->divisi->divisi_nama }}">
                             <div class="row mb-1">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <div class="mt-1">
@@ -206,6 +207,7 @@
                                                         </button>
                                                     @endforeach
                                                 @break
+
                                             @endswitch
                                         </div>
                                     </div>
@@ -234,7 +236,8 @@
                                                     * NOTE :
                                                 </span>
                                             </b>
-                                            Klik pada kotak Checkbox jika anda ingin membuat Laporan ini hanya ditujukan pada
+                                            Klik pada kotak Checkbox jika anda ingin membuat Laporan ini hanya ditujukan
+                                            pada
                                             User tertentu saja.
                                         </p>
                                         <input type="checkbox" id="toggleLaporanTujuan" />
@@ -276,8 +279,8 @@
                                     <div class="form-group">
                                         <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
                                         <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
-                                            value="{{ $laporan->laporan_presentasi_pencapaian }}" name="laporan_presentasi_pencapaian"
-                                            required>
+                                            value="{{ $laporan->laporan_presentasi_pencapaian }}"
+                                            name="laporan_presentasi_pencapaian" required>
                                     </div>
                                 </div>
                                 @php
@@ -295,14 +298,10 @@
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
-                                        <label
-                                            for="created_at_waktu{{ $laporan->id }}">Waktu
+                                        <label for="created_at_waktu{{ $laporan->id }}">Waktu
                                             Kegiatan</label>
-                                        <input value="{{ $update_waktu }}"
-                                            type="time"
-                                            class="form-control"
-                                            id="created_at_waktu{{ $laporan->id }}"
-                                            name="created_at_waktu">
+                                        <input value="{{ $update_waktu }}" type="time" class="form-control"
+                                            id="created_at_waktu{{ $laporan->id }}" name="created_at_waktu">
                                     </div>
                                 </div>
                             </div>
@@ -328,8 +327,7 @@
                             <div id="formContainer"></div>
 
                             <hr />
-
-                            @if($laporan->laporan_tanggal_kerja == null)
+                            @if ($laporan->laporan_jumlah_hari == null)
                                 <div class="row mb-2">
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <label for="">Pilih Tanggal Kerja</label>
@@ -357,125 +355,93 @@
                                     </div>
                                 </div>
                             @else
-                            <div class="row mb-2">
-                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <label for="">Pilih Tanggal Kerja</label>
+                                <div class="row mb-2">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <label for="">Pilih Tanggal Kerja</label>
 
-                                    <table class="checkbox-table">
-                                        <tbody>
-                                            @php
-                                                switch (
-                                                    $laporan->periode
-                                                        ->periode_bulan_int
-                                                ) {
-                                                    case 1: // Januari
-                                                    case 3: // Maret
-                                                    case 5: // Mei
-                                                    case 7: // Juli
-                                                    case 8: // Agustus
-                                                    case 10: // Oktober
-                                                    case 12: // Desember
-                                                        $bb_the_jumlah_hari =
-                                                            31 + 1;
-                                                        // $bb_the_jumlah_hari =- 1;
-                                                        break;
-                                                    case 4: // April
-                                                    case 6: // Juni
-                                                    case 9: // September
-                                                    case 11: // November
-                                                        $bb_the_jumlah_hari =
-                                                            30 + 1;
-                                                        // $bb_the_jumlah_hari =- 1;
-                                                        break;
-                                                    case 2: // Februari
-                                                        // Mengecek tahun kabisat untuk Februari
-                                                        $der =
-                                                            $laporan->periode
-                                                                ->periode_tahun %
-                                                                4 ==
-                                                                0 &&
-                                                            ($lp
-                                                                ->periode
-                                                                ->periode_tahun %
-                                                                100 !=
-                                                                0 ||
-                                                                $lp
-                                                                    ->periode
-                                                                    ->periode_tahun %
-                                                                    400 ==
-                                                                    0)
-                                                                ? 29
-                                                                : 28;
-                                                        $bb_the_jumlah_hari =
-                                                            $der + 1;
-                                                        break;
-                                                }
-                                                if (
-                                                    $laporan->laporan_jumlah_hari ===
-                                                        null ||
-                                                    $laporan->laporan_jumlah_hari ===
-                                                        '' ||
-                                                    $laporan->laporan_jumlah_hari ===
-                                                        'null' ||
-                                                    !isset(
-                                                        $laporan->laporan_jumlah_hari,
-                                                    ) ||
-                                                    strlen(
-                                                        $laporan->laporan_jumlah_hari,
-                                                    ) === 0 ||
-                                                    (is_array(
-                                                        $laporan->laporan_jumlah_hari,
-                                                    ) &&
-                                                        count(
+                                        <table class="checkbox-table">
+                                            <tbody>
+                                                @php
+                                                    switch ($laporan->periode->periode_bulan_int) {
+                                                        case 1: // Januari
+                                                        case 3: // Maret
+                                                        case 5: // Mei
+                                                        case 7: // Juli
+                                                        case 8: // Agustus
+                                                        case 10: // Oktober
+                                                        case 12: // Desember
+                                                            $bb_the_jumlah_hari = 31 + 1;
+                                                            // $bb_the_jumlah_hari =- 1;
+                                                            break;
+                                                        case 4: // April
+                                                        case 6: // Juni
+                                                        case 9: // September
+                                                        case 11: // November
+                                                            $bb_the_jumlah_hari = 30 + 1;
+                                                            // $bb_the_jumlah_hari =- 1;
+                                                            break;
+                                                        case 2: // Februari
+                                                            // Mengecek tahun kabisat untuk Februari
+                                                            $der =
+                                                                $laporan->periode->periode_tahun % 4 == 0 &&
+                                                                ($lp->periode->periode_tahun % 100 != 0 ||
+                                                                    $lp->periode->periode_tahun % 400 == 0)
+                                                                    ? 29
+                                                                    : 28;
+                                                            $bb_the_jumlah_hari = $der + 1;
+                                                            break;
+                                                    }
+                                                    if (
+                                                        $laporan->laporan_jumlah_hari === null ||
+                                                        $laporan->laporan_jumlah_hari === '' ||
+                                                        $laporan->laporan_jumlah_hari === 'null' ||
+                                                        !isset($laporan->laporan_jumlah_hari) ||
+                                                        strlen($laporan->laporan_jumlah_hari) === 0 ||
+                                                        (is_array($laporan->laporan_jumlah_hari) &&
+                                                            count($laporan->laporan_jumlah_hari) === 0)
+                                                    ) {
+                                                        $decode_jumlah_hari = null;
+                                                        $the_jumlah_hari = $bb_the_jumlah_hari;
+                                                    } else {
+                                                        $decode_jumlah_hari = json_decode(
                                                             $laporan->laporan_jumlah_hari,
-                                                        ) === 0)
-                                                ) {
-                                                    $decode_jumlah_hari = null;
-                                                    $the_jumlah_hari = $bb_the_jumlah_hari;
-                                                } else {
-                                                    $decode_jumlah_hari = json_decode(
-                                                        $laporan->laporan_jumlah_hari,
-                                                        true,
-                                                    );
-                                                    // array_shift($decode_jumlah_hari);
-                                                    $the_jumlah_hari = count(
-                                                        $decode_jumlah_hari,
-                                                    );
-                                                }
-                                            @endphp
-                                            @for ($i = 1; $i < $the_jumlah_hari; $i++)
-                                                @if ($i % 10 == 1)
-                                                    <tr>
-                                                @endif
-                                                <td>
-                                                    <input type="checkbox"
-                                                        id="day{{ $laporan->id }}{{ $i }}"
-                                                        class="styled-checkbox"
-                                                        name="laporan_jumlah_hari[]"
-                                                        value="{{ $i }}"
-                                                        @if ($decode_jumlah_hari !== null) @if ($decode_jumlah_hari[$i] == true)
+                                                            true,
+                                                        );
+                                                        // array_shift($decode_jumlah_hari);
+                                                        $the_jumlah_hari = count($decode_jumlah_hari);
+                                                    }
+                                                @endphp
+                                                @for ($i = 1; $i < $the_jumlah_hari; $i++)
+                                                    @if ($i % 10 == 1)
+                                                        <tr>
+                                                    @endif
+                                                    <td>
+                                                        <input type="checkbox"
+                                                            id="day{{ $laporan->id }}{{ $i }}"
+                                                            class="styled-checkbox" name="laporan_jumlah_hari[]"
+                                                            value="{{ $i }}"
+                                                            @if ($decode_jumlah_hari !== null) @if ($decode_jumlah_hari[$i] == true)
                                                                 checked @endif
-                                                        @endif
-                                                    >
-                                                    <label
-                                                        for="day{{ $laporan->id }}{{ $i }}">
-                                                        {{ $i }}
-                                                    </label>
-                                                </td>
-                                                @if ($i % 10 == 0 || $i == $the_jumlah_hari)
-                                                    </tr>
-                                                @endif
-                                            @endfor
-                                        </tbody>
-                                    </table>
+                                                            @endif
+                                                        >
+                                                        <label for="day{{ $laporan->id }}{{ $i }}">
+                                                            {{ $i }}
+                                                        </label>
+                                                    </td>
+                                                    @if ($i % 10 == 0 || $i == $the_jumlah_hari)
+                                                        </tr>
+                                                    @endif
+                                                @endfor
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
 
                             <div class="row mb-1 mt-2">
                                 <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-info" data-toggle="modal" data-target="">
-                                        Upload Data
+                                        Ubah Data
                                     </button>
                                 </div>
                             </div>
@@ -496,7 +462,7 @@
                         <div class="col-6">
                             <h4>
                                 <b>
-                                    Input Data Laporan
+                                    Ubah Data Laporan
                                 </b>
                             </h4>
                         </div>
@@ -575,6 +541,7 @@
                                                     </button>
                                                 @endforeach
                                             @break
+
                                         @endswitch
                                     </div>
                                 </div>
@@ -645,8 +612,8 @@
                                 <div class="form-group">
                                     <label for="laporan_presentasi_pencapaian">Presentasi Pencapaian</label>
                                     <input type="number" class="form-control" id="laporan_presentasi_pencapaian"
-                                        value="{{ $laporan->laporan_presentasi_pencapaian }}" name="laporan_presentasi_pencapaian"
-                                        required>
+                                        value="{{ $laporan->laporan_presentasi_pencapaian }}"
+                                        name="laporan_presentasi_pencapaian" required>
                                 </div>
                             </div>
                             @php
@@ -664,14 +631,10 @@
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
-                                    <label
-                                        for="created_at_waktu{{ $laporan->id }}">Waktu
+                                    <label for="created_at_waktu{{ $laporan->id }}">Waktu
                                         Kegiatan</label>
-                                    <input value="{{ $update_waktu }}"
-                                        type="time"
-                                        class="form-control"
-                                        id="created_at_waktu{{ $laporan->id }}"
-                                        name="created_at_waktu">
+                                    <input value="{{ $update_waktu }}" type="time" class="form-control"
+                                        id="created_at_waktu{{ $laporan->id }}" name="created_at_waktu">
                                 </div>
                             </div>
                         </div>
@@ -697,7 +660,8 @@
                         <div id="formContainer"></div>
 
                         <hr />
-                        @if($laporan->laporan_jumlah_hari == null || $laporan->laporan_jumlah_hari == "[false]")
+                        @dd($laporan->laporan_jumlah_hari)
+                        @if ($laporan->laporan_jumlah_hari == null)
                             <div class="row mb-2">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <label for="">Pilih Tanggal Kerja</label>
@@ -725,125 +689,93 @@
                                 </div>
                             </div>
                         @else
-                        <div class="row mb-2">
-                            <div class="col-sm-12 col-md-12 col-lg-12">
-                                <label for="">Pilih Tanggal Kerja</label>
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <label for="">Pilih Tanggal Kerja</label>
 
-                                <table class="checkbox-table">
-                                    <tbody>
-                                        @php
-                                            switch (
-                                                $laporan->periode
-                                                    ->periode_bulan_int
-                                            ) {
-                                                case 1: // Januari
-                                                case 3: // Maret
-                                                case 5: // Mei
-                                                case 7: // Juli
-                                                case 8: // Agustus
-                                                case 10: // Oktober
-                                                case 12: // Desember
-                                                    $bb_the_jumlah_hari =
-                                                        31 + 1;
-                                                    // $bb_the_jumlah_hari =- 1;
-                                                    break;
-                                                case 4: // April
-                                                case 6: // Juni
-                                                case 9: // September
-                                                case 11: // November
-                                                    $bb_the_jumlah_hari =
-                                                        30 + 1;
-                                                    // $bb_the_jumlah_hari =- 1;
-                                                    break;
-                                                case 2: // Februari
-                                                    // Mengecek tahun kabisat untuk Februari
-                                                    $der =
-                                                        $laporan->periode
-                                                            ->periode_tahun %
-                                                            4 ==
-                                                            0 &&
-                                                        ($lp
-                                                            ->periode
-                                                            ->periode_tahun %
-                                                            100 !=
-                                                            0 ||
-                                                            $lp
-                                                                ->periode
-                                                                ->periode_tahun %
-                                                                400 ==
-                                                                0)
-                                                            ? 29
-                                                            : 28;
-                                                    $bb_the_jumlah_hari =
-                                                        $der + 1;
-                                                    break;
-                                            }
-                                            if (
-                                                $laporan->laporan_jumlah_hari ===
-                                                    null ||
-                                                $laporan->laporan_jumlah_hari ===
-                                                    '' ||
-                                                $laporan->laporan_jumlah_hari ===
-                                                    'null' ||
-                                                !isset(
-                                                    $laporan->laporan_jumlah_hari,
-                                                ) ||
-                                                strlen(
-                                                    $laporan->laporan_jumlah_hari,
-                                                ) === 0 ||
-                                                (is_array(
-                                                    $laporan->laporan_jumlah_hari,
-                                                ) &&
-                                                    count(
+                                    <table class="checkbox-table">
+                                        <tbody>
+                                            @php
+                                                switch ($laporan->periode->periode_bulan_int) {
+                                                    case 1: // Januari
+                                                    case 3: // Maret
+                                                    case 5: // Mei
+                                                    case 7: // Juli
+                                                    case 8: // Agustus
+                                                    case 10: // Oktober
+                                                    case 12: // Desember
+                                                        $bb_the_jumlah_hari = 31 + 1;
+                                                        // $bb_the_jumlah_hari =- 1;
+                                                        break;
+                                                    case 4: // April
+                                                    case 6: // Juni
+                                                    case 9: // September
+                                                    case 11: // November
+                                                        $bb_the_jumlah_hari = 30 + 1;
+                                                        // $bb_the_jumlah_hari =- 1;
+                                                        break;
+                                                    case 2: // Februari
+                                                        // Mengecek tahun kabisat untuk Februari
+                                                        $der =
+                                                            $laporan->periode->periode_tahun % 4 == 0 &&
+                                                            ($lp->periode->periode_tahun % 100 != 0 ||
+                                                                $lp->periode->periode_tahun % 400 == 0)
+                                                                ? 29
+                                                                : 28;
+                                                        $bb_the_jumlah_hari = $der + 1;
+                                                        break;
+                                                }
+                                                if (
+                                                    $laporan->laporan_jumlah_hari === null ||
+                                                    $laporan->laporan_jumlah_hari === '' ||
+                                                    $laporan->laporan_jumlah_hari === 'null' ||
+                                                    !isset($laporan->laporan_jumlah_hari) ||
+                                                    strlen($laporan->laporan_jumlah_hari) === 0 ||
+                                                    (is_array($laporan->laporan_jumlah_hari) &&
+                                                        count($laporan->laporan_jumlah_hari) === 0)
+                                                ) {
+                                                    $decode_jumlah_hari = null;
+                                                    $the_jumlah_hari = $bb_the_jumlah_hari;
+                                                } else {
+                                                    $decode_jumlah_hari = json_decode(
                                                         $laporan->laporan_jumlah_hari,
-                                                    ) === 0)
-                                            ) {
-                                                $decode_jumlah_hari = null;
-                                                $the_jumlah_hari = $bb_the_jumlah_hari;
-                                            } else {
-                                                $decode_jumlah_hari = json_decode(
-                                                    $laporan->laporan_jumlah_hari,
-                                                    true,
-                                                );
-                                                // array_shift($decode_jumlah_hari);
-                                                $the_jumlah_hari = count(
-                                                    $decode_jumlah_hari,
-                                                );
-                                            }
-                                        @endphp
-                                        @for ($i = 1; $i < $the_jumlah_hari; $i++)
-                                            @if ($i % 10 == 1)
-                                                <tr>
-                                            @endif
-                                            <td>
-                                                <input type="checkbox"
-                                                    id="day{{ $laporan->id }}{{ $i }}"
-                                                    class="styled-checkbox"
-                                                    name="laporan_jumlah_hari[]"
-                                                    value="{{ $i }}"
-                                                    @if ($decode_jumlah_hari !== null) @if ($decode_jumlah_hari[$i] == true)
-                                                            checked @endif
-                                                    @endif
-                                                >
-                                                <label
-                                                    for="day{{ $laporan->id }}{{ $i }}">
-                                                    {{ $i }}
-                                                </label>
-                                            </td>
-                                            @if ($i % 10 == 0 || $i == $the_jumlah_hari)
-                                                </tr>
-                                            @endif
-                                        @endfor
-                                    </tbody>
-                                </table>
+                                                        true,
+                                                    );
+                                                    // array_shift($decode_jumlah_hari);
+                                                    $the_jumlah_hari = count($decode_jumlah_hari);
+                                                }
+                                            @endphp
+                                            @for ($i = 1; $i < $the_jumlah_hari; $i++)
+                                                @if ($i % 10 == 1)
+                                                    <tr>
+                                                @endif
+                                                <td>
+                                                    <input type="checkbox"
+                                                        id="day{{ $laporan->id }}{{ $i }}"
+                                                        class="styled-checkbox" name="laporan_jumlah_hari[]"
+                                                        value="{{ $i }}"
+                                                        @if ($decode_jumlah_hari !== null) @if ($decode_jumlah_hari[$i] == true)
+                                                                checked @endif
+                                                        @endif
+                                                    >
+                                                    <label for="day{{ $laporan->id }}{{ $i }}">
+                                                        {{ $i }}
+                                                    </label>
+                                                </td>
+                                                @if ($i % 10 == 0 || $i == $the_jumlah_hari)
+                                                    </tr>
+                                                @endif
+                                            @endfor
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
                         @endif
 
                         <div class="row mb-1 mt-2">
                             <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-info" data-toggle="modal" data-target="">
-                                    Upload Data
+                                    Ubah Data
                                 </button>
                             </div>
                         </div>
